@@ -1,0 +1,389 @@
+{
+  "schemaVersion": "2.0",
+  "units": "mm",
+  "settings": {
+    "defaultCeilingHeight": null
+  },
+  "sourceMeta": {
+    "floor": 1,
+    "image": "first_floor.jpg"
+  },
+  "vertices": [
+    { "id": "v001", "x": 250,  "y": 900  },
+    { "id": "v002", "x": 5050, "y": 900  },
+    { "id": "v003", "x": 250,  "y": 7350 },
+    { "id": "v005", "x": 413,  "y": 3540 },
+    { "id": "v006", "x": 5050, "y": 3540 },
+    { "id": "v007", "x": 5050, "y": 6250 },
+    { "id": "v008", "x": 9400, "y": 900  },
+    { "id": "v010", "x": 6750, "y": 3860 },
+    { "id": "v011", "x": 9400, "y": 3860 },
+    { "id": "v012", "x": 6750, "y": 5750 },
+    { "id": "v013", "x": 9400, "y": 5750 },
+    { "id": "v015", "x": 9400, "y": 7350 },
+    { "id": "v016", "x": 6700, "y": 7350 },
+    { "id": "v017", "x": 6800, "y": 6800 },
+    { "id": "v018", "x": 3650, "y": 7350 },
+    { "id": "v019", "x": 3650, "y": 9700 },
+    { "id": "v020", "x": 6700, "y": 9700 }
+  ],
+  "walls": [
+    {
+      "id": "F1-W01",
+      "v1": "v001",
+      "v2": "v002",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W02",
+      "v1": "v001",
+      "v2": "v003",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W03",
+      "v1": "v003",
+      "v2": "v018",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": "нижняя наружная слева от выступа"
+    },
+    {
+      "id": "F1-W04",
+      "v1": "v005",
+      "v2": "v006",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W05",
+      "v1": "v002",
+      "v2": "v007",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W06",
+      "v1": "v002",
+      "v2": "v008",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W07",
+      "v1": "v008",
+      "v2": "v013",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": "объединено из старых W07 и W11"
+    },
+    {
+      "id": "F1-W08",
+      "v1": "v010",
+      "v2": "v011",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W09",
+      "v1": "v010",
+      "v2": "v012",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W12",
+      "v1": "v012",
+      "v2": "v013",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W14",
+      "v1": "v013",
+      "v2": "v015",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W15",
+      "v1": "v015",
+      "v2": "v016",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W16",
+      "v1": "v012",
+      "v2": "v017",
+      "type": "partition",
+      "thickness": { "value": 150, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": "оборванный конец у v017 — не входит в текущую механическую правку"
+    },
+    {
+      "id": "F1-W17",
+      "v1": "v018",
+      "v2": "v019",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W18",
+      "v1": "v019",
+      "v2": "v020",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    },
+    {
+      "id": "F1-W19",
+      "v1": "v020",
+      "v2": "v016",
+      "type": "exterior",
+      "thickness": { "value": 400, "status": "estimated", "source": "image", "note": "" },
+      "height":    { "value": null, "status": "unknown",  "source": "image", "note": "" },
+      "declaredLength": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "note": ""
+    }
+  ],
+  "rooms": [
+    {
+      "id": "F1-R01",
+      "name": "Большая левая зона",
+      "suggestedUse": "гостиная / общая комната / кухня-гостиная",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W01","F1-W02","F1-W03","F1-W04","F1-W05"],
+      "note": "В верхней части имеется короткая внутренняя перегородка; Назначение не подписано"
+    },
+    {
+      "id": "F1-R02",
+      "name": "Верхняя правая зона с лестницей",
+      "suggestedUse": "холл / лестничный холл",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W06","F1-W07","F1-W08","F1-W09"],
+      "note": "Двухмаршевая лестница расположена вдоль верхней стены"
+    },
+    {
+      "id": "F1-R03",
+      "name": "Средняя правая комната",
+      "suggestedUse": "комната / санузел / хозяйственное помещение",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W08","F1-W07","F1-W12"],
+      "note": "Вход предположительно сверху или из центральной зоны"
+    },
+    {
+      "id": "F1-R04",
+      "name": "Нижняя правая комната",
+      "suggestedUse": "комната / кухня / хозяйственное помещение",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W12","F1-W14","F1-W15","F1-W16"],
+      "note": "Вход расположен со стороны центральной зоны"
+    },
+    {
+      "id": "F1-R05",
+      "name": "Нижний центральный выступ",
+      "suggestedUse": "тамбур / крыльцо / веранда",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W17","F1-W18","F1-W19"],
+      "note": "Связан с основным этажом через центральный вход"
+    },
+    {
+      "id": "F1-R06",
+      "name": "Центральная проходная зона",
+      "suggestedUse": "коридор / холл",
+      "verifiedUse": null,
+      "ceilingHeight": { "value": null, "status": "unknown", "source": "image", "note": "" },
+      "walls": ["F1-W05","F1-W06","F1-W09","F1-W16","F1-W17"],
+      "note": "Связывает левую зону, правые комнаты, лестницу и нижний вход"
+    }
+  ],
+  "doors": [
+    {
+      "id": "F1-D01",
+      "wallId": "F1-W02",
+      "distance": { "value": 2851, "status": "estimated", "source": "image", "note": "" },
+      "width":    { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":   { "value": 2100, "status": "estimated", "source": "image", "note": "" },
+      "hinge": "left",
+      "swing": "in",
+      "note": "между: outside ↔ F1-R01"
+    },
+    {
+      "id": "F1-D02",
+      "wallId": "F1-W08",
+      "distance": { "value": 725, "status": "estimated", "source": "image", "note": "" },
+      "width":    { "value": 900, "status": "estimated", "source": "image", "note": "" },
+      "height":   { "value": 2100,"status": "estimated", "source": "image", "note": "" },
+      "hinge": "left",
+      "swing": "in",
+      "note": "между: F1-R02 ↔ F1-R03"
+    },
+    {
+      "id": "F1-D03",
+      "wallId": "F1-W16",
+      "distance": { "value": 100, "status": "estimated", "source": "image", "note": "" },
+      "width":    { "value": 900, "status": "estimated", "source": "image", "note": "" },
+      "height":   { "value": 2100,"status": "estimated", "source": "image", "note": "" },
+      "hinge": "left",
+      "swing": "in",
+      "note": "между: F1-R06 ↔ F1-R04"
+    },
+    {
+      "id": "F1-D04",
+      "wallId": "F1-W17",
+      "distance": { "value": 650, "status": "estimated", "source": "image", "note": "" },
+      "width":    { "value": 900, "status": "estimated", "source": "image", "note": "" },
+      "height":   { "value": 2100,"status": "estimated", "source": "image", "note": "" },
+      "hinge": "left",
+      "swing": "in",
+      "note": "между: outside ↔ F1-R06"
+    },
+    {
+      "id": "F1-D05",
+      "wallId": "F1-W07",
+      "distance": { "value": 1353, "status": "estimated", "source": "image", "note": "" },
+      "width":    { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":   { "value": 2100, "status": "estimated", "source": "image", "note": "" },
+      "hinge": "left",
+      "swing": "in",
+      "note": "между: outside ↔ F1-R02"
+    }
+  ],
+  "windows": [
+    {
+      "id": "F1-O01",
+      "wallId": "F1-W01",
+      "distance":   { "value": 470,  "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: upper_left"
+    },
+    {
+      "id": "F1-O02",
+      "wallId": "F1-W02",
+      "distance":   { "value": 1531, "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: upper"
+    },
+    {
+      "id": "F1-O03",
+      "wallId": "F1-W02",
+      "distance":   { "value": 4171, "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: lower"
+    },
+    {
+      "id": "F1-O04",
+      "wallId": "F1-W03",
+      "distance":   { "value": 620,  "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: bottom_left"
+    },
+    {
+      "id": "F1-O05",
+      "wallId": "F1-W06",
+      "distance":   { "value": 1627, "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: above_stairs"
+    },
+    {
+      "id": "F1-O06",
+      "wallId": "F1-W07",
+      "distance":   { "value": 1353, "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: middle"
+    },
+    {
+      "id": "F1-O07",
+      "wallId": "F1-W15",
+      "distance":   { "value": 1700, "status": "estimated", "source": "user",  "note": "сдвинуто с 1790 на 1700 после укорачивания W15 до 2700 мм" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: bottom_right"
+    },
+    {
+      "id": "F1-O08",
+      "wallId": "F1-W18",
+      "distance":   { "value": 1075, "status": "estimated", "source": "image", "note": "" },
+      "width":      { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "height":     { "value": 1400, "status": "estimated", "source": "image", "note": "" },
+      "sillHeight": { "value": 900,  "status": "estimated", "source": "image", "note": "" },
+      "note": "позиция по фото: center"
+    }
+  ],
+  "stairs": [
+    {
+      "id": "F1-S01",
+      "roomId": "F1-R02",
+      "x": 5400,
+      "y": 950,
+      "width": 2050,
+      "depth": 1400,
+      "rotation": 0,
+      "flights": 2,
+      "direction": "up",
+      "note": "arrows_visible_requires_verification"
+    }
+  ],
+  "furniture": []
+}

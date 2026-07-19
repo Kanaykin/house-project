@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>План этажа — редактор</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">План этажа — предварительный редактор</div>
+    <div class="floor-switch">
+      <span>Этаж:</span>
+      <button data-floor="F1" class="floor-btn active">1</button>
+      <button data-floor="F2" class="floor-btn">2</button>
+    </div>
+    <div class="topbar-actions">
+      <button id="btnFit" title="Вписать в экран">Показать весь план</button>
+      <button id="btnUndo" title="Отмена (Ctrl+Z)">Отменить</button>
+      <button id="btnRedo" title="Повтор (Ctrl+Y)">Повторить</button>
+      <label class="file-btn" title="Импорт JSON текущего этажа">
+        Импорт JSON
+        <input type="file" id="fileImport" accept="application/json,.json" hidden />
+      </label>
+      <button id="btnExport" title="Экспорт JSON текущего этажа">Экспорт этажа</button>
+      <button id="btnExportProject" title="Экспорт проекта (оба этажа)">Экспорт проекта</button>
+      <button id="btnReset" class="danger" title="Сбросить всё к исходному состоянию">Сброс</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar sidebar-left">
+      <section class="panel">
+        <h3>Слои</h3>
+        <label><input type="checkbox" id="tglRoomNames" checked /> Номера помещений</label>
+        <label><input type="checkbox" id="tglWallNumbers" checked /> Номера стен</label>
+        <label><input type="checkbox" id="tglDimensions" checked /> Длины стен</label>
+        <label><input type="checkbox" id="tglDoors" checked /> Двери</label>
+        <label><input type="checkbox" id="tglWindows" checked /> Окна</label>
+        <label><input type="checkbox" id="tglFurniture" checked /> Мебель</label>
+        <label><input type="checkbox" id="tglStairs" checked /> Лестница</label>
+      </section>
+
+      <section class="panel">
+        <h3>Добавить</h3>
+        <div class="btn-row">
+          <button data-add="wall">+ Стена</button>
+          <button data-add="room">+ Помещение</button>
+        </div>
+        <div class="btn-row">
+          <button data-add="door">+ Дверь</button>
+          <button data-add="window">+ Окно</button>
+        </div>
+        <div class="btn-row">
+          <button data-add="stairs">+ Лестница</button>
+        </div>
+        <div class="btn-row">
+          <button data-add-furn="bed">Кровать</button>
+          <button data-add-furn="sofa">Диван</button>
+          <button data-add-furn="wardrobe">Шкаф</button>
+        </div>
+        <div class="btn-row">
+          <button data-add-furn="desk">Стол</button>
+          <button data-add-furn="chair">Стул</button>
+          <button data-add-furn="cabinet">Тумба</button>
+        </div>
+        <div class="btn-row">
+          <button data-add-furn="kitchen">Кухня</button>
+          <button data-add-furn="sanitary">Сантех.</button>
+        </div>
+        <div class="hint">Стена: кликните две точки на плане. Дверь/окно: сначала выберите стену.</div>
+      </section>
+    </aside>
+
+    <main class="canvas-wrap">
+      <svg id="plan" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="500" height="500" patternUnits="userSpaceOnUse">
+            <path d="M 500 0 L 0 0 0 500" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="4"/>
+          </pattern>
+        </defs>
+        <rect id="gridBg" x="-100000" y="-100000" width="200000" height="200000" fill="url(#grid)" />
+        <g id="viewport">
+          <g id="layerRooms"></g>
+          <g id="layerWalls"></g>
+          <g id="layerStairs"></g>
+          <g id="layerFurniture"></g>
+          <g id="layerOpenings"></g>
+          <g id="layerVertices"></g>
+          <g id="layerLabels"></g>
+          <g id="layerOverlay"></g>
+        </g>
+      </svg>
+      <div id="statusBar" class="statusbar">
+        <span id="hint">Готово</span>
+        <span id="zoomLabel"></span>
+      </div>
+    </main>
+
+    <aside class="sidebar sidebar-right">
+      <section class="panel">
+        <h3>Инспектор</h3>
+        <div id="inspector"><div class="empty">Ничего не выбрано. Кликните элемент на плане.</div></div>
+      </section>
+
+      <section class="panel">
+        <h3>Неизвестные размеры</h3>
+        <div id="unknownsList" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Предупреждения геометрии</h3>
+        <div id="warningsList" class="list"></div>
+      </section>
+
+      <section class="panel">
+        <h3>Легенда статусов</h3>
+        <div class="legend">
+          <span class="pill s-unknown">неизвестно</span>
+          <span class="pill s-estimated">оценено</span>
+          <span class="pill s-entered">введено</span>
+          <span class="pill s-verified">подтверждено</span>
+          <span class="pill s-conflict">конфликт</span>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script src="source-plans.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

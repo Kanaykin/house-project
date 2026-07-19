@@ -1,0 +1,168 @@
+{
+  "schemaVersion": "2.0-draft",
+  "documentType": "floor_plan_description",
+  "floor": 2,
+  "language": "ru",
+  "source": {
+    "file": "second_floor.jpg",
+    "type": "photograph_of_drawing",
+    "dimensionsReadable": false
+  },
+  "coordinateSystem": {
+    "type": "normalized_image",
+    "origin": "top_left",
+    "xRange": [0, 1000],
+    "yRange": [0, 1000],
+    "accuracy": "estimated",
+    "note": "Координаты предназначены для предварительной HTML-разметки, а не для строительных измерений."
+  },
+  "measurement": {
+    "realWorldUnits": "mm",
+    "scaleKnown": false,
+    "referenceDimension": null,
+    "defaultWallHeight": null,
+    "defaultExteriorWallThickness": null,
+    "defaultInteriorWallThickness": null
+  },
+  "footprint": {
+    "id": "FP-F2",
+    "shape": "main_rectangle_with_bottom_center_projection",
+    "estimatedPolygon": [[60,125], [930,115], [930,750], [660,750], [660,970], [355,970], [355,750], [35,750]],
+    "verified": false
+  },
+  "rooms": [
+    {
+      "id":"F2-R01",
+      "label":"Верхняя левая комната",
+      "possibleUse":["спальня","кабинет"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[65,135],[500,130],[500,335],[70,335]],
+      "boundaryWallIds":["F2-W01","F2-W02","F2-W03","F2-W04"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R02",
+      "label":"Средняя левая комната",
+      "possibleUse":["спальня"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[70,335],[500,335],[500,550],[65,550]],
+      "boundaryWallIds":["F2-W03","F2-W05","F2-W06","F2-W07"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R03",
+      "label":"Нижняя левая комната",
+      "possibleUse":["спальня","кабинет"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[65,550],[500,550],[500,750],[40,750]],
+      "boundaryWallIds":["F2-W06","F2-W08","F2-W09","F2-W10"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R04",
+      "label":"Лестничный холл",
+      "possibleUse":["холл","лестничная зона"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[500,125],[925,120],[925,535],[655,535],[655,730],[500,730]],
+      "boundaryWallIds":["F2-W11","F2-W12","F2-W13","F2-W14"],
+      "confidence":"medium",
+      "notes":["Двухмаршевая лестница расположена в верхней правой части"]
+    },
+    {
+      "id":"F2-R05",
+      "label":"Средняя правая комната",
+      "possibleUse":["спальня","общая комната"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[655,245],[925,245],[925,535],[655,535]],
+      "boundaryWallIds":["F2-W13","F2-W15","F2-W16","F2-W17"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R06",
+      "label":"Нижняя правая комната",
+      "possibleUse":["спальня","кабинет"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[655,535],[925,535],[925,745],[655,745]],
+      "boundaryWallIds":["F2-W16","F2-W18","F2-W19","F2-W20"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R07",
+      "label":"Центральный коридор",
+      "possibleUse":["коридор","холл"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[500,300],[655,245],[655,745],[500,745]],
+      "boundaryWallIds":["F2-W04","F2-W07","F2-W10","F2-W14","F2-W17","F2-W20"],
+      "confidence":"medium"
+    },
+    {
+      "id":"F2-R08",
+      "label":"Нижний центральный выступ",
+      "possibleUse":["балкон","веранда","тамбур"],
+      "verifiedUse":null,
+      "estimatedPolygon":[[355,750],[660,750],[660,970],[355,970]],
+      "boundaryWallIds":["F2-W21","F2-W22","F2-W23","F2-W24"],
+      "confidence":"medium"
+    }
+  ],
+  "walls": [
+    {"id":"F2-W01","kind":"exterior","from":[60,125],"to":[500,125],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W02","kind":"exterior","from":[60,125],"to":[60,335],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W03","kind":"interior","from":[70,335],"to":[500,335],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W04","kind":"interior","from":[500,125],"to":[500,335],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W05","kind":"exterior","from":[60,335],"to":[60,550],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W06","kind":"interior","from":[65,550],"to":[500,550],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W07","kind":"interior","from":[500,335],"to":[500,550],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W08","kind":"exterior","from":[60,550],"to":[35,750],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W09","kind":"exterior","from":[35,750],"to":[500,750],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W10","kind":"interior","from":[500,550],"to":[500,750],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W11","kind":"exterior","from":[500,125],"to":[930,115],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W12","kind":"exterior","from":[930,115],"to":[930,535],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W13","kind":"interior","from":[655,245],"to":[655,405],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W14","kind":"interior","from":[500,125],"to":[500,285],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W15","kind":"exterior","from":[930,245],"to":[930,535],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W16","kind":"interior","from":[655,535],"to":[925,535],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W17","kind":"interior","from":[655,405],"to":[655,535],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W18","kind":"exterior","from":[930,535],"to":[930,745],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W19","kind":"exterior","from":[930,745],"to":[655,745],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W20","kind":"interior","from":[655,535],"to":[655,745],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W21","kind":"exterior","from":[355,750],"to":[355,970],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W22","kind":"exterior","from":[355,970],"to":[660,970],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W23","kind":"exterior","from":[660,970],"to":[660,750],"lengthMm":null,"status":"estimated"},
+    {"id":"F2-W24","kind":"interface","from":[355,750],"to":[660,750],"lengthMm":null,"status":"estimated"}
+  ],
+  "doors": [
+    {"id":"F2-D01","between":["F2-R01","F2-R07"],"nearWallId":"F2-W04","widthMm":null,"swing":"visible_unverified","status":"estimated"},
+    {"id":"F2-D02","between":["F2-R02","F2-R07"],"nearWallId":"F2-W07","widthMm":null,"swing":"visible_unverified","status":"estimated"},
+    {"id":"F2-D03","between":["F2-R03","F2-R07"],"nearWallId":"F2-W10","widthMm":null,"swing":"visible_unverified","status":"estimated"},
+    {"id":"F2-D04","between":["F2-R04","F2-R05"],"nearWallId":"F2-W17","widthMm":null,"swing":"visible_unverified","status":"estimated"},
+    {"id":"F2-D05","between":["F2-R07","F2-R06"],"nearWallId":"F2-W20","widthMm":null,"swing":"visible_unverified","status":"estimated"},
+    {"id":"F2-D06","between":["outside","F2-R07"],"nearWallId":"F2-W24","widthMm":null,"swing":"visible_unverified","status":"estimated"}
+  ],
+  "windows": [
+    {"id":"F2-O01","wallId":"F2-W01","position":"upper_left","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"low_confidence"},
+    {"id":"F2-O02","wallId":"F2-W02","position":"upper","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O03","wallId":"F2-W05","position":"middle","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O04","wallId":"F2-W08","position":"lower","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O05","wallId":"F2-W09","position":"bottom_left","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O06","wallId":"F2-W11","position":"above_stairs","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O07","wallId":"F2-W12","position":"upper_right","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O08","wallId":"F2-W19","position":"bottom_right","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"},
+    {"id":"F2-O09","wallId":"F2-W22","position":"center","widthMm":null,"heightMm":null,"sillHeightMm":null,"status":"estimated"}
+  ],
+  "stairs": [
+    {"id":"F2-S01","roomId":"F2-R04","type":"two_flight_with_landing","position":"top_right","widthMm":null,"riseMm":null,"runMm":null,"direction":"arrows_visible_requires_verification","status":"estimated"}
+  ],
+  "furniture": [],
+  "electrical": {"panel":null,"sockets":[],"switches":[],"lightingPoints":[],"status":"not_shown"},
+  "verificationPriority": [
+    "Совпадение наружного контура с первым этажом",
+    "Общий наружный размер основного прямоугольника",
+    "Размер нижнего центрального выступа",
+    "Толщина стен и перегородок",
+    "Назначение всех комнат",
+    "Положение дверей",
+    "Геометрия лестницы",
+    "Размеры окон"
+  ]
+}
