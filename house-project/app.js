@@ -492,13 +492,44 @@ function validatePlan(p) {
 function computeWarnings() {
   const warns = [];
   for (const r of state.plan.rooms) {
-    const chain = r.walls.map(id => findById(state.plan.walls, id)).filter(Boolean);
-    if (chain.length < 3) { warns.push({ type:'room-open', id:r.id, text:`Помещение ${r.id} (${r.name}): недостаточно стен` }); continue; }
-    const verts = new Map();
-    chain.forEach(w => { verts.set(w.v1, (verts.get(w.v1)||0)+1); verts.set(w.v2, (verts.get(w.v2)||0)+1); });
-    let open = false;
-    verts.forEach(cnt => { if (cnt !== 2) open = true; });
-    if (open) warns.push({ type:'room-open', id:r.id, text:`Помещение ${r.id}: контур не замкнут` });
+    // Новая модель — явный список вершин
+    if (Array.isArray(r.vertices) && r.vertices.length) {
+      if (r.vertices.length < 3) {
+        warns.push({ type:'room-open', id:r.id, text:`Помещение ${r.id} (${r.name||''}): меньше 3 вершин в контуре` });
+        continue;
+      }
+      // Уникальность вершин
+      const unique = new Set(r.vertices);
+      if (unique.size !== r.vertices.length) {
+        warns.push({ type:'room-vertex-dup', id:r.id, text:`Помещение ${r.id}: в контуре повторяются вершины` });
+      }
+      // Отсутствующие стены между соседними вершинами
+      const missing = [];
+      for (let i = 0; i < r.vertices.length; i++) {
+        const a = r.vertices[i], b = r.vertices[(i + 1) % r.vertices.length];
+        const has = state.plan.walls.find(w => (w.v1===a && w.v2===b) || (w.v1===b && w.v2===a));
+        if (!has) missing.push(`${a}↔${b}`);
+      }
+      if (missing.length) {
+        warns.push({ type:'room-no-wall', id:r.id, text:`Помещение ${r.id}: нет стен между соседними вершинами (${missing.join(', ')})` });
+      }
+      // Самопересечение полигона
+      if (polygonSelfIntersects(r.vertices.map(id => vById(id)).filter(Boolean))) {
+        warns.push({ type:'room-self-intersect', id:r.id, text:`Помещение ${r.id}: контур самопересекается` });
+      }
+    } else {
+      // Старая модель — цепочка стен
+      const chain = (r.walls || []).map(id => findById(state.plan.walls, id)).filter(Boolean);
+      if (chain.length < 3) {
+        warns.push({ type:'room-open', id:r.id, text:`Помещение ${r.id} (${r.name||''}): недостаточно стен для контура (< 3)` });
+        continue;
+      }
+      const verts = new Map();
+      chain.forEach(w => { verts.set(w.v1, (verts.get(w.v1)||0)+1); verts.set(w.v2, (verts.get(w.v2)||0)+1); });
+      let open = false;
+      verts.forEach(cnt => { if (cnt !== 2) open = true; });
+      if (open) warns.push({ type:'room-open', id:r.id, text:`Помещение ${r.id}: контур из стен не замкнут (нет явных вершин)` });
+    }
   }
   for (const d of state.plan.doors) {
     const w = findById(state.plan.walls, d.wallId); if (!w) continue;
@@ -632,7 +663,12 @@ function svgEl(tag, attrs = {}) {
 function isSelected(type, id) { return state.ui.selected && state.ui.selected.type === type && state.ui.selected.id === id; }
 
 function roomPolygon(room) {
-  const chain = room.walls.map(id => findById(state.plan.walls, id)).filter(Boolean);
+  // Приоритет — явно заданный список вершин (новый способ создания помещения)
+  if (Array.isArray(room.vertices) && room.vertices.length >= 3) {
+    return room.vertices.map(id => vById(id)).filter(Boolean);
+  }
+  // Резервный вариант — цепочка стен через общие вершины (старые помещения)
+  const chain = (room.walls || []).map(id => findById(state.plan.walls, id)).filter(Boolean);
   if (!chain.length) return null;
   const used = new Set();
   const verts = [];
@@ -650,6 +686,164 @@ function roomPolygon(room) {
   }
   if (verts.length > 2 && verts[verts.length-1] === verts[0]) verts.pop();
   return verts.map(id => vById(id)).filter(Boolean);
+}
+
+// Проекция точки на отрезок стены. Возвращает t ∈ [0..1] или null, если не на стене.
+function projectOnWall(vertex, wall, tolerance = 20) {
+  const a = vById(wall.v1), b = vById(wall.v2);
+  if (!a || !b) return null;
+  const ax = b.x - a.x, ay = b.y - a.y;
+  const len2 = ax*ax + ay*ay;
+  if (len2 < 1) return null;
+  const t = ((vertex.x - a.x) * ax + (vertex.y - a.y) * ay) / len2;
+  if (t < -0.002 || t > 1.002) return null;
+  const px = a.x + t * ax, py = a.y + t * ay;
+  const d = Math.hypot(vertex.x - px, vertex.y - py);
+  if (d > tolerance) return null;
+  return Math.max(0, Math.min(1, t));
+}
+
+// Ищем стену, на осевой которой лежат ОБЕ вершины aId и bId.
+// Возвращает { wall, direct } или null.
+function findWallSpanningBoth(aId, bId, plan) {
+  // Сначала — прямая стена между этими вершинами
+  const direct = plan.walls.find(w =>
+    (w.v1 === aId && w.v2 === bId) || (w.v1 === bId && w.v2 === aId));
+  if (direct) return { wall: direct, direct: true };
+  const va = vById(aId), vb = vById(bId);
+  if (!va || !vb) return null;
+  for (const w of plan.walls) {
+    if (w.v1 === aId || w.v1 === bId || w.v2 === aId || w.v2 === bId) {
+      // Одна из вершин уже конец этой стены — но не обе (иначе direct нашли выше)
+    }
+    const ta = projectOnWall(va, w);
+    const tb = projectOnWall(vb, w);
+    if (ta == null || tb == null) continue;
+    if (Math.abs(ta - tb) < 0.001) continue; // одна и та же точка
+    return { wall: w, direct: false };
+  }
+  return null;
+}
+
+// Расщепление стены в указанных промежуточных вершинах.
+// Оригинальная стена сохраняет свой id и становится ПЕРВЫМ сегментом;
+// остальные создаются с новыми id. Двери/окна переезжают на соответствующий сегмент,
+// distance пересчитывается относительно начала своего сегмента.
+// Комнаты, у которых в walls был исходный wall.id, получают все id сегментов.
+function splitWallAtVertices(wall, insertVertexIds, plan, floor) {
+  const totalLen = wallLen(wall);
+  if (totalLen < 1) return [wall.id];
+  const uniqInserts = [];
+  const seen = new Set();
+  for (const vid of insertVertexIds) {
+    if (vid === wall.v1 || vid === wall.v2 || seen.has(vid)) continue;
+    const v = vById(vid); if (!v) continue;
+    const t = projectOnWall(v, wall); if (t == null) continue;
+    const offset = t * totalLen;
+    if (offset < 1 || offset > totalLen - 1) continue;
+    uniqInserts.push({ id: vid, offset });
+    seen.add(vid);
+  }
+  if (!uniqInserts.length) return [wall.id];
+  uniqInserts.sort((a, b) => a.offset - b.offset);
+
+  // Собираем брейкпоинты: [v1, ...inserts..., v2]
+  const breaks = [
+    { id: wall.v1, offset: 0 },
+    ...uniqInserts,
+    { id: wall.v2, offset: totalLen }
+  ];
+
+  // Проёмы на этой стене — сохраняем ссылки для перераспределения
+  const openings = [
+    ...plan.doors.filter(d => d.wallId === wall.id),
+    ...plan.windows.filter(o => o.wallId === wall.id)
+  ];
+
+  // Формируем сегменты. Соглашение: ПОСЛЕДНИЙ сегмент — это оригинальная стена
+  // (её v1 сдвигается на позицию последнего инсерта). Все предыдущие сегменты — новые стены.
+  const segments = [];
+  const origId = wall.id;
+  const nSeg = breaks.length - 1;
+  for (let i = 0; i < nSeg; i++) {
+    const from = breaks[i], to = breaks[i+1];
+    if (i === nSeg - 1) {
+      wall.v1 = from.id;
+      wall.v2 = to.id;
+      segments.push({ wall, from: from.offset, to: to.offset });
+    } else {
+      const newId = nextId('W', plan.walls);
+      const nw = {
+        id: newId,
+        v1: from.id, v2: to.id,
+        type: wall.type,
+        thickness: JSON.parse(JSON.stringify(wall.thickness || m(DEFAULT_THICKNESS_INT,'estimated'))),
+        height: JSON.parse(JSON.stringify(wall.height || m(null,'unknown'))),
+        declaredLength: m(null,'unknown'),
+        note: wall.note ? wall.note + ' (split из ' + origId + ')' : 'split из ' + origId,
+        anchors: []
+      };
+      plan.walls.push(nw);
+      segments.push({ wall: nw, from: from.offset, to: to.offset });
+    }
+  }
+
+  // Перераспределяем проёмы
+  for (const op of openings) {
+    const dist = numOr(op.distance) || 0;
+    const width = numOr(op.width) || 900;
+    // Находим сегмент, в котором лежит НАЧАЛО проёма
+    let host = segments[0];
+    for (const seg of segments) {
+      if (dist >= seg.from - 1 && dist < seg.to - 1) { host = seg; break; }
+    }
+    op.wallId = host.wall.id;
+    op.distance = op.distance || m(0, 'estimated');
+    op.distance.value = Math.max(0, Math.round(dist - host.from));
+    // Если проём выходит за конец сегмента — валидатор потом покажет
+  }
+
+  // Обновляем ссылки в помещениях
+  const segIds = segments.map(s => s.wall.id);
+  for (const r of plan.rooms) {
+    if (Array.isArray(r.walls)) {
+      const idx = r.walls.indexOf(origId);
+      if (idx >= 0) r.walls.splice(idx, 1, ...segIds);
+    }
+  }
+  return segIds;
+}
+
+// Гарантируем, что между вершинами aId и bId существует стена.
+// Возвращает id стены или null (если не удалось).
+// mode: 'split' — расщеплять существующие сквозные; 'create' — создавать перегородку если нет.
+function ensureWallBetween(aId, bId, plan, floor, opts = { split:true, create:true }) {
+  const found = findWallSpanningBoth(aId, bId, plan);
+  if (found && found.direct) return found.wall.id;
+  if (found && opts.split) {
+    const va = vById(aId), vb = vById(bId);
+    const ta = projectOnWall(va, found.wall);
+    const tb = projectOnWall(vb, found.wall);
+    const inserts = [];
+    if (ta != null && ta > 0.001 && ta < 0.999) inserts.push(aId);
+    if (tb != null && tb > 0.001 && tb < 0.999) inserts.push(bId);
+    splitWallAtVertices(found.wall, inserts, plan, floor);
+    const w = plan.walls.find(w =>
+      (w.v1 === aId && w.v2 === bId) || (w.v1 === bId && w.v2 === aId));
+    if (w) return w.id;
+  }
+  if (opts.create) {
+    const newId = nextId('W', plan.walls);
+    plan.walls.push({
+      id: newId, v1: aId, v2: bId, type: 'partition',
+      thickness: m(DEFAULT_THICKNESS_INT, 'estimated'),
+      height: m(null, 'unknown'),
+      declaredLength: m(null, 'unknown'),
+      note: 'создано при добавлении помещения', anchors: []
+    });
+    return newId;
+  }
+  return null;
 }
 
 function renderRooms() {
@@ -1637,15 +1831,7 @@ function onKey(e) {
     else if (s.type === 'stairs') state.plan.stairs = state.plan.stairs.filter(x=>x.id!==s.id);
     state.ui.selected = null; render();
   } else if (state.ui.mode === 'add-room' && e.key === 'Enter' && state.ui.modeData) {
-    if (state.ui.modeData.walls.length < 3) { alert('Нужно минимум 3 стены'); return; }
-    pushHistory();
-    const rid = nextId('R', state.plan.rooms);
-    state.plan.rooms.push({
-      id: rid, name: rid, suggestedUse: '', verifiedUse: null,
-      ceilingHeight: m(null,'unknown'), walls: state.ui.modeData.walls.slice(), note: ''
-    });
-    state.ui.selected = { type:'room', id: rid };
-    exitAddMode('Помещение '+rid+' создано'); render();
+    finalizeRoomFromVertices();
   }
 }
 function setHint(text) { $('hint').textContent = text; }
@@ -1662,7 +1848,7 @@ function startAddMode(kind) {
   document.body.classList.add('mode-add', 'mode-add-' + kind);
   clearWallPreview(); updateSnapMarker(null);
   if (kind === 'wall') setHint('Кликните первую точку новой стены (клик по вершине = переиспользовать её, клик на пустое место = новая; Shift на втором клике = снап 45°). Esc — отмена.');
-  if (kind === 'room') setHint('Кликайте стены по контуру, Enter — завершить, Esc — отмена.');
+  if (kind === 'room') setHint('Кликайте вершины по контуру помещения (в порядке обхода). Enter — создать. Клик по последней — убрать её. Клик по первой (после 3+) — замкнуть. Esc — отмена.');
   if (kind === 'door') setHint('Кликните на стену для размещения двери. Esc — отмена.');
   if (kind === 'window') setHint('Кликните на стену для размещения окна. Esc — отмена.');
   if (kind === 'stairs') setHint('Кликните точку размещения лестницы. Esc — отмена.');
@@ -1672,8 +1858,112 @@ function exitAddMode(hint) {
   state.ui.mode = 'select'; state.ui.modeData = null;
   document.body.classList.remove('mode-add','mode-add-wall','mode-add-room','mode-add-door','mode-add-window');
   clearWallPreview(); updateSnapMarker(null);
+  clearRoomPreview();
   if (hint) setHint(hint);
   updateAddButtonStates();
+}
+
+// Превью полигона помещения при выборе вершин
+function renderRoomPreview() {
+  const overlay = $('layerOverlay');
+  clearRoomPreview();
+  if (state.ui.mode !== 'add-room' || !state.ui.modeData) return;
+  const ids = state.ui.modeData.vertices || [];
+  const pts = ids.map(id => vById(id)).filter(Boolean);
+  if (pts.length === 0) return;
+  // Полигон-заливка (открытая, если < 3 точек)
+  if (pts.length >= 2) {
+    const el = pts.length >= 3
+      ? svgEl('polygon', { points: pts.map(p=>`${p.x},${p.y}`).join(' '),
+          class:'room-preview', fill:'rgba(42,110,214,0.18)',
+          stroke:'#2a6ed6', 'stroke-width':100, 'stroke-dasharray':'250 150',
+          'pointer-events':'none' })
+      : svgEl('polyline', { points: pts.map(p=>`${p.x},${p.y}`).join(' '),
+          class:'room-preview', fill:'none',
+          stroke:'#2a6ed6', 'stroke-width':100, 'stroke-dasharray':'250 150',
+          'pointer-events':'none' });
+    overlay.appendChild(el);
+  }
+  // Кружки выбранных вершин с номерами шагов
+  pts.forEach((p, i) => {
+    overlay.appendChild(svgEl('circle', {
+      cx: p.x, cy: p.y, r: 130,
+      class:'room-preview', fill:'#2a6ed6', stroke:'#fff', 'stroke-width':40,
+      'pointer-events':'none'
+    }));
+    const t = svgEl('text', {
+      x: p.x, y: p.y, class:'room-preview',
+      'text-anchor':'middle', 'dominant-baseline':'central',
+      fill:'#fff', 'font-size':160, 'font-weight':'700', 'pointer-events':'none'
+    });
+    t.textContent = String(i + 1);
+    overlay.appendChild(t);
+  });
+}
+function clearRoomPreview() {
+  document.querySelectorAll('#layerOverlay .room-preview').forEach(el => el.remove());
+}
+
+// Создание помещения из выбранных вершин
+function finalizeRoomFromVertices() {
+  const d = state.ui.modeData;
+  if (!d || !Array.isArray(d.vertices) || d.vertices.length < 3) {
+    alert('Нужно минимум 3 вершины для помещения.');
+    return;
+  }
+  const vertexIds = d.vertices.slice();
+  const plan = state.plan;
+  const floor = state.currentFloor;
+
+  pushHistory();
+
+  // Проход 1 — существующие стены и сплиты.
+  const pairResults = [];
+  let splitCount = 0;
+  for (let i = 0; i < vertexIds.length; i++) {
+    const aId = vertexIds[i], bId = vertexIds[(i + 1) % vertexIds.length];
+    const beforeWalls = plan.walls.length;
+    const wid = ensureWallBetween(aId, bId, plan, floor, { split: true, create: false });
+    if (plan.walls.length > beforeWalls) splitCount++;
+    pairResults.push({ aId, bId, wallId: wid });
+  }
+  // Список ещё отсутствующих пар — их нет и через сплит не получить.
+  const missing = pairResults.filter(r => !r.wallId);
+
+  let createdCount = 0;
+  if (missing.length) {
+    const list = missing.map(r => r.aId + '↔' + r.bId).join(', ');
+    const ok = confirm(
+      'Между парами вершин (' + list + ') нет стен.\n' +
+      'Создать для них тонкие перегородки автоматически?\n\n' +
+      'Отмена — рёбра останутся без стен, валидатор покажет предупреждение.');
+    if (ok) {
+      for (const r of missing) {
+        r.wallId = ensureWallBetween(r.aId, r.bId, plan, floor, { split: false, create: true });
+        if (r.wallId) createdCount++;
+      }
+    }
+  }
+
+  const walls = [];
+  for (const r of pairResults) {
+    if (r.wallId && !walls.includes(r.wallId)) walls.push(r.wallId);
+  }
+
+  const rid = nextId('R', plan.rooms);
+  plan.rooms.push({
+    id: rid, name: rid, suggestedUse:'', verifiedUse: null,
+    ceilingHeight: m(null,'unknown'),
+    vertices: vertexIds,
+    walls,
+    note: ''
+  });
+  state.ui.selected = { type:'room', id: rid };
+  const parts = ['вершин: '+vertexIds.length, 'стен: '+walls.length];
+  if (splitCount) parts.push('сплитов: '+splitCount);
+  if (createdCount) parts.push('новых перегородок: '+createdCount);
+  exitAddMode('Помещение '+rid+' создано ('+parts.join(', ')+')');
+  render();
 }
 function handleAddModeClick(e) {
   const t = findInteractiveTarget(e.target);
@@ -1750,11 +2040,24 @@ function handleAddModeClick(e) {
     }
     exitAddMode(); render();
   } else if (state.ui.mode === 'add-room') {
-    if (type !== 'wall') { setHint('Нужно кликнуть на стену.'); return; }
-    if (!state.ui.modeData) state.ui.modeData = { walls: [] };
-    if (state.ui.modeData.walls.includes(id)) return;
-    state.ui.modeData.walls.push(id);
-    setHint('Стен выбрано: '+state.ui.modeData.walls.length+'. Enter — завершить.');
+    if (type !== 'vertex') { setHint('Нужно кликнуть по вершине (белый кружок в углу стены).'); return; }
+    if (!state.ui.modeData) state.ui.modeData = { vertices: [] };
+    const list = state.ui.modeData.vertices;
+    // Клик по последней добавленной — убрать её (отмена шага)
+    if (list.length && list[list.length - 1] === id) {
+      list.pop();
+    }
+    // Клик по первой вершине с 3+ уже выбранными — трактуем как закрытие контура и создание
+    else if (list.length >= 3 && list[0] === id) {
+      finalizeRoomFromVertices();
+      return;
+    }
+    // Иначе добавить, если не дубликат подряд
+    else if (!list.length || list[list.length - 1] !== id) {
+      list.push(id);
+    }
+    renderRoomPreview();
+    setHint('Выбрано вершин: ' + list.length + '. Кликните по первой вершине или Enter — создать. Клик по последней — убрать. Esc — отмена.');
   } else if (state.ui.mode === 'add-stairs') {
     pushHistory();
     const sid = nextId('S', state.plan.stairs);
@@ -1776,6 +2079,31 @@ function handleAddModeClick(e) {
     exitAddMode('Лестница '+sid+' добавлена.'); render();
   }
 }
+// Проверка самопересечения замкнутого полигона: сравниваем каждую пару рёбер, не соседних
+function polygonSelfIntersects(pts) {
+  if (!pts || pts.length < 4) return false;
+  const seg = (i) => [pts[i], pts[(i+1) % pts.length]];
+  const cross = (ax, ay, bx, by) => ax * by - ay * bx;
+  const segSeg = (p1, p2, p3, p4) => {
+    const d1 = cross(p4.x - p3.x, p4.y - p3.y, p1.x - p3.x, p1.y - p3.y);
+    const d2 = cross(p4.x - p3.x, p4.y - p3.y, p2.x - p3.x, p2.y - p3.y);
+    const d3 = cross(p2.x - p1.x, p2.y - p1.y, p3.x - p1.x, p3.y - p1.y);
+    const d4 = cross(p2.x - p1.x, p2.y - p1.y, p4.x - p1.x, p4.y - p1.y);
+    return ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) &&
+           ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0));
+  };
+  const n = pts.length;
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 2; j < n; j++) {
+      // Соседние по кругу рёбра пропускаем
+      if (i === 0 && j === n - 1) continue;
+      const [a, b] = seg(i), [c, d] = seg(j);
+      if (segSeg(a, b, c, d)) return true;
+    }
+  }
+  return false;
+}
+
 // Классический ray-casting: точка внутри многоугольника
 function pointInPolygon(p, poly) {
   let inside = false;
