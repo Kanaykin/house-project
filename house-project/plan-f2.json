@@ -112,7 +112,7 @@
       "v2": "v002",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -137,7 +137,7 @@
       "v2": "v003",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -162,7 +162,7 @@
       "v2": "v004",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -187,7 +187,7 @@
       "v2": "v004",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -212,7 +212,7 @@
       "v2": "v005",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -237,7 +237,7 @@
       "v2": "v006",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -262,7 +262,7 @@
       "v2": "v006",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -287,7 +287,7 @@
       "v2": "v007",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -312,7 +312,7 @@
       "v2": "v008",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -337,7 +337,7 @@
       "v2": "v009",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -362,7 +362,7 @@
       "v2": "v010",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -387,7 +387,7 @@
       "v2": "v010",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -412,7 +412,7 @@
       "v2": "v015",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -437,7 +437,7 @@
       "v2": "v016",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -462,7 +462,7 @@
       "v2": "v017",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -487,7 +487,7 @@
       "v2": "v017",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -512,7 +512,7 @@
       "v2": "v019",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -537,7 +537,7 @@
       "v2": "v020",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -562,7 +562,7 @@
       "v2": "v017",
       "type": "exterior",
       "thickness": {
-        "value": 400,
+        "value": 300,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -587,7 +587,7 @@
       "v2": "v012",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
@@ -612,7 +612,7 @@
       "v2": "v741439",
       "type": "partition",
       "thickness": {
-        "value": 150,
+        "value": 100,
         "status": "estimated",
         "source": "image",
         "note": ""
