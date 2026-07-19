@@ -763,10 +763,11 @@ function renderOpenings() {
     const doorSel = isSelected('door', d.id);
     const dy = d.swing === 'out' ? -wid : wid;
     const hingeRight = d.hinge === 'right';
-    // Створка двери (тонкая полоса) — рисуется от точки петли перпендикулярно стене
     const leafHingeX = hingeRight ? wid : 0;
-    g.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'door-gap', stroke:'#fff', 'stroke-width': th + 40 }));
-    g.appendChild(svgEl('rect', {
+    // Оборачиваем все элементы двери в одну группу — чтобы toggle слоя скрывал её целиком
+    const grp = svgEl('g', { class:'door-item', 'data-type':'door', 'data-id':d.id });
+    grp.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'door-gap', stroke:'#fff', 'stroke-width': th + 40 }));
+    grp.appendChild(svgEl('rect', {
       x: leafHingeX - 40, y: Math.min(0, dy), width: 80, height: Math.abs(dy),
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
       class:'door-leaf' + (doorSel ? ' selected' : ''),
@@ -774,25 +775,25 @@ function renderOpenings() {
       'stroke-width': doorSel ? 120 : 60,
       fill: doorSel ? '#d4e5ff' : '#fff8e0'
     }));
-    // Дуга открывания: от свободного конца (противоположного петле, на стене) до свободного конца открытой двери
     const arcPath = hingeRight
       ? `M 0 0 A ${wid} ${wid} 0 0 1 ${wid} ${dy}`
       : `M ${wid} 0 A ${wid} ${wid} 0 0 0 0 ${dy}`;
-    g.appendChild(svgEl('path', {
+    grp.appendChild(svgEl('path', {
       d: arcPath,
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
       class: 'door-arc' + (doorSel ? ' selected' : ''),
       stroke: doorSel ? '#2a6ed6' : '#b56b00'
     }));
-    g.appendChild(svgEl('rect', {
+    grp.appendChild(svgEl('rect', {
       x:0, y:-th, width: wid, height: th*2,
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
-      class:'door-hit', 'data-type':'door', 'data-id':d.id
+      class:'door-hit'
     }));
     const mp = { x:(p1.x+p2.x)/2, y:(p1.y+p2.y)/2 };
-    const lbl = svgEl('text', { x: mp.x, y: mp.y - 180, class:'wall-label' });
+    const lbl = svgEl('text', { x: mp.x, y: mp.y - 180, class:'wall-label door-label' });
     lbl.textContent = d.id;
-    g.appendChild(lbl);
+    grp.appendChild(lbl);
+    g.appendChild(grp);
   }
   for (const o of state.plan.windows) {
     const w = findById(state.plan.walls, o.wallId); if (!w) continue;
@@ -801,25 +802,27 @@ function renderOpenings() {
     const wid = numOr(o.width) || 900;
     const ang = wallAngle(w);
     const p1 = pointOnWall(w, dist), p2 = pointOnWall(w, dist + wid);
-    g.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'window-gap', stroke:'#fff', 'stroke-width': th + 20 }));
     const off = th * 0.25;
     const nx = -Math.sin(ang), ny = Math.cos(ang);
     const winSel = isSelected('window', o.id);
-    const winStroke = winSel ? '#2a6ed6' : '#2a6ed6';
+    const winStroke = '#2a6ed6';
     const winWidth = winSel ? 100 : 40;
-    g.appendChild(svgEl('line', { x1:p1.x+nx*off, y1:p1.y+ny*off, x2:p2.x+nx*off, y2:p2.y+ny*off,
+    const grp = svgEl('g', { class:'window-item', 'data-type':'window', 'data-id':o.id });
+    grp.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'window-gap', stroke:'#fff', 'stroke-width': th + 20 }));
+    grp.appendChild(svgEl('line', { x1:p1.x+nx*off, y1:p1.y+ny*off, x2:p2.x+nx*off, y2:p2.y+ny*off,
       class:'window-glass' + (winSel?' selected':''), stroke: winStroke, 'stroke-width': winWidth }));
-    g.appendChild(svgEl('line', { x1:p1.x-nx*off, y1:p1.y-ny*off, x2:p2.x-nx*off, y2:p2.y-ny*off,
+    grp.appendChild(svgEl('line', { x1:p1.x-nx*off, y1:p1.y-ny*off, x2:p2.x-nx*off, y2:p2.y-ny*off,
       class:'window-glass' + (winSel?' selected':''), stroke: winStroke, 'stroke-width': winWidth }));
-    g.appendChild(svgEl('rect', {
+    grp.appendChild(svgEl('rect', {
       x:0, y:-th, width: wid, height: th*2,
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
-      class:'window-hit', 'data-type':'window', 'data-id':o.id
+      class:'window-hit'
     }));
     const mp = { x:(p1.x+p2.x)/2, y:(p1.y+p2.y)/2 };
-    const lbl = svgEl('text', { x: mp.x, y: mp.y + 260, class:'wall-label' });
+    const lbl = svgEl('text', { x: mp.x, y: mp.y + 260, class:'wall-label window-label' });
     lbl.textContent = o.id;
-    g.appendChild(lbl);
+    grp.appendChild(lbl);
+    g.appendChild(grp);
   }
 }
 function renderLabels() {
@@ -859,11 +862,20 @@ function applyLayerToggles() {
   $('layerOpenings').style.display = (L.doors || L.windows) ? 'block' : 'none';
   $('layerFurniture').style.display = L.furniture ? 'block' : 'none';
   $('layerStairs').style.display = L.stairs ? 'block' : 'none';
-  document.querySelectorAll('[data-type="door"]').forEach(el => el.style.display = L.doors ? '' : 'none');
-  document.querySelectorAll('[data-type="window"]').forEach(el => el.style.display = L.windows ? '' : 'none');
+  // Каждый проём — отдельная <g> с классом .door-item / .window-item, скрываем целиком
+  document.querySelectorAll('.door-item').forEach(el => el.style.display = L.doors ? '' : 'none');
+  document.querySelectorAll('.window-item').forEach(el => el.style.display = L.windows ? '' : 'none');
   document.querySelectorAll('.room-label').forEach(el => el.style.display = L.roomNames ? '' : 'none');
   document.querySelectorAll('.room-sublabel').forEach(el => el.style.display = L.roomNames ? '' : 'none');
-  document.querySelectorAll('.wall-label').forEach(el => el.style.display = L.wallNumbers ? '' : 'none');
+  // Метки проёмов (door-label / window-label) внутри своих групп — учитываем оба флага
+  document.querySelectorAll('.wall-label').forEach(el => {
+    const isDoorLbl = el.classList.contains('door-label');
+    const isWinLbl = el.classList.contains('window-label');
+    let visible = L.wallNumbers;
+    if (isDoorLbl && !L.doors) visible = false;
+    if (isWinLbl && !L.windows) visible = false;
+    el.style.display = visible ? '' : 'none';
+  });
   document.querySelectorAll('.wall-length').forEach(el => el.style.display = L.dimensions ? '' : 'none');
 }
 
