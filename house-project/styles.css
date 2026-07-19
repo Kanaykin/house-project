@@ -308,6 +308,12 @@ button.active-mode:hover { background: #2255b5; }
 }
 .vertex:hover { fill: var(--accent-2); }
 .vertex.dragging { cursor: grabbing; fill: var(--accent); }
+.vertex.selected {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 80;
+}
+.vertex.selected:hover { fill: #1a5fc4; }
 
 /* Inspector */
 #inspector .empty { color: var(--muted); font-style: italic; }

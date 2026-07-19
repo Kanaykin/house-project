@@ -403,14 +403,55 @@ function axisLockDelta(dx, dy) {
   return Math.abs(dx) >= Math.abs(dy) ? { dx, dy: 0 } : { dx: 0, dy };
 }
 // Поиск ближайшей вершины к точке (x,y) в мировых мм. Радиус — 15 экранных px.
-function findNearVertex(x, y) {
+function findNearVertex(x, y, excludeId) {
   const rad = 15 / currentView().scale;
   let best = null, bestD = Infinity;
   for (const v of state.plan.vertices) {
+    if (excludeId && v.id === excludeId) continue;
     const d = Math.hypot(v.x - x, v.y - y);
     if (d < rad && d < bestD) { best = v; bestD = d; }
   }
   return best;
+}
+
+// Слияние двух вершин: fromId → intoId. Все стены, ссылавшиеся на fromId, переезжают.
+// Вырожденные стены (v1==v2) удаляются вместе с их проёмами. Помещения обновляются.
+function mergeVertices(fromId, intoId) {
+  if (fromId === intoId) return { walls:0, doors:0, windows:0 };
+  const plan = state.plan;
+  // Переписываем ссылки в стенах
+  for (const w of plan.walls) {
+    if (w.v1 === fromId) w.v1 = intoId;
+    if (w.v2 === fromId) w.v2 = intoId;
+  }
+  // Вырожденные стены — удалить
+  const degenerateIds = plan.walls.filter(w => w.v1 === w.v2).map(w => w.id);
+  const doorsRemoved = plan.doors.filter(d => degenerateIds.includes(d.wallId)).map(d => d.id);
+  const windowsRemoved = plan.windows.filter(o => degenerateIds.includes(o.wallId)).map(o => o.id);
+  plan.walls = plan.walls.filter(w => !degenerateIds.includes(w.id));
+  plan.doors = plan.doors.filter(d => !degenerateIds.includes(d.wallId));
+  plan.windows = plan.windows.filter(o => !degenerateIds.includes(o.wallId));
+  // Обновляем помещения: убираем удалённые стены из walls, переписываем vertices
+  for (const r of plan.rooms) {
+    if (Array.isArray(r.walls)) r.walls = r.walls.filter(id => !degenerateIds.includes(id));
+    if (Array.isArray(r.vertices)) {
+      r.vertices = r.vertices.map(v => v === fromId ? intoId : v);
+      // убираем подряд идущие дубли
+      const cleaned = [];
+      for (const vid of r.vertices) {
+        if (cleaned.length === 0 || cleaned[cleaned.length - 1] !== vid) cleaned.push(vid);
+      }
+      if (cleaned.length > 1 && cleaned[0] === cleaned[cleaned.length - 1]) cleaned.pop();
+      r.vertices = cleaned;
+    }
+  }
+  // Удаляем саму вершину
+  plan.vertices = plan.vertices.filter(v => v.id !== fromId);
+  // Если было выделено что-то по fromId — переключаем на intoId
+  if (state.ui.selected && state.ui.selected.type === 'vertex' && state.ui.selected.id === fromId) {
+    state.ui.selected = { type: 'vertex', id: intoId };
+  }
+  return { walls: degenerateIds, doors: doorsRemoved, windows: windowsRemoved };
 }
 function updateAddButtonStates() {
   document.querySelectorAll('[data-add]').forEach(b => {
@@ -503,12 +544,12 @@ function computeWarnings() {
       if (unique.size !== r.vertices.length) {
         warns.push({ type:'room-vertex-dup', id:r.id, text:`Помещение ${r.id}: в контуре повторяются вершины` });
       }
-      // Отсутствующие стены между соседними вершинами
+      // Отсутствующие стены между соседними вершинами (ищем цепочку — не только прямую стену)
       const missing = [];
       for (let i = 0; i < r.vertices.length; i++) {
         const a = r.vertices[i], b = r.vertices[(i + 1) % r.vertices.length];
-        const has = state.plan.walls.find(w => (w.v1===a && w.v2===b) || (w.v1===b && w.v2===a));
-        if (!has) missing.push(`${a}↔${b}`);
+        const chainIds = findWallChainBetween(a, b, state.plan);
+        if (!chainIds || chainIds.length === 0) missing.push(`${a}↔${b}`);
       }
       if (missing.length) {
         warns.push({ type:'room-no-wall', id:r.id, text:`Помещение ${r.id}: нет стен между соседними вершинами (${missing.join(', ')})` });
@@ -572,6 +613,7 @@ function render() {
   renderRooms(); renderWalls(); renderStairs(); renderFurniture();
   renderOpenings(); renderVertices(); renderLabels();
   renderSelectedWallAnchors();
+  renderSelectedRoomIssues();
   renderInspector(); renderUnknowns(); renderWarnings();
   applyLayerToggles(); updateFloorButtons();
 }
@@ -642,6 +684,65 @@ function renderSelectedWallAnchors() {
   }
 }
 
+// Подсветка проблемных вершин выделенного помещения
+function renderSelectedRoomIssues() {
+  const overlay = $('layerOverlay');
+  overlay.querySelectorAll('.room-issue').forEach(el => el.remove());
+  const sel = state.ui.selected;
+  if (!sel || sel.type !== 'room') return;
+  const room = findById(state.plan.rooms, sel.id);
+  if (!room || !Array.isArray(room.vertices) || room.vertices.length < 2) return;
+
+  // Проверяем каждую пару соседних вершин
+  const n = room.vertices.length;
+  for (let i = 0; i < n; i++) {
+    const aId = room.vertices[i], bId = room.vertices[(i + 1) % n];
+    // Цепочка стен вдоль прямой a→b (даже через промежуточные вершины) — ребро закрыто
+    const chainIds = findWallChainBetween(aId, bId, state.plan);
+    if (chainIds && chainIds.length) continue;
+    // Стены нет — проверим, проходит ли осевая какой-то стены через обе вершины (нужен ручной сплит)
+    const spanning = findWallSpanningBoth(aId, bId, state.plan);
+    const needsSplit = spanning && !spanning.direct;
+    const color = needsSplit ? '#d4a017' : '#cc3333';
+    const throughLabel = needsSplit ? '  разбейте ' + spanning.wall.id : '  нет стены';
+    const va = vById(aId), vb = vById(bId);
+    if (!va || !vb) continue;
+
+    // Пунктирная линия между вершинами
+    overlay.appendChild(svgEl('line', {
+      x1: va.x, y1: va.y, x2: vb.x, y2: vb.y,
+      class:'room-issue',
+      stroke: color, 'stroke-width': 120, 'stroke-dasharray': '400 250',
+      'pointer-events':'none', opacity: 0.9
+    }));
+
+    // Кольца на обеих вершинах
+    for (const v of [va, vb]) {
+      overlay.appendChild(svgEl('circle', {
+        cx: v.x, cy: v.y, r: 250,
+        class:'room-issue',
+        fill: 'none', stroke: color, 'stroke-width': 100,
+        'pointer-events':'none', opacity: 0.9
+      }));
+    }
+
+    // Подпись у середины ребра
+    const mx = (va.x + vb.x) / 2, my = (va.y + vb.y) / 2;
+    const dx = vb.x - va.x, dy = vb.y - va.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const nxL = -dy / len, nyL = dx / len;
+    const lbl = svgEl('text', {
+      x: mx + nxL * 400, y: my + nyL * 400,
+      class:'room-issue', 'text-anchor':'middle', 'dominant-baseline':'central',
+      fill: color, 'font-size': 220, 'font-weight':'700',
+      'paint-order':'stroke', stroke:'#fff', 'stroke-width': 60,
+      'pointer-events':'none'
+    });
+    lbl.textContent = aId + '↔' + bId + throughLabel;
+    overlay.appendChild(lbl);
+  }
+}
+
 function updateFloorButtons() {
   document.querySelectorAll('.floor-btn').forEach(b => {
     b.classList.toggle('active', b.getAttribute('data-floor') === state.currentFloor);
@@ -705,6 +806,56 @@ function projectOnWall(vertex, wall, tolerance = 20) {
 
 // Ищем стену, на осевой которой лежат ОБЕ вершины aId и bId.
 // Возвращает { wall, direct } или null.
+// Ищем ЦЕПОЧКУ стен от aId до bId, где все промежуточные вершины лежат
+// на прямой a→b (в допуске 20 мм). Возвращает массив wall id или null.
+function findWallChainBetween(aId, bId, plan, tolerance = 20) {
+  if (aId === bId) return [];
+  const va = vById(aId), vb = vById(bId);
+  if (!va || !vb) return null;
+  const dx = vb.x - va.x, dy = vb.y - va.y;
+  const len2 = dx*dx + dy*dy;
+  if (len2 < 1) return null;
+  const isOnLine = (v) => {
+    if (v.id === aId || v.id === bId) return true;
+    const t = ((v.x - va.x) * dx + (v.y - va.y) * dy) / len2;
+    if (t < -0.001 || t > 1.001) return false;
+    const px = va.x + t * dx, py = va.y + t * dy;
+    return Math.hypot(v.x - px, v.y - py) <= tolerance;
+  };
+  // BFS с отслеживанием предшественников и стены, по которой пришли
+  const prev = new Map(); // vertexId -> { fromVertexId, wallId }
+  prev.set(aId, null);
+  const queue = [aId];
+  while (queue.length) {
+    const cur = queue.shift();
+    if (cur === bId) break;
+    for (const w of plan.walls) {
+      let other = null;
+      if (w.v1 === cur) other = w.v2;
+      else if (w.v2 === cur) other = w.v1;
+      if (!other || prev.has(other)) continue;
+      const vo = vById(other);
+      if (!vo) continue;
+      if (!isOnLine(vo)) continue;
+      prev.set(other, { fromVertexId: cur, wallId: w.id });
+      queue.push(other);
+      if (other === bId) break;
+    }
+    if (prev.has(bId)) break;
+  }
+  if (!prev.has(bId)) return null;
+  // Восстанавливаем цепочку стен
+  const chain = [];
+  let cur = bId;
+  while (cur !== aId) {
+    const step = prev.get(cur);
+    if (!step) return null;
+    chain.unshift(step.wallId);
+    cur = step.fromVertexId;
+  }
+  return chain;
+}
+
 function findWallSpanningBoth(aId, bId, plan) {
   // Сначала — прямая стена между этими вершинами
   const direct = plan.walls.find(w =>
@@ -817,21 +968,13 @@ function splitWallAtVertices(wall, insertVertexIds, plan, floor) {
 // Гарантируем, что между вершинами aId и bId существует стена.
 // Возвращает id стены или null (если не удалось).
 // mode: 'split' — расщеплять существующие сквозные; 'create' — создавать перегородку если нет.
-function ensureWallBetween(aId, bId, plan, floor, opts = { split:true, create:true }) {
-  const found = findWallSpanningBoth(aId, bId, plan);
-  if (found && found.direct) return found.wall.id;
-  if (found && opts.split) {
-    const va = vById(aId), vb = vById(bId);
-    const ta = projectOnWall(va, found.wall);
-    const tb = projectOnWall(vb, found.wall);
-    const inserts = [];
-    if (ta != null && ta > 0.001 && ta < 0.999) inserts.push(aId);
-    if (tb != null && tb > 0.001 && tb < 0.999) inserts.push(bId);
-    splitWallAtVertices(found.wall, inserts, plan, floor);
-    const w = plan.walls.find(w =>
-      (w.v1 === aId && w.v2 === bId) || (w.v1 === bId && w.v2 === aId));
-    if (w) return w.id;
-  }
+// Прямая стена между aId и bId — если её нет, опционально создаёт новую перегородку.
+// Автоматического разбиения существующих стен ЗДЕСЬ нет — сплит делается только
+// вручную через инспектор стены («Разделить стену»).
+function ensureWallBetween(aId, bId, plan, floor, opts = { create:true }) {
+  const direct = plan.walls.find(w =>
+    (w.v1 === aId && w.v2 === bId) || (w.v1 === bId && w.v2 === aId));
+  if (direct) return direct.id;
   if (opts.create) {
     const newId = nextId('W', plan.walls);
     plan.walls.push({
@@ -873,8 +1016,10 @@ function renderWalls() {
 function renderVertices() {
   const g = $('layerVertices'); g.innerHTML = '';
   for (const v of state.plan.vertices) {
+    const sel = isSelected('vertex', v.id);
     g.appendChild(svgEl('circle', {
-      cx: v.x, cy: v.y, r: 90, class: 'vertex',
+      cx: v.x, cy: v.y, r: sel ? 180 : 90,
+      class: 'vertex' + (sel ? ' selected' : ''),
       'data-type':'vertex', 'data-id': v.id
     }));
   }
@@ -1179,7 +1324,125 @@ function renderWallInspector(el, w) {
   // v3: секция размерной цепочки
   renderChainSection(el, w);
 
-  actionsRow(el, [{ label:'Удалить', danger:true, onClick: () => { if (confirm('Удалить стену '+w.id+'?')) { pushHistory(); removeWall(w.id); } } }]);
+  actionsRow(el, [
+    { label:'Разделить стену…', onClick: () => startSplitWallMode(w.id) },
+    { label:'Разделить: мм…', onClick: () => splitWallByMmPrompt(w.id) },
+    { label:'Удалить', danger:true, onClick: () => { if (confirm('Удалить стену '+w.id+'?')) { pushHistory(); removeWall(w.id); } } }
+  ]);
+}
+
+// ---- Ручной сплит стены ----
+function startSplitWallMode(wallId) {
+  if (state.ui.mode === 'split-wall' && state.ui.modeData && state.ui.modeData.wallId === wallId) {
+    exitAddMode('Режим сплита отменён.');
+    return;
+  }
+  state.ui.mode = 'split-wall';
+  state.ui.modeData = { wallId, pending: null };
+  document.body.classList.remove('mode-add-wall','mode-add-room','mode-add-door','mode-add-window','mode-add-stairs');
+  document.body.classList.add('mode-add', 'mode-add-split');
+  clearWallPreview(); updateSnapMarker(null); clearRoomPreview();
+  setHint('Клик по стене '+wallId+' → сплит в этой точке. Наведение на вершину, лежащую на осевой — снап (жёлтый). Esc — отмена.');
+  updateAddButtonStates();
+}
+
+function splitWallByMmPrompt(wallId) {
+  const w = findById(state.plan.walls, wallId);
+  if (!w) return;
+  const L = Math.round(wallLen(w));
+  const raw = prompt('Расстояние от начала стены '+wallId+' (мм, 100..' + (L - 100) + '):');
+  if (raw == null) return;
+  const dist = parseInt(raw, 10);
+  if (isNaN(dist) || dist < 100 || dist > L - 100) {
+    alert('Некорректное значение. Нужно от 100 до ' + (L - 100) + ' мм.');
+    return;
+  }
+  performWallSplitAtDistance(w, dist);
+}
+
+function performWallSplitAtDistance(wall, distMm, snapVertexId) {
+  pushHistory();
+  const a = vById(wall.v1), b = vById(wall.v2);
+  const totalLen = wallLen(wall);
+  const t = Math.max(0, Math.min(1, distMm / totalLen));
+  let insertVid = snapVertexId;
+  if (!insertVid) {
+    // Создать новую вершину в точке сплита
+    const px = a.x + (b.x - a.x) * t;
+    const py = a.y + (b.y - a.y) * t;
+    let vid = 'v' + String(state.plan.vertices.length + 1).padStart(3, '0');
+    while (state.plan.vertices.find(v => v.id === vid)) vid = 'v' + Math.floor(Math.random() * 1e6);
+    state.plan.vertices.push({ id: vid, x: Math.round(px), y: Math.round(py) });
+    insertVid = vid;
+  }
+  const segIds = splitWallAtVertices(wall, [insertVid], state.plan, state.currentFloor);
+  state.ui.selected = { type: 'wall', id: wall.id };
+  render();
+  return segIds;
+}
+
+function computeSplitPreview(e, wall) {
+  const raw = screenToPlan(e.clientX, e.clientY);
+  const a = vById(wall.v1), b = vById(wall.v2);
+  const ax = b.x - a.x, ay = b.y - a.y;
+  const len2 = ax*ax + ay*ay;
+  if (len2 < 1) return null;
+  const totalLen = Math.sqrt(len2);
+  let t = ((raw.x - a.x) * ax + (raw.y - a.y) * ay) / len2;
+  t = Math.max(0, Math.min(1, t));
+  const px = a.x + t * ax, py = a.y + t * ay;
+  const distMm = t * totalLen;
+  // Снап к существующей вершине на осевой
+  const snapRadPx = 15;
+  const snapRadWorld = snapRadPx / currentView().scale;
+  let snap = null;
+  for (const v of state.plan.vertices) {
+    if (v.id === wall.v1 || v.id === wall.v2) continue;
+    const tv = projectOnWall(v, wall);
+    if (tv == null) continue;
+    if (tv < 0.01 || tv > 0.99) continue;
+    const dMouse = Math.hypot(v.x - raw.x, v.y - raw.y);
+    if (dMouse > snapRadWorld) continue;
+    if (!snap || dMouse < snap.dMouse) {
+      snap = { id: v.id, x: v.x, y: v.y, dMouse, distMm: tv * totalLen };
+    }
+  }
+  return snap ? { snap: true, vertexId: snap.id, x: snap.x, y: snap.y, distMm: snap.distMm } :
+                { snap: false, x: px, y: py, distMm };
+}
+
+function drawSplitPreview(wall, p) {
+  const overlay = $('layerOverlay');
+  clearSplitPreview();
+  const color = p.snap ? '#d4a017' : '#2a6ed6';
+  const a = vById(wall.v1), b = vById(wall.v2);
+  const ang = Math.atan2(b.y - a.y, b.x - a.x);
+  const nx = -Math.sin(ang), ny = Math.cos(ang);
+  const perp = 350;
+  // Перпендикуляр-засечка
+  overlay.appendChild(svgEl('line', {
+    x1: p.x + nx*perp, y1: p.y + ny*perp,
+    x2: p.x - nx*perp, y2: p.y - ny*perp,
+    class:'split-preview', stroke: color, 'stroke-width': 80, 'pointer-events':'none'
+  }));
+  // Точка сплита
+  overlay.appendChild(svgEl('circle', {
+    cx: p.x, cy: p.y, r: 130, class:'split-preview',
+    fill: color, stroke:'#fff', 'stroke-width': 40, 'pointer-events':'none'
+  }));
+  // Значение расстояния
+  const label = svgEl('text', {
+    x: p.x + nx*(perp + 200), y: p.y + ny*(perp + 200),
+    class:'split-preview', 'text-anchor':'middle', 'dominant-baseline':'central',
+    fill: color, 'font-size': 240, 'font-weight':'700',
+    'paint-order':'stroke', stroke:'#fff', 'stroke-width': 70,
+    'pointer-events':'none'
+  });
+  label.textContent = Math.round(p.distMm) + ' мм' + (p.snap ? ' (снап)' : '');
+  overlay.appendChild(label);
+}
+function clearSplitPreview() {
+  document.querySelectorAll('#layerOverlay .split-preview').forEach(el => el.remove());
 }
 
 function renderChainSection(el, wall) {
@@ -1518,9 +1781,19 @@ function onSvgMouseMove(e) {
     const near = findNearVertex(raw.x, raw.y);
     updateSnapMarker(near);
     clearWallPreview();
+  } else if (state.ui.mode === 'split-wall' && state.ui.modeData) {
+    const wall = findById(state.plan.walls, state.ui.modeData.wallId);
+    if (wall) {
+      const p = computeSplitPreview(e, wall);
+      if (p) {
+        drawSplitPreview(wall, p);
+        state.ui.modeData.pending = p;
+      }
+    }
   } else {
     clearWallPreview();
     updateSnapMarker(null);
+    clearSplitPreview();
   }
 }
 function onKeyUp(e) {
@@ -1713,6 +1986,16 @@ function onDragMove(e) {
       const s = snapAngle45(dragState.x0, dragState.y0, nx, ny);
       nx = s.x; ny = s.y;
     }
+    // Снап к другой существующей вершине (для склейки при отпускании)
+    const near = findNearVertex(nx, ny, dragState.id);
+    if (near) {
+      nx = near.x; ny = near.y;
+      dragState.mergeTarget = near.id;
+      updateSnapMarker(near);
+    } else {
+      dragState.mergeTarget = null;
+      updateSnapMarker(null);
+    }
     v.x = Math.round(nx); v.y = Math.round(ny);
     dragState.moved = true; render();
   }
@@ -1787,6 +2070,17 @@ function onDragEnd() {
     state.ui.selected = null;
     render();
   }
+  // Слияние вершин при отпускании на другой вершине
+  if (dragState.type === 'vertex' && dragState.mergeTarget && dragState.mergeTarget !== dragState.id) {
+    const affected = mergeVertices(dragState.id, dragState.mergeTarget);
+    updateSnapMarker(null);
+    const parts = [];
+    if (affected.walls && affected.walls.length) parts.push('удалено вырожденных стен: ' + affected.walls.length);
+    if (affected.doors && affected.doors.length) parts.push('дверей: ' + affected.doors.length);
+    if (affected.windows && affected.windows.length) parts.push('окон: ' + affected.windows.length);
+    setHint('Вершина слита с ' + dragState.mergeTarget + (parts.length ? ' (' + parts.join(', ') + ')' : ''));
+    render();
+  }
   if (dragState.moved) saveLocal();
   dragState = null;
 }
@@ -1856,9 +2150,10 @@ function startAddMode(kind) {
 }
 function exitAddMode(hint) {
   state.ui.mode = 'select'; state.ui.modeData = null;
-  document.body.classList.remove('mode-add','mode-add-wall','mode-add-room','mode-add-door','mode-add-window');
+  document.body.classList.remove('mode-add','mode-add-wall','mode-add-room','mode-add-door','mode-add-window','mode-add-stairs','mode-add-split');
   clearWallPreview(); updateSnapMarker(null);
   clearRoomPreview();
+  clearSplitPreview();
   if (hint) setHint(hint);
   updateAddButtonStates();
 }
@@ -1904,7 +2199,9 @@ function clearRoomPreview() {
   document.querySelectorAll('#layerOverlay .room-preview').forEach(el => el.remove());
 }
 
-// Создание помещения из выбранных вершин
+// Создание помещения из выбранных вершин.
+// Автосплит убран — если между парой вершин нет прямой стены, но осевая другой стены
+// проходит через обе точки, показываем сообщение о необходимости ручного сплита.
 function finalizeRoomFromVertices() {
   const d = state.ui.modeData;
   if (!d || !Array.isArray(d.vertices) || d.vertices.length < 3) {
@@ -1915,39 +2212,72 @@ function finalizeRoomFromVertices() {
   const plan = state.plan;
   const floor = state.currentFloor;
 
-  pushHistory();
-
-  // Проход 1 — существующие стены и сплиты.
-  const pairResults = [];
-  let splitCount = 0;
+  // Анализ пар БЕЗ модификации данных
+  const pairs = [];
   for (let i = 0; i < vertexIds.length; i++) {
     const aId = vertexIds[i], bId = vertexIds[(i + 1) % vertexIds.length];
-    const beforeWalls = plan.walls.length;
-    const wid = ensureWallBetween(aId, bId, plan, floor, { split: true, create: false });
-    if (plan.walls.length > beforeWalls) splitCount++;
-    pairResults.push({ aId, bId, wallId: wid });
+    // Ищем цепочку стен вдоль прямой a→b (допускаются промежуточные вершины на линии)
+    const chainIds = findWallChainBetween(aId, bId, plan);
+    if (chainIds && chainIds.length) {
+      pairs.push({ aId, bId, kind: 'chain', wallIds: chainIds });
+      continue;
+    }
+    // Цепочки нет — проверим, проходит ли осевая какой-то стены через обе вершины (кандидат на сплит)
+    const spanning = findWallSpanningBoth(aId, bId, plan);
+    if (spanning && !spanning.direct) {
+      pairs.push({ aId, bId, kind:'needs-split', throughWallId: spanning.wall.id });
+    } else {
+      pairs.push({ aId, bId, kind:'no-wall' });
+    }
   }
-  // Список ещё отсутствующих пар — их нет и через сплит не получить.
-  const missing = pairResults.filter(r => !r.wallId);
 
+  const needSplit = pairs.filter(p => p.kind === 'needs-split');
+  const noWall = pairs.filter(p => p.kind === 'no-wall');
+
+  // Сообщение о необходимости ручного сплита
+  if (needSplit.length) {
+    const list = needSplit.map(p =>
+      `  • ${p.aId}↔${p.bId}  —  разбейте ${p.throughWallId}`
+    ).join('\n');
+    alert(
+      'Нельзя создать помещение автоматически.\n\n' +
+      'Между следующими парами вершин нет прямой стены, но их можно разделить, ' +
+      'разбив соответствующую существующую стену:\n\n' + list +
+      '\n\nВыделите нужную стену → в инспекторе нажмите «Разделить стену» → ' +
+      'кликните нужную точку. После этого повторите создание помещения.'
+    );
+    return; // Не создаём помещение до ручного сплита
+  }
+
+  // Спросить про создание перегородок для «no-wall» пар
   let createdCount = 0;
-  if (missing.length) {
-    const list = missing.map(r => r.aId + '↔' + r.bId).join(', ');
+  if (noWall.length) {
+    const list = noWall.map(p => p.aId + '↔' + p.bId).join(', ');
     const ok = confirm(
       'Между парами вершин (' + list + ') нет стен.\n' +
       'Создать для них тонкие перегородки автоматически?\n\n' +
       'Отмена — рёбра останутся без стен, валидатор покажет предупреждение.');
     if (ok) {
-      for (const r of missing) {
-        r.wallId = ensureWallBetween(r.aId, r.bId, plan, floor, { split: false, create: true });
-        if (r.wallId) createdCount++;
+      pushHistory();
+      for (const p of noWall) {
+        p.wallId = ensureWallBetween(p.aId, p.bId, plan, floor, { create: true });
+        if (p.wallId) createdCount++;
       }
+    } else {
+      pushHistory();
     }
+  } else {
+    pushHistory();
   }
 
   const walls = [];
-  for (const r of pairResults) {
-    if (r.wallId && !walls.includes(r.wallId)) walls.push(r.wallId);
+  for (const p of pairs) {
+    // Из цепочки берём все стены; из direct/create — одну.
+    if (p.kind === 'chain' && Array.isArray(p.wallIds)) {
+      for (const wid of p.wallIds) if (wid && !walls.includes(wid)) walls.push(wid);
+    } else if (p.wallId && !walls.includes(p.wallId)) {
+      walls.push(p.wallId);
+    }
   }
 
   const rid = nextId('R', plan.rooms);
@@ -1960,7 +2290,6 @@ function finalizeRoomFromVertices() {
   });
   state.ui.selected = { type:'room', id: rid };
   const parts = ['вершин: '+vertexIds.length, 'стен: '+walls.length];
-  if (splitCount) parts.push('сплитов: '+splitCount);
   if (createdCount) parts.push('новых перегородок: '+createdCount);
   exitAddMode('Помещение '+rid+' создано ('+parts.join(', ')+')');
   render();
@@ -1970,6 +2299,20 @@ function handleAddModeClick(e) {
   const type = t && t.getAttribute('data-type');
   const id = t && t.getAttribute('data-id');
   const raw = screenToPlan(e.clientX, e.clientY);
+  if (state.ui.mode === 'split-wall') {
+    const wall = findById(state.plan.walls, state.ui.modeData && state.ui.modeData.wallId);
+    if (!wall) { exitAddMode('Стена не найдена'); return; }
+    const p = state.ui.modeData.pending || computeSplitPreview(e, wall);
+    if (!p) { setHint('Наведите на стену'); return; }
+    const totalLen = wallLen(wall);
+    if (p.distMm < 100 || p.distMm > totalLen - 100) {
+      setHint('Слишком близко к концу стены. Минимум 100 мм от края.');
+      return;
+    }
+    const segIds = performWallSplitAtDistance(wall, p.distMm, p.snap ? p.vertexId : null);
+    exitAddMode('Стена разбита: ' + (segIds || []).join(' + '));
+    return;
+  }
   if (state.ui.mode === 'add-wall') {
     // Приоритеты: 1) существующая вершина рядом с курсором; 2) снап 45° при Shift для второго клика; 3) свободная позиция
     let vid;
