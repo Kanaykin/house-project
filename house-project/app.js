@@ -331,58 +331,71 @@ function computeChainSegments(wall) {
 
 // Применить изменение участка цепочки. Возвращает { changed, hint }.
 function applyChainSegmentChange(wall, segment, newValueMm) {
-  const delta = newValueMm - segment.valueMm;
   const from = segment.from, to = segment.to;
+  const totalLen = wallLen(wall); // ← сохраняем общую длину стены неизменной
 
-  // 1. Участок «ширина проёма» — меняем width самого проёма
+  // Хелпер: найти проём по objectId
+  const findOpening = (id) => findById(state.plan.doors, id) || findById(state.plan.windows, id);
+
+  // 1. Участок «ширина проёма» — меняем width, opening_start остаётся на месте,
+  //    opening_end двигается на новую позицию → следующий участок компенсирует.
   if (segment.isOpeningWidth) {
-    const obj = findById(state.plan.doors, from.objectId) || findById(state.plan.windows, from.objectId);
+    const obj = findOpening(from.objectId);
     if (!obj) return { changed:false, hint:'проём не найден' };
+    const newWidth = Math.max(1, Math.round(newValueMm));
+    const startOffset = from.offsetMm;
+    if (startOffset + newWidth > totalLen - 1) {
+      return { changed:false, hint:'новая ширина не помещается — проём выйдет за конец стены' };
+    }
     pushHistory();
     obj.width = obj.width || m(900, 'estimated');
-    obj.width.value = Math.max(1, Math.round(newValueMm));
+    obj.width.value = newWidth;
     obj.width.status = 'entered';
     obj.width.source = 'user';
-    return { changed:true, hint:'ширина '+obj.id+' обновлена' };
+    return { changed:true, hint:'ширина '+obj.id+' обновлена (общая длина стены не изменилась)' };
   }
 
-  // 2. `to` — начало/конец проёма → двигаем проём целиком, ширина не меняется
+  // 2. Участок «... → opening_start/opening_end» — двигаем проём to.objectId
   if (to.type === 'opening_start' || to.type === 'opening_end') {
-    const obj = findById(state.plan.doors, to.objectId) || findById(state.plan.windows, to.objectId);
+    const obj = findOpening(to.objectId);
     if (!obj) return { changed:false, hint:'проём не найден' };
-    pushHistory();
     const width = numOr(obj.width) || 900;
-    let newDist;
-    if (to.type === 'opening_start') {
-      // Новый offset начала = from.offsetMm + newValueMm
-      newDist = from.offsetMm + newValueMm;
-    } else {
-      // to = конец проёма → distance = (from.offsetMm + newValueMm) - width
-      newDist = from.offsetMm + newValueMm - width;
-    }
+    // Новая позиция начала проёма = from.offsetMm + newValueMm (если to = opening_start)
+    // Если to = opening_end: newDist = from.offset + newValue - width
+    let newDist = (to.type === 'opening_start')
+      ? from.offsetMm + newValueMm
+      : from.offsetMm + newValueMm - width;
+    if (newDist < 0) return { changed:false, hint:'нельзя: проём выйдет за начало стены' };
+    if (newDist + width > totalLen) return { changed:false, hint:'нельзя: проём выйдет за конец стены' };
+    pushHistory();
     obj.distance = obj.distance || m(0, 'estimated');
-    obj.distance.value = Math.max(0, Math.round(newDist));
+    obj.distance.value = Math.round(newDist);
     obj.distance.status = 'entered';
     obj.distance.source = 'user';
-    return { changed:true, hint:'проём '+obj.id+' сдвинут' };
+    return { changed:true, hint:'проём '+obj.id+' сдвинут (общая длина стены не изменилась)' };
   }
 
-  // 3. `to` — конец стены → двигаем v2 вдоль оси стены
+  // 3. Последний участок «opening_end → wall_end» — двигаем предыдущий проём НАЗАД
+  //    так, чтобы новая длина остатка совпала с введённой, а общая длина стены не менялась.
   if (to.type === 'wall_end') {
-    const a = vById(wall.v1), b = vById(wall.v2);
-    const cur = Math.hypot(b.x - a.x, b.y - a.y);
-    if (cur < 1) return { changed:false, hint:'нулевая стена' };
-    pushHistory();
-    const newLen = from.offsetMm + newValueMm;
-    const k = newLen / cur;
-    b.x = Math.round(a.x + (b.x - a.x) * k);
-    b.y = Math.round(a.y + (b.y - a.y) * k);
-    // Обновляем declaredLength
-    wall.declaredLength = wall.declaredLength || m(null, 'unknown');
-    wall.declaredLength.value = Math.round(newLen);
-    wall.declaredLength.status = 'entered';
-    wall.declaredLength.source = 'user';
-    return { changed:true, hint:'длина стены обновлена' };
+    if (from.type === 'opening_end') {
+      const obj = findOpening(from.objectId);
+      if (!obj) return { changed:false, hint:'проём не найден' };
+      const width = numOr(obj.width) || 900;
+      // остаток = totalLen - (dist + width). Нужен = newValueMm.
+      // → dist = totalLen - newValueMm - width
+      const newDist = totalLen - newValueMm - width;
+      if (newDist < 0) return { changed:false, hint:'нельзя: проём выйдет за начало стены' };
+      if (newDist + width > totalLen) return { changed:false, hint:'нельзя: проём выйдет за конец стены' };
+      pushHistory();
+      obj.distance = obj.distance || m(0, 'estimated');
+      obj.distance.value = Math.round(newDist);
+      obj.distance.status = 'entered';
+      obj.distance.source = 'user';
+      return { changed:true, hint:'проём '+obj.id+' сдвинут (общая длина стены не изменилась)' };
+    }
+    // from — wall_start, wall_junction или user_point. Двигать нечего, чтобы сохранить длину.
+    return { changed:false, hint:'нет проёма перед концом стены — нечего сдвинуть, общая длина не может остаться неизменной. Для изменения длины стены редактируйте её геометрически.' };
   }
 
   // 4. Иное (junction, user_point) — пока не поддерживается через число
@@ -1983,8 +1996,29 @@ function onDragMove(e) {
     const v = vById(dragState.id);
     let nx = p.x, ny = p.y;
     if (e.shiftKey) {
-      const s = snapAngle45(dragState.x0, dragState.y0, nx, ny);
-      nx = s.x; ny = s.y;
+      // Ищем варианты «сохранить одну из смежных стен строго ортогональной».
+      // Кандидаты: по оси Y соседей (стена станет горизонтальной)
+      //           по оси X соседей (стена станет вертикальной)
+      const walls = state.plan.walls.filter(w => w.v1 === dragState.id || w.v2 === dragState.id);
+      let best = null, bestD = Infinity;
+      for (const w of walls) {
+        const otherId = w.v1 === dragState.id ? w.v2 : w.v1;
+        const other = vById(otherId);
+        if (!other) continue;
+        // Сохранить x соседа → стена вертикальна
+        const dxCand = Math.abs(other.x - nx);
+        if (dxCand < bestD) { bestD = dxCand; best = { x: other.x, y: ny, orient:'vertical', otherId }; }
+        // Сохранить y соседа → стена горизонтальна
+        const dyCand = Math.abs(other.y - ny);
+        if (dyCand < bestD) { bestD = dyCand; best = { x: nx, y: other.y, orient:'horizontal', otherId }; }
+      }
+      if (best) {
+        nx = best.x; ny = best.y;
+      } else {
+        // Нет смежных стен — фолбэк на снап 45° от исходной позиции
+        const s = snapAngle45(dragState.x0, dragState.y0, nx, ny);
+        nx = s.x; ny = s.y;
+      }
     }
     // Снап к другой существующей вершине (для склейки при отпускании)
     const near = findNearVertex(nx, ny, dragState.id);
