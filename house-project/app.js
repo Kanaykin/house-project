@@ -767,6 +767,18 @@ function renderOpenings() {
     // Оборачиваем все элементы двери в одну группу — чтобы toggle слоя скрывал её целиком
     const grp = svgEl('g', { class:'door-item', 'data-type':'door', 'data-id':d.id });
     grp.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'door-gap', stroke:'#fff', 'stroke-width': th + 40 }));
+    // Подсветка выделенной двери — область открывания (квадрат стороной = ширине двери)
+    if (doorSel) {
+      const hlY = dy > 0 ? 0 : dy;
+      grp.appendChild(svgEl('rect', {
+        x: 0, y: hlY, width: wid, height: Math.abs(dy),
+        transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
+        class:'door-highlight',
+        fill: 'rgba(42,110,214,0.20)',
+        stroke: '#2a6ed6', 'stroke-width': 100, 'stroke-dasharray': '250 150',
+        'pointer-events':'none'
+      }));
+    }
     grp.appendChild(svgEl('rect', {
       x: leafHingeX - 40, y: Math.min(0, dy), width: 80, height: Math.abs(dy),
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
