@@ -196,6 +196,199 @@ function pointOnWall(w, dist) {
 }
 function numOr(mo) { return mo && mo.value != null ? mo.value : null; }
 
+// ========== v3: ЯКОРЯ И РАЗМЕРНАЯ ЦЕПОЧКА ==========
+// Якорь — точка на стене с offsetMm от wall_start. Типы:
+//   wall_start, wall_end — концы стены;
+//   opening_start, opening_end — края окна/двери (со ссылкой objectId);
+//   wall_junction — примыкание другой стены (со ссылкой objectId);
+//   user_point — произвольная контрольная точка (со ссылкой label).
+// Массив wall.anchors всегда отсортирован по offsetMm.
+// Источник правды для позиции проёма пока остаётся door.distance/width (v2),
+// якоря опережающего типа opening_* пересчитываются из этих полей.
+
+function nextAnchorId(floor, walls) {
+  const rx = new RegExp('^' + floor + '-A(\\d+)$');
+  let max = 0;
+  for (const w of walls) {
+    for (const a of (w.anchors || [])) {
+      const m = rx.exec(a.id);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    }
+  }
+  return floor + '-A' + String(max + 1).padStart(2, '0');
+}
+
+function openingsOnWall(wall, plan) {
+  const doors = plan.doors.filter(d => d.wallId === wall.id).map(d => ({ obj: d, kind: 'door' }));
+  const wins  = plan.windows.filter(o => o.wallId === wall.id).map(o => ({ obj: o, kind: 'window' }));
+  return [...doors, ...wins];
+}
+
+// Пересчитывает якоря стены из текущих проёмов и её длины.
+// Сохраняет пользовательские якоря (user_point), пересоздаёт остальные.
+function rebuildWallAnchors(wall, plan, floor) {
+  const L = Math.round(wallLen(wall));
+  const oldAnchors = wall.anchors || [];
+  const kept = oldAnchors.filter(a => a.type === 'user_point');
+
+  const anchors = [];
+  // wall_start / wall_end — сохраняем ID если существовали
+  const oldStart = oldAnchors.find(a => a.type === 'wall_start');
+  const oldEnd = oldAnchors.find(a => a.type === 'wall_end');
+  anchors.push({ id: oldStart ? oldStart.id : nextAnchorId(floor, plan.walls), type: 'wall_start', offsetMm: 0 });
+  anchors.push({ id: oldEnd ? oldEnd.id : nextAnchorId(floor, plan.walls), type: 'wall_end', offsetMm: L });
+
+  // opening_start / opening_end для каждой двери/окна
+  for (const { obj } of openingsOnWall(wall, plan)) {
+    const dist = numOr(obj.distance) || 0;
+    const width = numOr(obj.width) || 900;
+    const oldOs = oldAnchors.find(a => a.type === 'opening_start' && a.objectId === obj.id);
+    const oldOe = oldAnchors.find(a => a.type === 'opening_end' && a.objectId === obj.id);
+    anchors.push({
+      id: oldOs ? oldOs.id : nextAnchorId(floor, plan.walls),
+      type: 'opening_start', objectId: obj.id, offsetMm: dist
+    });
+    anchors.push({
+      id: oldOe ? oldOe.id : nextAnchorId(floor, plan.walls),
+      type: 'opening_end', objectId: obj.id, offsetMm: dist + width
+    });
+  }
+
+  // wall_junction: если внутри стены (не в её концах) заканчивается другая стена
+  for (const other of plan.walls) {
+    if (other.id === wall.id) continue;
+    for (const vid of [other.v1, other.v2]) {
+      // v уже конец текущей стены — не junction
+      if (vid === wall.v1 || vid === wall.v2) continue;
+      const v = plan.vertices.find(v => v.id === vid); if (!v) continue;
+      // проекция v на стену
+      const a = plan.vertices.find(x => x.id === wall.v1);
+      const b = plan.vertices.find(x => x.id === wall.v2);
+      if (!a || !b) continue;
+      const ax = b.x - a.x, ay = b.y - a.y;
+      const len2 = ax*ax + ay*ay; if (len2 < 1) continue;
+      const t = ((v.x - a.x) * ax + (v.y - a.y) * ay) / len2;
+      if (t <= 0.001 || t >= 0.999) continue;
+      // расстояние точки до линии
+      const px = a.x + t*ax, py = a.y + t*ay;
+      const d = Math.hypot(v.x - px, v.y - py);
+      if (d > 50) continue; // не на стене
+      const offset = Math.round(t * Math.sqrt(len2));
+      const oldJ = oldAnchors.find(a => a.type === 'wall_junction' && a.objectId === other.id);
+      // избегаем дубликата
+      if (anchors.find(a => a.type === 'wall_junction' && a.objectId === other.id)) continue;
+      anchors.push({
+        id: oldJ ? oldJ.id : nextAnchorId(floor, plan.walls),
+        type: 'wall_junction', objectId: other.id, offsetMm: offset
+      });
+    }
+  }
+
+  // Сохранённые user_point, приведённые в границы [0..L]
+  for (const up of kept) {
+    if (up.offsetMm < 0 || up.offsetMm > L) continue;
+    anchors.push(up);
+  }
+
+  anchors.sort((a, b) => a.offsetMm - b.offsetMm);
+  wall.anchors = anchors;
+}
+
+function ensureAllAnchors(plan, floor) {
+  for (const w of plan.walls) rebuildWallAnchors(w, plan, floor);
+}
+
+// Описание участка цепочки — короткая подпись.
+function describeAnchor(a) {
+  switch (a.type) {
+    case 'wall_start': return 'начало стены';
+    case 'wall_end':   return 'конец стены';
+    case 'opening_start': return 'начало ' + (a.objectId || '?');
+    case 'opening_end':   return 'конец '  + (a.objectId || '?');
+    case 'wall_junction': return 'стык со ' + (a.objectId || '?');
+    case 'user_point':    return a.label || 'точка ' + a.id;
+    default: return a.id;
+  }
+}
+
+function computeChainSegments(wall) {
+  const anchors = [...(wall.anchors || [])].sort((a, b) => a.offsetMm - b.offsetMm);
+  const out = [];
+  for (let i = 0; i < anchors.length - 1; i++) {
+    const from = anchors[i], to = anchors[i+1];
+    const valueMm = Math.max(0, Math.round(to.offsetMm - from.offsetMm));
+    // Специальный лейбл: если участок — ширина одного проёма
+    let label;
+    if (from.type === 'opening_start' && to.type === 'opening_end' && from.objectId && from.objectId === to.objectId) {
+      label = 'Ширина ' + from.objectId;
+    } else {
+      label = describeAnchor(from) + ' → ' + describeAnchor(to);
+    }
+    out.push({ from, to, valueMm, label, isOpeningWidth: label.startsWith('Ширина ') });
+  }
+  return out;
+}
+
+// Применить изменение участка цепочки. Возвращает { changed, hint }.
+function applyChainSegmentChange(wall, segment, newValueMm) {
+  const delta = newValueMm - segment.valueMm;
+  const from = segment.from, to = segment.to;
+
+  // 1. Участок «ширина проёма» — меняем width самого проёма
+  if (segment.isOpeningWidth) {
+    const obj = findById(state.plan.doors, from.objectId) || findById(state.plan.windows, from.objectId);
+    if (!obj) return { changed:false, hint:'проём не найден' };
+    pushHistory();
+    obj.width = obj.width || m(900, 'estimated');
+    obj.width.value = Math.max(1, Math.round(newValueMm));
+    obj.width.status = 'entered';
+    obj.width.source = 'user';
+    return { changed:true, hint:'ширина '+obj.id+' обновлена' };
+  }
+
+  // 2. `to` — начало/конец проёма → двигаем проём целиком, ширина не меняется
+  if (to.type === 'opening_start' || to.type === 'opening_end') {
+    const obj = findById(state.plan.doors, to.objectId) || findById(state.plan.windows, to.objectId);
+    if (!obj) return { changed:false, hint:'проём не найден' };
+    pushHistory();
+    const width = numOr(obj.width) || 900;
+    let newDist;
+    if (to.type === 'opening_start') {
+      // Новый offset начала = from.offsetMm + newValueMm
+      newDist = from.offsetMm + newValueMm;
+    } else {
+      // to = конец проёма → distance = (from.offsetMm + newValueMm) - width
+      newDist = from.offsetMm + newValueMm - width;
+    }
+    obj.distance = obj.distance || m(0, 'estimated');
+    obj.distance.value = Math.max(0, Math.round(newDist));
+    obj.distance.status = 'entered';
+    obj.distance.source = 'user';
+    return { changed:true, hint:'проём '+obj.id+' сдвинут' };
+  }
+
+  // 3. `to` — конец стены → двигаем v2 вдоль оси стены
+  if (to.type === 'wall_end') {
+    const a = vById(wall.v1), b = vById(wall.v2);
+    const cur = Math.hypot(b.x - a.x, b.y - a.y);
+    if (cur < 1) return { changed:false, hint:'нулевая стена' };
+    pushHistory();
+    const newLen = from.offsetMm + newValueMm;
+    const k = newLen / cur;
+    b.x = Math.round(a.x + (b.x - a.x) * k);
+    b.y = Math.round(a.y + (b.y - a.y) * k);
+    // Обновляем declaredLength
+    wall.declaredLength = wall.declaredLength || m(null, 'unknown');
+    wall.declaredLength.value = Math.round(newLen);
+    wall.declaredLength.status = 'entered';
+    wall.declaredLength.source = 'user';
+    return { changed:true, hint:'длина стены обновлена' };
+  }
+
+  // 4. Иное (junction, user_point) — пока не поддерживается через число
+  return { changed:false, hint:'этот тип участка пока не редактируется числом' };
+}
+
 // Снап направления по шагу 45° от опорной точки (аналог Shift в графредакторах)
 function snapAngle45(x0, y0, x, y) {
   const dx = x - x0, dy = y - y0;
@@ -325,16 +518,97 @@ function computeWarnings() {
       if (diff > 5) warns.push({ type:'wall-len', id:w.id, text:`Стена ${w.id}: геометрия ${Math.round(wallLen(w))} мм ≠ заявленной ${w.declaredLength.value} мм` });
     }
   }
+  // v3: невязка суммы участков размерной цепочки
+  const tol = (state.plan.settings && state.plan.settings.chainTolerance) || 5;
+  for (const w of state.plan.walls) {
+    const segs = computeChainSegments(w);
+    if (segs.length < 1) continue;
+    const sum = segs.reduce((s, x) => s + x.valueMm, 0);
+    const L = Math.round(wallLen(w));
+    const diff = Math.abs(sum - L);
+    if (diff > tol) {
+      warns.push({ type:'chain-sum', id: w.id, text:`Стена ${w.id}: сумма цепочки ${sum} мм ≠ длине ${L} мм (Δ=${sum - L} мм)` });
+    }
+  }
   return warns;
 }
 
 // ---- Рендеринг ----
 function render() {
+  // v3: перегенерировать якоря каждой стены (из door.distance/width + T-примыканий)
+  ensureAllAnchors(state.plan, state.currentFloor);
   applyViewportTransform();
   renderRooms(); renderWalls(); renderStairs(); renderFurniture();
   renderOpenings(); renderVertices(); renderLabels();
+  renderSelectedWallAnchors();
   renderInspector(); renderUnknowns(); renderWarnings();
   applyLayerToggles(); updateFloorButtons();
+}
+
+// Отрисовка якорей и размерных засечек на выделенной стене (v3)
+function renderSelectedWallAnchors() {
+  const overlay = $('layerOverlay');
+  // Удаляем предыдущие маркеры/линии цепочки
+  overlay.querySelectorAll('.chain-marker, .chain-line, .chain-tick, .chain-value').forEach(el => el.remove());
+  const sel = state.ui.selected;
+  if (!sel || sel.type !== 'wall') return;
+  const w = findById(state.plan.walls, sel.id); if (!w) return;
+  const a = vById(w.v1), b = vById(w.v2); if (!a || !b) return;
+  const ang = Math.atan2(b.y - a.y, b.x - a.x);
+  const cx = Math.cos(ang), sy = Math.sin(ang);
+  const nx = -sy, ny = cx;
+  const th = numOr(w.thickness) || (w.type === 'exterior' ? DEFAULT_THICKNESS_EXT : DEFAULT_THICKNESS_INT);
+  const off = th / 2 + 700; // размерная линия — 700 мм от стены наружу
+
+  // Размерная линия
+  const L = wallLen(w);
+  const lx1 = a.x + nx * off, ly1 = a.y + ny * off;
+  const lx2 = a.x + cx * L + nx * off, ly2 = a.y + sy * L + ny * off;
+  overlay.appendChild(svgEl('line', {
+    x1: lx1, y1: ly1, x2: lx2, y2: ly2,
+    class:'chain-line', stroke:'#666', 'stroke-width': 40, 'pointer-events':'none'
+  }));
+
+  const anchors = [...(w.anchors || [])].sort((a1,a2) => a1.offsetMm - a2.offsetMm);
+  const colorForType = (t) => (
+    t === 'wall_start' || t === 'wall_end' ? '#2a6ed6' :
+    t === 'opening_start' || t === 'opening_end' ? '#b56b00' :
+    t === 'wall_junction' ? '#d4a017' :
+    t === 'user_point' ? '#7b3fb7' : '#666'
+  );
+  // Маркеры якорей и засечки на размерной линии
+  for (const anc of anchors) {
+    const px = a.x + cx * anc.offsetMm;
+    const py = a.y + sy * anc.offsetMm;
+    // Круг на стене
+    overlay.appendChild(svgEl('circle', {
+      cx: px + nx*(th/2 + 100), cy: py + ny*(th/2 + 100), r: 90,
+      class: 'chain-marker', fill: colorForType(anc.type),
+      stroke:'#fff', 'stroke-width': 30, 'pointer-events':'none'
+    }));
+    // Засечка на размерной линии
+    overlay.appendChild(svgEl('line', {
+      x1: px + nx*(off - 120), y1: py + ny*(off - 120),
+      x2: px + nx*(off + 120), y2: py + ny*(off + 120),
+      class:'chain-tick', stroke:'#333', 'stroke-width': 40, 'pointer-events':'none'
+    }));
+  }
+  // Значения участков — число между засечками
+  const segs = computeChainSegments(w);
+  for (const seg of segs) {
+    const mid = (seg.from.offsetMm + seg.to.offsetMm) / 2;
+    const px = a.x + cx * mid + nx * (off + 260);
+    const py = a.y + sy * mid + ny * (off + 260);
+    const txt = svgEl('text', {
+      x: px, y: py,
+      class:'chain-value', 'text-anchor':'middle', 'dominant-baseline':'middle',
+      fill: seg.isOpeningWidth ? '#7a5a20' : '#333',
+      'font-size': 220, 'paint-order':'stroke', stroke:'#fff', 'stroke-width': 60,
+      'pointer-events':'none'
+    });
+    txt.textContent = seg.valueMm + ' мм';
+    overlay.appendChild(txt);
+  }
 }
 
 function updateFloorButtons() {
@@ -672,7 +946,82 @@ function renderWallInspector(el, w) {
   el.appendChild(fieldMeasure('Толщина (мм)', w.thickness, obj => { pushHistory(); w.thickness=obj; render(); }));
   el.appendChild(fieldMeasure('Высота (мм)', w.height, obj => { pushHistory(); w.height=obj; render(); }));
   el.appendChild(fieldText('Примечание', w.note, v => { pushHistory(); w.note=v; render(); }, true));
+
+  // v3: секция размерной цепочки
+  renderChainSection(el, w);
+
   actionsRow(el, [{ label:'Удалить', danger:true, onClick: () => { if (confirm('Удалить стену '+w.id+'?')) { pushHistory(); removeWall(w.id); } } }]);
+}
+
+function renderChainSection(el, wall) {
+  const wrap = document.createElement('div');
+  wrap.className = 'chain-section';
+  const head = document.createElement('div');
+  head.className = 'chain-head';
+  head.textContent = 'Размерная цепочка';
+  wrap.appendChild(head);
+
+  const segs = computeChainSegments(wall);
+  if (segs.length === 0) {
+    const empty = document.createElement('div'); empty.className='hint';
+    empty.textContent = 'Нет якорей. Добавьте окно/дверь или пользовательскую точку.';
+    wrap.appendChild(empty);
+  } else {
+    segs.forEach((seg, i) => {
+      const row = document.createElement('div');
+      row.className = 'chain-row';
+      const lab = document.createElement('div');
+      lab.className = 'chain-lab';
+      lab.textContent = (i+1) + '. ' + seg.label;
+      const inp = document.createElement('input');
+      inp.type = 'number'; inp.min = '0'; inp.step = '1';
+      inp.className = 'chain-inp';
+      inp.value = seg.valueMm;
+      inp.addEventListener('change', () => {
+        const v = parseInt(inp.value, 10);
+        if (isNaN(v) || v < 0) { inp.value = seg.valueMm; return; }
+        const res = applyChainSegmentChange(wall, seg, v);
+        if (!res.changed) alert(res.hint || 'Не удалось применить');
+        render();
+      });
+      row.appendChild(lab); row.appendChild(inp);
+      wrap.appendChild(row);
+    });
+    const sum = segs.reduce((s, x) => s + x.valueMm, 0);
+    const geomLen = Math.round(wallLen(wall));
+    const total = document.createElement('div');
+    total.className = 'chain-total';
+    const diff = sum - geomLen;
+    const tol = (state.plan.settings && state.plan.settings.chainTolerance) || 5;
+    if (Math.abs(diff) <= tol) {
+      total.innerHTML = `<span>Сумма: <b>${sum} мм</b></span>  <span style="color:var(--st-verified)">✓ = ${geomLen} мм</span>`;
+    } else {
+      total.innerHTML = `<span>Сумма: <b>${sum} мм</b></span>  <span style="color:var(--st-conflict)">⚠ ≠ ${geomLen} мм (Δ=${diff})</span>`;
+    }
+    wrap.appendChild(total);
+  }
+
+  // Кнопка добавить пользовательскую точку
+  const addBtn = document.createElement('button');
+  addBtn.textContent = '+ Точка на стене';
+  addBtn.className = 'chain-add-btn';
+  addBtn.addEventListener('click', () => {
+    const L = Math.round(wallLen(wall));
+    const raw = prompt('Расстояние от начала стены (мм, 0..' + L + '):');
+    if (raw == null) return;
+    const offset = parseInt(raw, 10);
+    if (isNaN(offset) || offset < 0 || offset > L) { alert('Некорректное значение'); return; }
+    const label = prompt('Подпись точки (например «край колонны»):') || 'точка';
+    pushHistory();
+    const id = nextAnchorId(state.currentFloor, state.plan.walls);
+    wall.anchors = wall.anchors || [];
+    wall.anchors.push({ id, type:'user_point', offsetMm: offset, label });
+    wall.anchors.sort((a,b) => a.offsetMm - b.offsetMm);
+    render();
+  });
+  wrap.appendChild(addBtn);
+
+  el.appendChild(wrap);
 }
 function applyDeclaredLength(w) {
   if (!w.declaredLength || w.declaredLength.value == null) return;
