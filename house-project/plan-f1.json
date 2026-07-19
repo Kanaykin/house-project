@@ -35,29 +35,24 @@
       "y": 3540
     },
     {
-      "id": "v007",
-      "x": 5032,
-      "y": 7244
-    },
-    {
       "id": "v008",
       "x": 9400,
       "y": 900
     },
     {
       "id": "v010",
-      "x": 6750,
-      "y": 3860
+      "x": 6700,
+      "y": 3893
     },
     {
       "id": "v011",
       "x": 9400,
-      "y": 3860
+      "y": 3893
     },
     {
       "id": "v012",
-      "x": 6689,
-      "y": 5717
+      "x": 6700,
+      "y": 5750
     },
     {
       "id": "v013",
@@ -90,9 +85,9 @@
       "y": 9700
     },
     {
-      "id": "v017",
-      "x": 6713,
-      "y": 7232
+      "id": "v232583",
+      "x": 5050,
+      "y": 7350
     }
   ],
   "walls": [
@@ -168,7 +163,7 @@
         "source": "image",
         "note": ""
       },
-      "note": "вторая половина после сплита; первая часть — F1-W26",
+      "note": "",
       "anchors": [
         {
           "id": "F1-A02",
@@ -178,31 +173,19 @@
         {
           "id": "F1-A02",
           "type": "opening_start",
-          "objectId": "F1-O02",
-          "offsetMm": 909
-        },
-        {
-          "id": "F1-A02",
-          "type": "opening_end",
-          "objectId": "F1-O02",
-          "offsetMm": 1809
-        },
-        {
-          "id": "F1-A02",
-          "type": "opening_start",
           "objectId": "F1-O03",
-          "offsetMm": 4171
+          "offsetMm": 1531
         },
         {
           "id": "F1-A02",
           "type": "opening_end",
           "objectId": "F1-O03",
-          "offsetMm": 5421
+          "offsetMm": 2781
         },
         {
           "id": "F1-A02",
           "type": "wall_end",
-          "offsetMm": 6450
+          "offsetMm": 3810
         }
       ]
     },
@@ -300,14 +283,14 @@
         {
           "id": "F1-A04",
           "type": "wall_end",
-          "offsetMm": 4637
+          "offsetMm": 4791
         }
       ]
     },
     {
       "id": "F1-W05",
       "v1": "v002",
-      "v2": "v007",
+      "v2": "v006",
       "type": "partition",
       "thickness": {
         "value": 100,
@@ -336,26 +319,8 @@
         },
         {
           "id": "F1-A05",
-          "type": "wall_junction",
-          "objectId": "F1-W04",
-          "offsetMm": 2640
-        },
-        {
-          "id": "F1-A05",
-          "type": "opening_start",
-          "objectId": "F1-D05",
-          "offsetMm": 4654
-        },
-        {
-          "id": "F1-A05",
-          "type": "opening_end",
-          "objectId": "F1-D05",
-          "offsetMm": 5554
-        },
-        {
-          "id": "F1-A05",
           "type": "wall_end",
-          "offsetMm": 6344
+          "offsetMm": 2640
         }
       ]
     },
@@ -440,26 +405,8 @@
         },
         {
           "id": "F1-A07",
-          "type": "wall_junction",
-          "objectId": "F1-W08",
-          "offsetMm": 2960
-        },
-        {
-          "id": "F1-A07",
-          "type": "opening_start",
-          "objectId": "F1-D08",
-          "offsetMm": 3318
-        },
-        {
-          "id": "F1-A07",
-          "type": "opening_end",
-          "objectId": "F1-D08",
-          "offsetMm": 4218
-        },
-        {
-          "id": "F1-A07",
           "type": "wall_end",
-          "offsetMm": 4850
+          "offsetMm": 2960
         }
       ]
     },
@@ -496,7 +443,7 @@
         {
           "id": "F1-A08",
           "type": "wall_end",
-          "offsetMm": 2650
+          "offsetMm": 2720
         }
       ]
     },
@@ -760,7 +707,7 @@
     },
     {
       "id": "F1-W20",
-      "v1": "v018",
+      "v1": "v232583",
       "v2": "v016",
       "type": "partition",
       "thickness": {
@@ -792,85 +739,18 @@
           "id": "F1-A15",
           "type": "opening_start",
           "objectId": "F1-D10",
-          "offsetMm": 1587
+          "offsetMm": 217
         },
         {
           "id": "F1-A15",
           "type": "opening_end",
           "objectId": "F1-D10",
-          "offsetMm": 2487
+          "offsetMm": 1117
         },
         {
           "id": "F1-A15",
           "type": "wall_end",
-          "offsetMm": 3050
-        }
-      ]
-    },
-    {
-      "id": "F1-W21",
-      "v1": "v017",
-      "v2": "v010",
-      "type": "partition",
-      "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
-      },
-      "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "note": "",
-      "anchors": [
-        {
-          "id": "F1-A16",
-          "type": "wall_start",
-          "offsetMm": 0
-        },
-        {
-          "id": "F1-A16",
-          "type": "opening_start",
-          "objectId": "F1-D12",
-          "offsetMm": 230
-        },
-        {
-          "id": "F1-A16",
-          "type": "opening_end",
-          "objectId": "F1-D12",
-          "offsetMm": 1130
-        },
-        {
-          "id": "F1-A16",
-          "type": "wall_junction",
-          "objectId": "F1-W12",
-          "offsetMm": 1515
-        },
-        {
-          "id": "F1-A16",
-          "type": "opening_start",
-          "objectId": "F1-D11",
-          "offsetMm": 1888
-        },
-        {
-          "id": "F1-A16",
-          "type": "opening_end",
-          "objectId": "F1-D11",
-          "offsetMm": 2788
-        },
-        {
-          "id": "F1-A16",
-          "type": "wall_end",
-          "offsetMm": 3372
+          "offsetMm": 1657
         }
       ]
     },
@@ -898,7 +778,30 @@
         "note": ""
       },
       "note": "split из F1-W07 в v011",
-      "anchors": []
+      "anchors": [
+        {
+          "id": "F1-A18",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A18",
+          "type": "opening_start",
+          "objectId": "F1-D08",
+          "offsetMm": 358
+        },
+        {
+          "id": "F1-A18",
+          "type": "opening_end",
+          "objectId": "F1-D08",
+          "offsetMm": 1258
+        },
+        {
+          "id": "F1-A18",
+          "type": "wall_end",
+          "offsetMm": 1890
+        }
+      ]
     },
     {
       "id": "F1-W23",
@@ -924,7 +827,18 @@
         "note": ""
       },
       "note": "создано для замыкания F1-R03 (запад)",
-      "anchors": []
+      "anchors": [
+        {
+          "id": "F1-A19",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A19",
+          "type": "wall_end",
+          "offsetMm": 1848
+        }
+      ]
     },
     {
       "id": "F1-W24",
@@ -950,7 +864,67 @@
         "note": ""
       },
       "note": "создано для замыкания F1-R04 (запад)",
-      "anchors": []
+      "anchors": [
+        {
+          "id": "F1-A20",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A20",
+          "type": "wall_end",
+          "offsetMm": 1609
+        }
+      ]
+    },
+    {
+      "id": "F1-W25",
+      "v1": "v006",
+      "v2": "v232583",
+      "type": "partition",
+      "thickness": {
+        "value": 100,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F1-W05",
+      "anchors": [
+        {
+          "id": "F1-A21",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A21",
+          "type": "opening_start",
+          "objectId": "F1-D05",
+          "offsetMm": 2014
+        },
+        {
+          "id": "F1-A21",
+          "type": "opening_end",
+          "objectId": "F1-D05",
+          "offsetMm": 2914
+        },
+        {
+          "id": "F1-A21",
+          "type": "wall_end",
+          "offsetMm": 3799
+        }
+      ]
     },
     {
       "id": "F1-W26",
@@ -975,15 +949,75 @@
         "source": "image",
         "note": ""
       },
-      "note": "первая половина от сплита F1-W02",
-      "anchors": []
+      "note": "split из F1-W02",
+      "anchors": [
+        {
+          "id": "F1-A22",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A22",
+          "type": "opening_start",
+          "objectId": "F1-O02",
+          "offsetMm": 909
+        },
+        {
+          "id": "F1-A22",
+          "type": "opening_end",
+          "objectId": "F1-O02",
+          "offsetMm": 1809
+        },
+        {
+          "id": "F1-A22",
+          "type": "wall_end",
+          "offsetMm": 2640
+        }
+      ]
+    },
+    {
+      "id": "F1-W27",
+      "v1": "v018",
+      "v2": "v232583",
+      "type": "partition",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "user",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F1-W20",
+      "anchors": [
+        {
+          "id": "F1-A23",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F1-A23",
+          "type": "wall_end",
+          "offsetMm": 1393
+        }
+      ]
     }
   ],
   "rooms": [
     {
-      "id": "F1-R03",
-      "name": "Средняя правая комната",
-      "suggestedUse": "комната / санузел / хозяйственное помещение",
+      "id": "F1-R07",
+      "name": "F1-R07",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -991,24 +1025,24 @@
         "source": "image",
         "note": ""
       },
-      "walls": [
-        "F1-W08",
-        "F1-W22",
-        "F1-W12",
-        "F1-W23"
-      ],
-      "note": "Вход предположительно сверху или из центральной зоны",
       "vertices": [
-        "v010",
-        "v011",
-        "v013",
-        "v012"
-      ]
+        "v001",
+        "v005",
+        "v006",
+        "v002"
+      ],
+      "walls": [
+        "F1-W26",
+        "F1-W04",
+        "F1-W05",
+        "F1-W01"
+      ],
+      "note": ""
     },
     {
-      "id": "F1-R04",
-      "name": "Нижняя правая комната",
-      "suggestedUse": "комната / кухня / хозяйственное помещение",
+      "id": "F1-R08",
+      "name": "F1-R08",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1016,24 +1050,23 @@
         "source": "image",
         "note": ""
       },
-      "walls": [
-        "F1-W12",
-        "F1-W14",
-        "F1-W15",
-        "F1-W24"
-      ],
-      "note": "Вход расположен со стороны центральной зоны",
       "vertices": [
-        "v012",
-        "v013",
-        "v015",
-        "v016"
-      ]
+        "v005",
+        "v003",
+        "v232583",
+        "v006"
+      ],
+      "walls": [
+        "F1-W02",
+        "F1-W25",
+        "F1-W04"
+      ],
+      "note": ""
     },
     {
-      "id": "F1-R05",
-      "name": "Нижний центральный выступ",
-      "suggestedUse": "тамбур / крыльцо / веранда",
+      "id": "F1-R09",
+      "name": "F1-R09",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1041,24 +1074,53 @@
         "source": "image",
         "note": ""
       },
-      "walls": [
-        "F1-W17",
-        "F1-W18",
-        "F1-W19",
-        "F1-W20"
+      "vertices": [
+        "v005",
+        "v003",
+        "v018",
+        "v232583",
+        "v006"
       ],
-      "note": "Связан с основным этажом через центральный вход",
+      "walls": [
+        "F1-W02",
+        "F1-W03",
+        "F1-W27",
+        "F1-W25",
+        "F1-W04"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F1-R10",
+      "name": "F1-R10",
+      "suggestedUse": "",
+      "verifiedUse": null,
+      "ceilingHeight": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
       "vertices": [
         "v018",
         "v019",
         "v020",
-        "v016"
-      ]
+        "v016",
+        "v232583"
+      ],
+      "walls": [
+        "F1-W17",
+        "F1-W18",
+        "F1-W19",
+        "F1-W20",
+        "F1-W27"
+      ],
+      "note": ""
     },
     {
-      "id": "F1-R06",
-      "name": "Центральная проходная зона",
-      "suggestedUse": "коридор / холл",
+      "id": "F1-R11",
+      "name": "F1-R11",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1066,12 +1128,77 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v012",
+        "v016",
+        "v015",
+        "v013"
+      ],
+      "walls": [
+        "F1-W24",
+        "F1-W15",
+        "F1-W14",
+        "F1-W12"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F1-R12",
+      "name": "F1-R12",
+      "suggestedUse": "",
+      "verifiedUse": null,
+      "ceilingHeight": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "vertices": [
+        "v010",
+        "v012",
+        "v013",
+        "v011"
+      ],
+      "walls": [
+        "F1-W23",
+        "F1-W12",
+        "F1-W22",
+        "F1-W08"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F1-R13",
+      "name": "F1-R13",
+      "suggestedUse": "",
+      "verifiedUse": null,
+      "ceilingHeight": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "vertices": [
+        "v002",
+        "v006",
+        "v232583",
+        "v016",
+        "v012",
+        "v010",
+        "v011",
+        "v008"
+      ],
       "walls": [
         "F1-W05",
-        "F1-W06",
-        "F1-W17"
+        "F1-W25",
+        "F1-W20",
+        "F1-W24",
+        "F1-W23",
+        "F1-W08",
+        "F1-W07",
+        "F1-W06"
       ],
-      "note": "Связывает левую зону, правые комнаты, лестницу и нижний вход"
+      "note": ""
     }
   ],
   "doors": [
@@ -1102,9 +1229,9 @@
     },
     {
       "id": "F1-D05",
-      "wallId": "F1-W05",
+      "wallId": "F1-W25",
       "distance": {
-        "value": 4654,
+        "value": 2014,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1179,57 +1306,7 @@
       "id": "F1-D10",
       "wallId": "F1-W20",
       "distance": {
-        "value": 1587,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "width": {
-        "value": 900,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "hinge": "right",
-      "swing": "in",
-      "note": ""
-    },
-    {
-      "id": "F1-D11",
-      "wallId": "F1-W21",
-      "distance": {
-        "value": 1888,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "width": {
-        "value": 900,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
-      },
-      "hinge": "right",
-      "swing": "in",
-      "note": ""
-    },
-    {
-      "id": "F1-D12",
-      "wallId": "F1-W21",
-      "distance": {
-        "value": 230,
+        "value": 217,
         "status": "entered",
         "source": "user",
         "note": ""

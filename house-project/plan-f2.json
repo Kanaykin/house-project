@@ -22,7 +22,7 @@
     {
       "id": "v003",
       "x": 600,
-      "y": 3804
+      "y": 3826
     },
     {
       "id": "v004",
@@ -41,68 +41,63 @@
     },
     {
       "id": "v007",
-      "x": 586,
+      "x": 600,
       "y": 7500
     },
     {
       "id": "v008",
-      "x": 6534,
+      "x": 6578,
       "y": 7500
     },
     {
       "id": "v009",
-      "x": 9306,
-      "y": 1245
+      "x": 9303,
+      "y": 1250
     },
     {
       "id": "v010",
-      "x": 9300,
+      "x": 9303,
       "y": 5350
     },
     {
       "id": "v012",
-      "x": 6550,
+      "x": 6578,
       "y": 2996
     },
     {
       "id": "v015",
-      "x": 6550,
+      "x": 6578,
       "y": 5350
     },
     {
       "id": "v016",
-      "x": 9300,
-      "y": 7450
-    },
-    {
-      "id": "v017",
-      "x": 6553,
-      "y": 7453
-    },
-    {
-      "id": "v018",
-      "x": 3550,
+      "x": 9303,
       "y": 7500
     },
     {
       "id": "v019",
-      "x": 3550,
+      "x": 3576,
       "y": 9700
     },
     {
       "id": "v020",
-      "x": 6600,
+      "x": 6578,
       "y": 9700
     },
     {
-      "id": "v322132",
-      "x": 9192,
-      "y": 2984
+      "id": "v791670",
+      "x": 9303,
+      "y": 2996
     },
     {
-      "id": "v741439",
+      "id": "v984728",
       "x": 5000,
-      "y": 7397
+      "y": 7500
+    },
+    {
+      "id": "v460156",
+      "x": 3576,
+      "y": 7500
     }
   ],
   "walls": [
@@ -323,7 +318,7 @@
         {
           "id": "F2-A05",
           "type": "wall_end",
-          "offsetMm": 1696
+          "offsetMm": 1681
         }
       ]
     },
@@ -360,7 +355,7 @@
         {
           "id": "F2-A06",
           "type": "wall_end",
-          "offsetMm": 4400
+          "offsetMm": 4415
         }
       ]
     },
@@ -458,13 +453,13 @@
         {
           "id": "F2-A08",
           "type": "wall_end",
-          "offsetMm": 2000
+          "offsetMm": 2015
         }
       ]
     },
     {
       "id": "F2-W09",
-      "v1": "v007",
+      "v1": "v984728",
       "v2": "v008",
       "type": "exterior",
       "thickness": {
@@ -495,37 +490,19 @@
         {
           "id": "F2-A09",
           "type": "opening_start",
-          "objectId": "F2-O05",
-          "offsetMm": 725
-        },
-        {
-          "id": "F2-A09",
-          "type": "opening_end",
-          "objectId": "F2-O05",
-          "offsetMm": 1675
-        },
-        {
-          "id": "F2-A09",
-          "type": "wall_junction",
-          "objectId": "F2-W21",
-          "offsetMm": 2964
-        },
-        {
-          "id": "F2-A09",
-          "type": "opening_start",
           "objectId": "F2-D10",
-          "offsetMm": 4625
+          "offsetMm": 237
         },
         {
           "id": "F2-A09",
           "type": "opening_end",
           "objectId": "F2-D10",
-          "offsetMm": 5525
+          "offsetMm": 1137
         },
         {
           "id": "F2-A09",
           "type": "wall_end",
-          "offsetMm": 5948
+          "offsetMm": 1581
         }
       ]
     },
@@ -580,7 +557,7 @@
     },
     {
       "id": "F2-W12",
-      "v1": "v009",
+      "v1": "v791670",
       "v2": "v010",
       "type": "exterior",
       "thickness": {
@@ -612,18 +589,18 @@
           "id": "F2-A11",
           "type": "opening_start",
           "objectId": "F2-O07",
-          "offsetMm": 2319
+          "offsetMm": 589
         },
         {
           "id": "F2-A11",
           "type": "opening_end",
           "objectId": "F2-O07",
-          "offsetMm": 3569
+          "offsetMm": 1839
         },
         {
           "id": "F2-A11",
           "type": "wall_end",
-          "offsetMm": 4105
+          "offsetMm": 2375
         }
       ]
     },
@@ -746,14 +723,14 @@
         {
           "id": "F2-A14",
           "type": "wall_end",
-          "offsetMm": 2100
+          "offsetMm": 2162
         }
       ]
     },
     {
       "id": "F2-W19",
       "v1": "v016",
-      "v2": "v017",
+      "v2": "v008",
       "type": "exterior",
       "thickness": {
         "value": 300,
@@ -795,14 +772,14 @@
         {
           "id": "F2-A15",
           "type": "wall_end",
-          "offsetMm": 2747
+          "offsetMm": 2704
         }
       ]
     },
     {
       "id": "F2-W20",
       "v1": "v015",
-      "v2": "v017",
+      "v2": "v008",
       "type": "partition",
       "thickness": {
         "value": 100,
@@ -844,13 +821,13 @@
         {
           "id": "F2-A16",
           "type": "wall_end",
-          "offsetMm": 2103
+          "offsetMm": 2139
         }
       ]
     },
     {
       "id": "F2-W21",
-      "v1": "v018",
+      "v1": "v460156",
       "v2": "v019",
       "type": "exterior",
       "thickness": {
@@ -937,7 +914,7 @@
     {
       "id": "F2-W23",
       "v1": "v020",
-      "v2": "v017",
+      "v2": "v008",
       "type": "exterior",
       "thickness": {
         "value": 300,
@@ -966,20 +943,14 @@
         },
         {
           "id": "F2-A19",
-          "type": "wall_junction",
-          "objectId": "F2-W09",
-          "offsetMm": 2201
-        },
-        {
-          "id": "F2-A19",
           "type": "wall_end",
-          "offsetMm": 2247
+          "offsetMm": 2211
         }
       ]
     },
     {
       "id": "F2-W25",
-      "v1": "v322132",
+      "v1": "v791670",
       "v2": "v012",
       "type": "partition",
       "thickness": {
@@ -1010,14 +981,14 @@
         {
           "id": "F2-A20",
           "type": "wall_end",
-          "offsetMm": 2642
+          "offsetMm": 2753
         }
       ]
     },
     {
       "id": "F2-W26",
       "v1": "v006",
-      "v2": "v741439",
+      "v2": "v984728",
       "type": "partition",
       "thickness": {
         "value": 100,
@@ -1059,7 +1030,130 @@
         {
           "id": "F2-A21",
           "type": "wall_end",
-          "offsetMm": 1897
+          "offsetMm": 2000
+        }
+      ]
+    },
+    {
+      "id": "F2-W27",
+      "v1": "v009",
+      "v2": "v791670",
+      "type": "exterior",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F2-W12",
+      "anchors": [
+        {
+          "id": "F2-A22",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A22",
+          "type": "wall_end",
+          "offsetMm": 1730
+        }
+      ]
+    },
+    {
+      "id": "F2-W28",
+      "v1": "v460156",
+      "v2": "v984728",
+      "type": "exterior",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F2-W09",
+      "anchors": [
+        {
+          "id": "F2-A23",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A23",
+          "type": "wall_end",
+          "offsetMm": 1421
+        }
+      ]
+    },
+    {
+      "id": "F2-W29",
+      "v1": "v007",
+      "v2": "v460156",
+      "type": "exterior",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F2-W09 (split из F2-W28)",
+      "anchors": [
+        {
+          "id": "F2-A24",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A24",
+          "type": "opening_start",
+          "objectId": "F2-O05",
+          "offsetMm": 725
+        },
+        {
+          "id": "F2-A24",
+          "type": "opening_end",
+          "objectId": "F2-O05",
+          "offsetMm": 1675
+        },
+        {
+          "id": "F2-A24",
+          "type": "wall_end",
+          "offsetMm": 2990
         }
       ]
     }
@@ -1067,8 +1161,8 @@
   "rooms": [
     {
       "id": "F2-R01",
-      "name": "Верхняя левая комната",
-      "suggestedUse": "спальня / кабинет",
+      "name": "F2-R01",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1076,18 +1170,24 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v001",
+        "v003",
+        "v004",
+        "v002"
+      ],
       "walls": [
-        "F2-W01",
         "F2-W02",
         "F2-W03",
-        "F2-W04"
+        "F2-W04",
+        "F2-W01"
       ],
       "note": ""
     },
     {
       "id": "F2-R02",
-      "name": "Средняя левая комната",
-      "suggestedUse": "спальня",
+      "name": "F2-R02",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1095,18 +1195,24 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v003",
+        "v005",
+        "v006",
+        "v004"
+      ],
       "walls": [
-        "F2-W03",
         "F2-W05",
         "F2-W06",
-        "F2-W07"
+        "F2-W07",
+        "F2-W03"
       ],
       "note": ""
     },
     {
       "id": "F2-R03",
-      "name": "Нижняя левая комната",
-      "suggestedUse": "спальня / кабинет",
+      "name": "F2-R03",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1114,17 +1220,53 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v005",
+        "v007",
+        "v460156",
+        "v984728",
+        "v006"
+      ],
       "walls": [
-        "F2-W06",
         "F2-W08",
-        "F2-W09"
+        "F2-W29",
+        "F2-W28",
+        "F2-W26",
+        "F2-W06"
+      ],
+      "note": ""
+    },
+    {
+      "id": "F2-R04",
+      "name": "F2-R04",
+      "suggestedUse": "",
+      "verifiedUse": null,
+      "ceilingHeight": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "vertices": [
+        "v460156",
+        "v019",
+        "v020",
+        "v008",
+        "v984728"
+      ],
+      "walls": [
+        "F2-W21",
+        "F2-W22",
+        "F2-W23",
+        "F2-W09",
+        "F2-W28"
       ],
       "note": ""
     },
     {
       "id": "F2-R05",
-      "name": "Средняя правая комната",
-      "suggestedUse": "спальня / общая комната",
+      "name": "F2-R05",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1132,16 +1274,24 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v015",
+        "v008",
+        "v016",
+        "v010"
+      ],
       "walls": [
-        "F2-W16",
-        "F2-W17"
+        "F2-W20",
+        "F2-W19",
+        "F2-W18",
+        "F2-W16"
       ],
       "note": ""
     },
     {
       "id": "F2-R06",
-      "name": "Нижняя правая комната",
-      "suggestedUse": "спальня / кабинет",
+      "name": "F2-R06",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1149,18 +1299,24 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v012",
+        "v015",
+        "v010",
+        "v791670"
+      ],
       "walls": [
+        "F2-W17",
         "F2-W16",
-        "F2-W18",
-        "F2-W19",
-        "F2-W20"
+        "F2-W12",
+        "F2-W25"
       ],
       "note": ""
     },
     {
       "id": "F2-R07",
-      "name": "Центральный коридор",
-      "suggestedUse": "коридор / холл",
+      "name": "F2-R07",
+      "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
         "value": null,
@@ -1168,29 +1324,27 @@
         "source": "image",
         "note": ""
       },
+      "vertices": [
+        "v984728",
+        "v008",
+        "v015",
+        "v012",
+        "v791670",
+        "v009",
+        "v002",
+        "v004",
+        "v006"
+      ],
       "walls": [
+        "F2-W09",
+        "F2-W20",
+        "F2-W17",
+        "F2-W25",
+        "F2-W27",
+        "F2-W11",
         "F2-W04",
         "F2-W07",
-        "F2-W17",
-        "F2-W20"
-      ],
-      "note": ""
-    },
-    {
-      "id": "F2-R08",
-      "name": "Нижний центральный выступ",
-      "suggestedUse": "балкон / веранда / тамбур",
-      "verifiedUse": null,
-      "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "walls": [
-        "F2-W21",
-        "F2-W22",
-        "F2-W23"
+        "F2-W26"
       ],
       "note": ""
     }
@@ -1325,7 +1479,7 @@
       "id": "F2-D10",
       "wallId": "F2-W09",
       "distance": {
-        "value": 4625,
+        "value": 237,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1437,7 +1591,7 @@
     },
     {
       "id": "F2-O05",
-      "wallId": "F2-W09",
+      "wallId": "F2-W29",
       "distance": {
         "value": 725,
         "status": "entered",
@@ -1497,7 +1651,7 @@
       "id": "F2-O07",
       "wallId": "F2-W12",
       "distance": {
-        "value": 2319,
+        "value": 589,
         "status": "entered",
         "source": "user",
         "note": ""
