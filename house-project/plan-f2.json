@@ -129,7 +129,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A01",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A01",
+          "type": "wall_end",
+          "offsetMm": 4400
+        }
+      ]
     },
     {
       "id": "F2-W02",
@@ -154,7 +166,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A02",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A02",
+          "type": "opening_start",
+          "objectId": "F2-O02",
+          "offsetMm": 478
+        },
+        {
+          "id": "F2-A02",
+          "type": "opening_end",
+          "objectId": "F2-O02",
+          "offsetMm": 1378
+        },
+        {
+          "id": "F2-A02",
+          "type": "wall_end",
+          "offsetMm": 2554
+        }
+      ]
     },
     {
       "id": "F2-W03",
@@ -179,7 +215,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A03",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A03",
+          "type": "wall_end",
+          "offsetMm": 4400
+        }
+      ]
     },
     {
       "id": "F2-W04",
@@ -204,7 +252,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A04",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A04",
+          "type": "opening_start",
+          "objectId": "F2-D08",
+          "offsetMm": 1446
+        },
+        {
+          "id": "F2-A04",
+          "type": "opening_end",
+          "objectId": "F2-D08",
+          "offsetMm": 2346
+        },
+        {
+          "id": "F2-A04",
+          "type": "wall_end",
+          "offsetMm": 2576
+        }
+      ]
     },
     {
       "id": "F2-W05",
@@ -229,7 +301,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A05",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A05",
+          "type": "opening_start",
+          "objectId": "F2-O03",
+          "offsetMm": 343
+        },
+        {
+          "id": "F2-A05",
+          "type": "opening_end",
+          "objectId": "F2-O03",
+          "offsetMm": 1243
+        },
+        {
+          "id": "F2-A05",
+          "type": "wall_end",
+          "offsetMm": 1696
+        }
+      ]
     },
     {
       "id": "F2-W06",
@@ -254,7 +350,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A06",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A06",
+          "type": "wall_end",
+          "offsetMm": 4400
+        }
+      ]
     },
     {
       "id": "F2-W07",
@@ -279,7 +387,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A07",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A07",
+          "type": "opening_start",
+          "objectId": "F2-D02",
+          "offsetMm": 471
+        },
+        {
+          "id": "F2-A07",
+          "type": "opening_end",
+          "objectId": "F2-D02",
+          "offsetMm": 1371
+        },
+        {
+          "id": "F2-A07",
+          "type": "wall_end",
+          "offsetMm": 1674
+        }
+      ]
     },
     {
       "id": "F2-W08",
@@ -304,7 +436,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A08",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A08",
+          "type": "opening_start",
+          "objectId": "F2-O04",
+          "offsetMm": 306
+        },
+        {
+          "id": "F2-A08",
+          "type": "opening_end",
+          "objectId": "F2-O04",
+          "offsetMm": 1206
+        },
+        {
+          "id": "F2-A08",
+          "type": "wall_end",
+          "offsetMm": 2000
+        }
+      ]
     },
     {
       "id": "F2-W09",
@@ -329,7 +485,49 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A09",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A09",
+          "type": "opening_start",
+          "objectId": "F2-O05",
+          "offsetMm": 725
+        },
+        {
+          "id": "F2-A09",
+          "type": "opening_end",
+          "objectId": "F2-O05",
+          "offsetMm": 1625
+        },
+        {
+          "id": "F2-A09",
+          "type": "wall_junction",
+          "objectId": "F2-W21",
+          "offsetMm": 2964
+        },
+        {
+          "id": "F2-A09",
+          "type": "opening_start",
+          "objectId": "F2-D10",
+          "offsetMm": 4625
+        },
+        {
+          "id": "F2-A09",
+          "type": "opening_end",
+          "objectId": "F2-D10",
+          "offsetMm": 5525
+        },
+        {
+          "id": "F2-A09",
+          "type": "wall_end",
+          "offsetMm": 5948
+        }
+      ]
     },
     {
       "id": "F2-W11",
@@ -354,7 +552,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A10",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A10",
+          "type": "opening_start",
+          "objectId": "F2-O06",
+          "offsetMm": 620
+        },
+        {
+          "id": "F2-A10",
+          "type": "opening_end",
+          "objectId": "F2-O06",
+          "offsetMm": 1520
+        },
+        {
+          "id": "F2-A10",
+          "type": "wall_end",
+          "offsetMm": 4306
+        }
+      ]
     },
     {
       "id": "F2-W12",
@@ -379,7 +601,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A11",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A11",
+          "type": "opening_start",
+          "objectId": "F2-O07",
+          "offsetMm": 2695
+        },
+        {
+          "id": "F2-A11",
+          "type": "opening_end",
+          "objectId": "F2-O07",
+          "offsetMm": 3595
+        },
+        {
+          "id": "F2-A11",
+          "type": "wall_end",
+          "offsetMm": 4105
+        }
+      ]
     },
     {
       "id": "F2-W16",
@@ -404,7 +650,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A12",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A12",
+          "type": "wall_end",
+          "offsetMm": 2750
+        }
+      ]
     },
     {
       "id": "F2-W17",
@@ -429,7 +687,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A13",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A13",
+          "type": "opening_start",
+          "objectId": "F2-D07",
+          "offsetMm": 978
+        },
+        {
+          "id": "F2-A13",
+          "type": "opening_end",
+          "objectId": "F2-D07",
+          "offsetMm": 1878
+        },
+        {
+          "id": "F2-A13",
+          "type": "wall_end",
+          "offsetMm": 2354
+        }
+      ]
     },
     {
       "id": "F2-W18",
@@ -454,7 +736,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A14",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A14",
+          "type": "wall_end",
+          "offsetMm": 2100
+        }
+      ]
     },
     {
       "id": "F2-W19",
@@ -479,7 +773,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A15",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A15",
+          "type": "opening_start",
+          "objectId": "F2-O08",
+          "offsetMm": 1330
+        },
+        {
+          "id": "F2-A15",
+          "type": "opening_end",
+          "objectId": "F2-O08",
+          "offsetMm": 2230
+        },
+        {
+          "id": "F2-A15",
+          "type": "wall_end",
+          "offsetMm": 2747
+        }
+      ]
     },
     {
       "id": "F2-W20",
@@ -504,7 +822,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A16",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A16",
+          "type": "opening_start",
+          "objectId": "F2-D05",
+          "offsetMm": 600
+        },
+        {
+          "id": "F2-A16",
+          "type": "opening_end",
+          "objectId": "F2-D05",
+          "offsetMm": 1500
+        },
+        {
+          "id": "F2-A16",
+          "type": "wall_end",
+          "offsetMm": 2103
+        }
+      ]
     },
     {
       "id": "F2-W21",
@@ -529,7 +871,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A17",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A17",
+          "type": "wall_end",
+          "offsetMm": 2200
+        }
+      ]
     },
     {
       "id": "F2-W22",
@@ -554,7 +908,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A18",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A18",
+          "type": "opening_start",
+          "objectId": "F2-O09",
+          "offsetMm": 1075
+        },
+        {
+          "id": "F2-A18",
+          "type": "opening_end",
+          "objectId": "F2-O09",
+          "offsetMm": 1975
+        },
+        {
+          "id": "F2-A18",
+          "type": "wall_end",
+          "offsetMm": 3050
+        }
+      ]
     },
     {
       "id": "F2-W23",
@@ -579,7 +957,25 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A19",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A19",
+          "type": "wall_junction",
+          "objectId": "F2-W09",
+          "offsetMm": 2201
+        },
+        {
+          "id": "F2-A19",
+          "type": "wall_end",
+          "offsetMm": 2247
+        }
+      ]
     },
     {
       "id": "F2-W25",
@@ -604,7 +1000,19 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A20",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A20",
+          "type": "wall_end",
+          "offsetMm": 2642
+        }
+      ]
     },
     {
       "id": "F2-W26",
@@ -629,7 +1037,31 @@
         "source": "image",
         "note": ""
       },
-      "note": ""
+      "note": "",
+      "anchors": [
+        {
+          "id": "F2-A21",
+          "type": "wall_start",
+          "offsetMm": 0
+        },
+        {
+          "id": "F2-A21",
+          "type": "opening_start",
+          "objectId": "F2-D09",
+          "offsetMm": 405
+        },
+        {
+          "id": "F2-A21",
+          "type": "opening_end",
+          "objectId": "F2-D09",
+          "offsetMm": 1305
+        },
+        {
+          "id": "F2-A21",
+          "type": "wall_end",
+          "offsetMm": 1897
+        }
+      ]
     }
   ],
   "rooms": [
@@ -949,15 +1381,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: upper"
@@ -978,15 +1410,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: middle"
@@ -1007,15 +1439,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: lower"
@@ -1036,15 +1468,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: bottom_left"
@@ -1065,15 +1497,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: above_stairs"
@@ -1094,15 +1526,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: upper_right"
@@ -1123,15 +1555,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: bottom_right"
@@ -1152,15 +1584,15 @@
         "note": ""
       },
       "height": {
-        "value": 1400,
-        "status": "estimated",
-        "source": "image",
+        "value": 1500,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "sillHeight": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
+        "value": 1000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "позиция по фото: center"
