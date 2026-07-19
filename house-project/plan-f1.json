@@ -26,7 +26,7 @@
     },
     {
       "id": "v005",
-      "x": 413,
+      "x": 250,
       "y": 3540
     },
     {
@@ -91,8 +91,8 @@
     },
     {
       "id": "v017",
-      "x": 6701,
-      "y": 7077
+      "x": 6713,
+      "y": 7232
     }
   ],
   "walls": [
@@ -147,7 +147,7 @@
     },
     {
       "id": "F1-W02",
-      "v1": "v001",
+      "v1": "v005",
       "v2": "v003",
       "type": "exterior",
       "thickness": {
@@ -168,7 +168,7 @@
         "source": "image",
         "note": ""
       },
-      "note": "",
+      "note": "вторая половина после сплита; первая часть — F1-W26",
       "anchors": [
         {
           "id": "F1-A02",
@@ -411,7 +411,7 @@
     {
       "id": "F1-W07",
       "v1": "v008",
-      "v2": "v013",
+      "v2": "v011",
       "type": "exterior",
       "thickness": {
         "value": 300,
@@ -431,7 +431,7 @@
         "source": "image",
         "note": ""
       },
-      "note": "объединено из старых W07 и W11",
+      "note": "объединено из старых W07 и W11 | split, теперь v008-v011",
       "anchors": [
         {
           "id": "F1-A07",
@@ -853,7 +853,7 @@
           "id": "F1-A16",
           "type": "wall_junction",
           "objectId": "F1-W12",
-          "offsetMm": 1360
+          "offsetMm": 1515
         },
         {
           "id": "F1-A16",
@@ -870,50 +870,116 @@
         {
           "id": "F1-A16",
           "type": "wall_end",
-          "offsetMm": 3217
+          "offsetMm": 3372
         }
       ]
+    },
+    {
+      "id": "F1-W22",
+      "v1": "v011",
+      "v2": "v013",
+      "type": "exterior",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "split из F1-W07 в v011",
+      "anchors": []
+    },
+    {
+      "id": "F1-W23",
+      "v1": "v010",
+      "v2": "v012",
+      "type": "partition",
+      "thickness": {
+        "value": 100,
+        "status": "estimated",
+        "source": "user",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "создано для замыкания F1-R03 (запад)",
+      "anchors": []
+    },
+    {
+      "id": "F1-W24",
+      "v1": "v012",
+      "v2": "v016",
+      "type": "partition",
+      "thickness": {
+        "value": 100,
+        "status": "estimated",
+        "source": "user",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "создано для замыкания F1-R04 (запад)",
+      "anchors": []
+    },
+    {
+      "id": "F1-W26",
+      "v1": "v001",
+      "v2": "v005",
+      "type": "exterior",
+      "thickness": {
+        "value": 300,
+        "status": "estimated",
+        "source": "image",
+        "note": ""
+      },
+      "height": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "declaredLength": {
+        "value": null,
+        "status": "unknown",
+        "source": "image",
+        "note": ""
+      },
+      "note": "первая половина от сплита F1-W02",
+      "anchors": []
     }
   ],
   "rooms": [
-    {
-      "id": "F1-R01",
-      "name": "Большая левая зона",
-      "suggestedUse": "гостиная / общая комната / кухня-гостиная",
-      "verifiedUse": null,
-      "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "walls": [
-        "F1-W01",
-        "F1-W02",
-        "F1-W03",
-        "F1-W04",
-        "F1-W05"
-      ],
-      "note": "В верхней части имеется короткая внутренняя перегородка; Назначение не подписано"
-    },
-    {
-      "id": "F1-R02",
-      "name": "Верхняя правая зона с лестницей",
-      "suggestedUse": "холл / лестничный холл",
-      "verifiedUse": null,
-      "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "walls": [
-        "F1-W06",
-        "F1-W07",
-        "F1-W08"
-      ],
-      "note": "Двухмаршевая лестница расположена вдоль верхней стены"
-    },
     {
       "id": "F1-R03",
       "name": "Средняя правая комната",
@@ -927,10 +993,17 @@
       },
       "walls": [
         "F1-W08",
-        "F1-W07",
-        "F1-W12"
+        "F1-W22",
+        "F1-W12",
+        "F1-W23"
       ],
-      "note": "Вход предположительно сверху или из центральной зоны"
+      "note": "Вход предположительно сверху или из центральной зоны",
+      "vertices": [
+        "v010",
+        "v011",
+        "v013",
+        "v012"
+      ]
     },
     {
       "id": "F1-R04",
@@ -946,9 +1019,16 @@
       "walls": [
         "F1-W12",
         "F1-W14",
-        "F1-W15"
+        "F1-W15",
+        "F1-W24"
       ],
-      "note": "Вход расположен со стороны центральной зоны"
+      "note": "Вход расположен со стороны центральной зоны",
+      "vertices": [
+        "v012",
+        "v013",
+        "v015",
+        "v016"
+      ]
     },
     {
       "id": "F1-R05",
@@ -964,9 +1044,16 @@
       "walls": [
         "F1-W17",
         "F1-W18",
-        "F1-W19"
+        "F1-W19",
+        "F1-W20"
       ],
-      "note": "Связан с основным этажом через центральный вход"
+      "note": "Связан с основным этажом через центральный вход",
+      "vertices": [
+        "v018",
+        "v019",
+        "v020",
+        "v016"
+      ]
     },
     {
       "id": "F1-R06",
@@ -1040,9 +1127,9 @@
     },
     {
       "id": "F1-D08",
-      "wallId": "F1-W07",
+      "wallId": "F1-W22",
       "distance": {
-        "value": 3318,
+        "value": 358,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1196,7 +1283,7 @@
     },
     {
       "id": "F1-O02",
-      "wallId": "F1-W02",
+      "wallId": "F1-W26",
       "distance": {
         "value": 909,
         "status": "entered",
@@ -1227,7 +1314,7 @@
       "id": "F1-O03",
       "wallId": "F1-W02",
       "distance": {
-        "value": 4171,
+        "value": 1531,
         "status": "estimated",
         "source": "image",
         "note": ""

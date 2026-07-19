@@ -183,7 +183,7 @@
           "id": "F2-A02",
           "type": "opening_end",
           "objectId": "F2-O02",
-          "offsetMm": 1378
+          "offsetMm": 1728
         },
         {
           "id": "F2-A02",
@@ -312,13 +312,13 @@
           "id": "F2-A05",
           "type": "opening_start",
           "objectId": "F2-O03",
-          "offsetMm": 343
+          "offsetMm": 219
         },
         {
           "id": "F2-A05",
           "type": "opening_end",
           "objectId": "F2-O03",
-          "offsetMm": 1243
+          "offsetMm": 1469
         },
         {
           "id": "F2-A05",
@@ -453,7 +453,7 @@
           "id": "F2-A08",
           "type": "opening_end",
           "objectId": "F2-O04",
-          "offsetMm": 1206
+          "offsetMm": 1556
         },
         {
           "id": "F2-A08",
@@ -502,7 +502,7 @@
           "id": "F2-A09",
           "type": "opening_end",
           "objectId": "F2-O05",
-          "offsetMm": 1625
+          "offsetMm": 1675
         },
         {
           "id": "F2-A09",
@@ -612,13 +612,13 @@
           "id": "F2-A11",
           "type": "opening_start",
           "objectId": "F2-O07",
-          "offsetMm": 2695
+          "offsetMm": 2319
         },
         {
           "id": "F2-A11",
           "type": "opening_end",
           "objectId": "F2-O07",
-          "offsetMm": 3595
+          "offsetMm": 3569
         },
         {
           "id": "F2-A11",
@@ -698,13 +698,13 @@
           "id": "F2-A13",
           "type": "opening_start",
           "objectId": "F2-D07",
-          "offsetMm": 978
+          "offsetMm": 698
         },
         {
           "id": "F2-A13",
           "type": "opening_end",
           "objectId": "F2-D07",
-          "offsetMm": 1878
+          "offsetMm": 1598
         },
         {
           "id": "F2-A13",
@@ -784,13 +784,13 @@
           "id": "F2-A15",
           "type": "opening_start",
           "objectId": "F2-O08",
-          "offsetMm": 1330
+          "offsetMm": 1056
         },
         {
           "id": "F2-A15",
           "type": "opening_end",
           "objectId": "F2-O08",
-          "offsetMm": 2230
+          "offsetMm": 2006
         },
         {
           "id": "F2-A15",
@@ -919,13 +919,13 @@
           "id": "F2-A18",
           "type": "opening_start",
           "objectId": "F2-O09",
-          "offsetMm": 1075
+          "offsetMm": 982
         },
         {
           "id": "F2-A18",
           "type": "opening_end",
           "objectId": "F2-O09",
-          "offsetMm": 1975
+          "offsetMm": 2232
         },
         {
           "id": "F2-A18",
@@ -1122,23 +1122,6 @@
       "note": ""
     },
     {
-      "id": "F2-R04",
-      "name": "Лестничный холл",
-      "suggestedUse": "холл / лестничная зона",
-      "verifiedUse": null,
-      "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "walls": [
-        "F2-W11",
-        "F2-W12"
-      ],
-      "note": "Двухмаршевая лестница расположена в верхней правой части"
-    },
-    {
       "id": "F2-R05",
       "name": "Средняя правая комната",
       "suggestedUse": "спальня / общая комната",
@@ -1267,7 +1250,7 @@
       "id": "F2-D07",
       "wallId": "F2-W17",
       "distance": {
-        "value": 978,
+        "value": 698,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1284,7 +1267,7 @@
         "source": "user",
         "note": ""
       },
-      "hinge": "right",
+      "hinge": "left",
       "swing": "out",
       "note": ""
     },
@@ -1360,7 +1343,7 @@
         "note": ""
       },
       "hinge": "right",
-      "swing": "out",
+      "swing": "in",
       "note": ""
     }
   ],
@@ -1375,9 +1358,9 @@
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1250,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1398,15 +1381,15 @@
       "id": "F2-O03",
       "wallId": "F2-W05",
       "distance": {
-        "value": 343,
+        "value": 219,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1250,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1433,9 +1416,9 @@
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1250,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1462,9 +1445,9 @@
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 950,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1514,15 +1497,15 @@
       "id": "F2-O07",
       "wallId": "F2-W12",
       "distance": {
-        "value": 2695,
+        "value": 2319,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1250,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1543,15 +1526,15 @@
       "id": "F2-O08",
       "wallId": "F2-W19",
       "distance": {
-        "value": 1330,
+        "value": 1056,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 950,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1572,15 +1555,15 @@
       "id": "F2-O09",
       "wallId": "F2-W22",
       "distance": {
-        "value": 1075,
-        "status": "estimated",
-        "source": "image",
+        "value": 982,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1250,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
