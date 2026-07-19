@@ -2,7 +2,7 @@
   "schemaVersion": "2.0",
   "units": "mm",
   "settings": {
-    "defaultCeilingHeight": null
+    "defaultCeilingHeight": 3000
   },
   "sourceMeta": {
     "floor": 1,
@@ -11,53 +11,53 @@
   "vertices": [
     {
       "id": "v001",
-      "x": 250,
-      "y": 900
+      "x": -318,
+      "y": -1347
     },
     {
       "id": "v002",
-      "x": 5050,
-      "y": 900
+      "x": 4719,
+      "y": -1347
     },
     {
       "id": "v003",
-      "x": 250,
+      "x": -318,
       "y": 7350
     },
     {
       "id": "v005",
-      "x": 250,
-      "y": 3540
+      "x": -318,
+      "y": 1900
     },
     {
       "id": "v006",
-      "x": 5050,
-      "y": 3540
+      "x": 4719,
+      "y": 1900
     },
     {
       "id": "v008",
       "x": 9400,
-      "y": 900
+      "y": -1347
     },
     {
       "id": "v010",
       "x": 6700,
-      "y": 3893
+      "y": 3134
     },
     {
       "id": "v011",
       "x": 9400,
-      "y": 3893
+      "y": 3134
     },
     {
       "id": "v012",
       "x": 6700,
-      "y": 5750
+      "y": 5122
     },
     {
       "id": "v013",
       "x": 9400,
-      "y": 5750
+      "y": 5122
     },
     {
       "id": "v015",
@@ -77,16 +77,16 @@
     {
       "id": "v019",
       "x": 3650,
-      "y": 9700
+      "y": 10010
     },
     {
       "id": "v020",
       "x": 6700,
-      "y": 9700
+      "y": 10010
     },
     {
       "id": "v232583",
-      "x": 5050,
+      "x": 4719,
       "y": 7350
     }
   ],
@@ -103,9 +103,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -125,18 +125,18 @@
           "id": "F1-A01",
           "type": "opening_start",
           "objectId": "F1-O01",
-          "offsetMm": 981
+          "offsetMm": 1903
         },
         {
           "id": "F1-A01",
           "type": "opening_end",
           "objectId": "F1-O01",
-          "offsetMm": 1881
+          "offsetMm": 3083
         },
         {
           "id": "F1-A01",
           "type": "wall_end",
-          "offsetMm": 4800
+          "offsetMm": 5037
         }
       ]
     },
@@ -152,9 +152,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -174,18 +174,18 @@
           "id": "F1-A02",
           "type": "opening_start",
           "objectId": "F1-O03",
-          "offsetMm": 1531
+          "offsetMm": 2527
         },
         {
           "id": "F1-A02",
           "type": "opening_end",
           "objectId": "F1-O03",
-          "offsetMm": 2781
+          "offsetMm": 3717
         },
         {
           "id": "F1-A02",
           "type": "wall_end",
-          "offsetMm": 3810
+          "offsetMm": 5450
         }
       ]
     },
@@ -201,9 +201,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -223,18 +223,18 @@
           "id": "F1-A03",
           "type": "opening_start",
           "objectId": "F1-O04",
-          "offsetMm": 1231
+          "offsetMm": 1236
         },
         {
           "id": "F1-A03",
           "type": "opening_end",
           "objectId": "F1-O04",
-          "offsetMm": 2181
+          "offsetMm": 2186
         },
         {
           "id": "F1-A03",
           "type": "wall_end",
-          "offsetMm": 3400
+          "offsetMm": 3968
         }
       ]
     },
@@ -250,9 +250,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -272,18 +272,18 @@
           "id": "F1-A04",
           "type": "opening_start",
           "objectId": "F1-D09",
-          "offsetMm": 401
+          "offsetMm": 150
         },
         {
           "id": "F1-A04",
           "type": "opening_end",
           "objectId": "F1-D09",
-          "offsetMm": 1301
+          "offsetMm": 1071
         },
         {
           "id": "F1-A04",
           "type": "wall_end",
-          "offsetMm": 4791
+          "offsetMm": 5037
         }
       ]
     },
@@ -299,9 +299,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -320,7 +320,7 @@
         {
           "id": "F1-A05",
           "type": "wall_end",
-          "offsetMm": 2640
+          "offsetMm": 3247
         }
       ]
     },
@@ -336,9 +336,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -364,12 +364,12 @@
           "id": "F1-A06",
           "type": "opening_end",
           "objectId": "F1-O05",
-          "offsetMm": 2527
+          "offsetMm": 2800
         },
         {
           "id": "F1-A06",
           "type": "wall_end",
-          "offsetMm": 4350
+          "offsetMm": 4681
         }
       ]
     },
@@ -385,9 +385,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -406,7 +406,7 @@
         {
           "id": "F1-A07",
           "type": "wall_end",
-          "offsetMm": 2960
+          "offsetMm": 4481
         }
       ]
     },
@@ -422,9 +422,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -443,7 +443,7 @@
         {
           "id": "F1-A08",
           "type": "wall_end",
-          "offsetMm": 2720
+          "offsetMm": 2700
         }
       ]
     },
@@ -459,9 +459,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -480,7 +480,7 @@
         {
           "id": "F1-A09",
           "type": "wall_end",
-          "offsetMm": 2711
+          "offsetMm": 2700
         }
       ]
     },
@@ -496,9 +496,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -517,7 +517,7 @@
         {
           "id": "F1-A10",
           "type": "wall_end",
-          "offsetMm": 1600
+          "offsetMm": 2228
         }
       ]
     },
@@ -533,9 +533,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -555,13 +555,13 @@
           "id": "F1-A11",
           "type": "opening_start",
           "objectId": "F1-O07",
-          "offsetMm": 1069
+          "offsetMm": 857
         },
         {
           "id": "F1-A11",
           "type": "opening_end",
           "objectId": "F1-O07",
-          "offsetMm": 2019
+          "offsetMm": 1813
         },
         {
           "id": "F1-A11",
@@ -582,15 +582,15 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 2660,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "",
@@ -604,18 +604,18 @@
           "id": "F1-A12",
           "type": "opening_start",
           "objectId": "F1-D04",
-          "offsetMm": 650
+          "offsetMm": 360
         },
         {
           "id": "F1-A12",
           "type": "opening_end",
           "objectId": "F1-D04",
-          "offsetMm": 1550
+          "offsetMm": 1360
         },
         {
           "id": "F1-A12",
           "type": "wall_end",
-          "offsetMm": 2350
+          "offsetMm": 2660
         }
       ]
     },
@@ -631,15 +631,15 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3040,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "",
@@ -653,13 +653,13 @@
           "id": "F1-A13",
           "type": "opening_start",
           "objectId": "F1-O08",
-          "offsetMm": 1075
+          "offsetMm": 900
         },
         {
           "id": "F1-A13",
           "type": "opening_end",
           "objectId": "F1-O08",
-          "offsetMm": 2325
+          "offsetMm": 2100
         },
         {
           "id": "F1-A13",
@@ -680,9 +680,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -701,7 +701,7 @@
         {
           "id": "F1-A14",
           "type": "wall_end",
-          "offsetMm": 2350
+          "offsetMm": 2660
         }
       ]
     },
@@ -717,15 +717,15 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 1647,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "",
@@ -745,12 +745,12 @@
           "id": "F1-A15",
           "type": "opening_end",
           "objectId": "F1-D10",
-          "offsetMm": 1117
+          "offsetMm": 1217
         },
         {
           "id": "F1-A15",
           "type": "wall_end",
-          "offsetMm": 1657
+          "offsetMm": 1981
         }
       ]
     },
@@ -766,9 +766,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -788,18 +788,18 @@
           "id": "F1-A18",
           "type": "opening_start",
           "objectId": "F1-D08",
-          "offsetMm": 358
+          "offsetMm": 370
         },
         {
           "id": "F1-A18",
           "type": "opening_end",
           "objectId": "F1-D08",
-          "offsetMm": 1258
+          "offsetMm": 1454
         },
         {
           "id": "F1-A18",
           "type": "wall_end",
-          "offsetMm": 1890
+          "offsetMm": 1988
         }
       ]
     },
@@ -815,9 +815,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -834,9 +834,21 @@
           "offsetMm": 0
         },
         {
+          "id": "F1-A25",
+          "type": "opening_start",
+          "objectId": "F1-D12",
+          "offsetMm": 238
+        },
+        {
+          "id": "F1-A25",
+          "type": "opening_end",
+          "objectId": "F1-D12",
+          "offsetMm": 1066
+        },
+        {
           "id": "F1-A19",
           "type": "wall_end",
-          "offsetMm": 1848
+          "offsetMm": 1988
         }
       ]
     },
@@ -852,15 +864,15 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 2300,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "note": "создано для замыкания F1-R04 (запад)",
@@ -871,9 +883,21 @@
           "offsetMm": 0
         },
         {
+          "id": "F1-A24",
+          "type": "opening_start",
+          "objectId": "F1-D11",
+          "offsetMm": 1168
+        },
+        {
+          "id": "F1-A24",
+          "type": "opening_end",
+          "objectId": "F1-D11",
+          "offsetMm": 1994
+        },
+        {
           "id": "F1-A20",
           "type": "wall_end",
-          "offsetMm": 1609
+          "offsetMm": 2228
         }
       ]
     },
@@ -889,9 +913,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -911,18 +935,18 @@
           "id": "F1-A21",
           "type": "opening_start",
           "objectId": "F1-D05",
-          "offsetMm": 2014
+          "offsetMm": 4244
         },
         {
           "id": "F1-A21",
           "type": "opening_end",
           "objectId": "F1-D05",
-          "offsetMm": 2914
+          "offsetMm": 5144
         },
         {
           "id": "F1-A21",
           "type": "wall_end",
-          "offsetMm": 3799
+          "offsetMm": 5450
         }
       ]
     },
@@ -938,9 +962,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -960,18 +984,18 @@
           "id": "F1-A22",
           "type": "opening_start",
           "objectId": "F1-O02",
-          "offsetMm": 909
+          "offsetMm": 1683
         },
         {
           "id": "F1-A22",
           "type": "opening_end",
           "objectId": "F1-O02",
-          "offsetMm": 1809
+          "offsetMm": 2883
         },
         {
           "id": "F1-A22",
           "type": "wall_end",
-          "offsetMm": 2640
+          "offsetMm": 3247
         }
       ]
     },
@@ -987,9 +1011,9 @@
         "note": ""
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "declaredLength": {
@@ -1008,7 +1032,7 @@
         {
           "id": "F1-A23",
           "type": "wall_end",
-          "offsetMm": 1393
+          "offsetMm": 1069
         }
       ]
     }
@@ -1020,9 +1044,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1045,9 +1069,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1069,9 +1093,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1096,9 +1120,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1123,9 +1147,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1148,9 +1172,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1173,9 +1197,9 @@
       "suggestedUse": "",
       "verifiedUse": null,
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
+        "value": 3000,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "vertices": [
@@ -1206,15 +1230,15 @@
       "id": "F1-D04",
       "wallId": "F1-W17",
       "distance": {
-        "value": 650,
-        "status": "estimated",
-        "source": "image",
+        "value": 360,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1000,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1231,7 +1255,7 @@
       "id": "F1-D05",
       "wallId": "F1-W25",
       "distance": {
-        "value": 2014,
+        "value": 4244,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1256,13 +1280,13 @@
       "id": "F1-D08",
       "wallId": "F1-W22",
       "distance": {
-        "value": 358,
+        "value": 370,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1084,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1281,13 +1305,13 @@
       "id": "F1-D09",
       "wallId": "F1-W04",
       "distance": {
-        "value": 401,
+        "value": 150,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 921,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1312,7 +1336,7 @@
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1000,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1326,6 +1350,56 @@
       "hinge": "right",
       "swing": "in",
       "note": ""
+    },
+    {
+      "id": "F1-D11",
+      "wallId": "F1-W24",
+      "distance": {
+        "value": 1168,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "width": {
+        "value": 826,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "height": {
+        "value": 2100,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "hinge": "right",
+      "swing": "out",
+      "note": ""
+    },
+    {
+      "id": "F1-D12",
+      "wallId": "F1-W23",
+      "distance": {
+        "value": 238,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "width": {
+        "value": 828,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "height": {
+        "value": 2100,
+        "status": "entered",
+        "source": "user",
+        "note": ""
+      },
+      "hinge": "left",
+      "swing": "out",
+      "note": ""
     }
   ],
   "windows": [
@@ -1333,15 +1407,15 @@
       "id": "F1-O01",
       "wallId": "F1-W01",
       "distance": {
-        "value": 981,
+        "value": 1903,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1180,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1362,15 +1436,15 @@
       "id": "F1-O02",
       "wallId": "F1-W26",
       "distance": {
-        "value": 909,
+        "value": 1683,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1200,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
@@ -1391,13 +1465,13 @@
       "id": "F1-O03",
       "wallId": "F1-W02",
       "distance": {
-        "value": 1531,
-        "status": "estimated",
-        "source": "image",
+        "value": 2527,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "width": {
-        "value": 1250,
+        "value": 1190,
         "status": "estimated",
         "source": "user",
         "note": ""
@@ -1420,7 +1494,7 @@
       "id": "F1-O04",
       "wallId": "F1-W03",
       "distance": {
-        "value": 1231,
+        "value": 1236,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1455,13 +1529,13 @@
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 1173,
         "status": "estimated",
-        "source": "image",
+        "source": "user",
         "note": ""
       },
       "height": {
-        "value": 1500,
+        "value": 990,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1478,13 +1552,13 @@
       "id": "F1-O07",
       "wallId": "F1-W15",
       "distance": {
-        "value": 1069,
+        "value": 857,
         "status": "entered",
         "source": "user",
         "note": "сдвинуто с 1790 на 1700 после укорачивания W15 до 2700 мм"
       },
       "width": {
-        "value": 950,
+        "value": 956,
         "status": "estimated",
         "source": "user",
         "note": ""
@@ -1507,13 +1581,13 @@
       "id": "F1-O08",
       "wallId": "F1-W18",
       "distance": {
-        "value": 1075,
-        "status": "estimated",
-        "source": "image",
+        "value": 900,
+        "status": "entered",
+        "source": "user",
         "note": ""
       },
       "width": {
-        "value": 1250,
+        "value": 1200,
         "status": "estimated",
         "source": "user",
         "note": ""
@@ -1537,10 +1611,10 @@
     {
       "id": "F1-S01",
       "roomId": "F1-R02",
-      "x": 6401,
-      "y": 1129,
-      "width": 2172,
-      "depth": 868,
+      "x": 5475,
+      "y": -1229,
+      "width": 3756,
+      "depth": 1050,
       "rotation": 0,
       "flights": 2,
       "direction": "up",
@@ -1549,10 +1623,10 @@
     {
       "id": "F1-S02",
       "roomId": "F1-R02",
-      "x": 6538,
-      "y": 2029,
-      "width": 2357,
-      "depth": 791,
+      "x": 5489,
+      "y": -156,
+      "width": 3756,
+      "depth": 1050,
       "rotation": 0,
       "flights": 2,
       "direction": "down",
