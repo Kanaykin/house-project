@@ -809,10 +809,21 @@ function renderOpenings() {
     const winWidth = winSel ? 100 : 40;
     const grp = svgEl('g', { class:'window-item', 'data-type':'window', 'data-id':o.id });
     grp.appendChild(svgEl('line', { x1:p1.x, y1:p1.y, x2:p2.x, y2:p2.y, class:'window-gap', stroke:'#fff', 'stroke-width': th + 20 }));
+    // Подсветка выделенного окна
+    if (winSel) {
+      grp.appendChild(svgEl('rect', {
+        x: 0, y: -th * 0.8, width: wid, height: th * 1.6,
+        transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
+        class:'window-highlight',
+        fill: 'rgba(42,110,214,0.28)',
+        stroke: '#2a6ed6', 'stroke-width': 80,
+        'pointer-events':'none'
+      }));
+    }
     grp.appendChild(svgEl('line', { x1:p1.x+nx*off, y1:p1.y+ny*off, x2:p2.x+nx*off, y2:p2.y+ny*off,
-      class:'window-glass' + (winSel?' selected':''), stroke: winStroke, 'stroke-width': winWidth }));
+      class:'window-glass' + (winSel?' selected':''), stroke: winSel ? '#1a4a99' : '#2a6ed6', 'stroke-width': winWidth }));
     grp.appendChild(svgEl('line', { x1:p1.x-nx*off, y1:p1.y-ny*off, x2:p2.x-nx*off, y2:p2.y-ny*off,
-      class:'window-glass' + (winSel?' selected':''), stroke: winStroke, 'stroke-width': winWidth }));
+      class:'window-glass' + (winSel?' selected':''), stroke: winSel ? '#1a4a99' : '#2a6ed6', 'stroke-width': winWidth }));
     grp.appendChild(svgEl('rect', {
       x:0, y:-th, width: wid, height: th*2,
       transform: `translate(${p1.x} ${p1.y}) rotate(${ang*180/Math.PI})`,
