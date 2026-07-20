@@ -208,7 +208,7 @@ button.active-mode:hover { background: #2255b5; }
   stroke-width: 60;
   font-weight: 600;
 }
-.room-sublabel {
+.room-sublabel, .room-area {
   fill: #555;
   font-size: 220px;
   text-anchor: middle;

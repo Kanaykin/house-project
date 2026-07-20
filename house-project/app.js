@@ -10,8 +10,8 @@ const DEFAULT_THICKNESS_EXT = 400;
 const DEFAULT_THICKNESS_INT = 150;
 const SOURCE_SCALE = 10; // 1 единица normalized_image = 10 мм
 
-function m(value, status = 'unknown', source = 'image', note = '') {
-  return { value, status, source, note };
+function m(value) {
+  return { value };
 }
 
 // ---- Конвертер: source (input JSON) → внутренняя схема редактора ----
@@ -34,7 +34,6 @@ function convertSourceToEditor(src) {
       id: w.id, v1, v2, type: isExt ? 'exterior' : 'partition',
       thickness: m(isExt ? DEFAULT_THICKNESS_EXT : DEFAULT_THICKNESS_INT, 'estimated'),
       height: m(null, 'unknown'),
-      declaredLength: m(w.lengthMm != null ? w.lengthMm : null, w.lengthMm != null ? 'estimated' : 'unknown'),
       note: w.kind === 'interface' ? 'граница выступа (interface)' : ''
     };
   });
@@ -49,8 +48,7 @@ function convertSourceToEditor(src) {
 
   const rooms = (src.rooms || []).map(r => ({
     id: r.id, name: r.label || r.id,
-    suggestedUse: Array.isArray(r.possibleUse) ? r.possibleUse.join(' / ') : (r.possibleUse || ''),
-    verifiedUse: r.verifiedUse || null,
+    use: r.verifiedUse || (Array.isArray(r.possibleUse) ? r.possibleUse.join(' / ') : (r.possibleUse || '')),
     ceilingHeight: m(null, 'unknown'),
     walls: (r.boundaryWallIds || []).slice(),
     note: Array.isArray(r.notes) ? r.notes.join('; ') : ''
@@ -156,7 +154,7 @@ const state = {
     selected: null,
     mode: 'select',
     modeData: null,
-    layers: { roomNames:true, wallNumbers:true, dimensions:true, doors:true, windows:true, furniture:true, stairs:true },
+    layers: { roomNames:true, roomAreas:true, wallNumbers:true, dimensions:true, doors:true, windows:true, furniture:true, stairs:true },
     view: { F1: { scale: 0.1, tx: 40, ty: 40 }, F2: { scale: 0.1, tx: 40, ty: 40 } }
   }
 };
@@ -311,6 +309,13 @@ function describeAnchor(a) {
   }
 }
 
+// Заявленная длина стены = offsetMm якоря wall_end. Единый источник истины —
+// размерная цепочка; отдельного поля declaredLength больше нет.
+function chainDeclaredLen(wall) {
+  const end = (wall && wall.anchors) ? wall.anchors.find(a => a.type === 'wall_end') : null;
+  return end && end.offsetMm > 0 ? end.offsetMm : null;
+}
+
 function computeChainSegments(wall) {
   const anchors = [...(wall.anchors || [])].sort((a, b) => a.offsetMm - b.offsetMm);
   const out = [];
@@ -348,10 +353,8 @@ function applyChainSegmentChange(wall, segment, newValueMm) {
       return { changed:false, hint:'новая ширина не помещается — проём выйдет за конец стены' };
     }
     pushHistory();
-    obj.width = obj.width || m(900, 'estimated');
+    obj.width = obj.width || m(900);
     obj.width.value = newWidth;
-    obj.width.status = 'entered';
-    obj.width.source = 'user';
     return { changed:true, hint:'ширина '+obj.id+' обновлена (общая длина стены не изменилась)' };
   }
 
@@ -368,10 +371,8 @@ function applyChainSegmentChange(wall, segment, newValueMm) {
     if (newDist < 0) return { changed:false, hint:'нельзя: проём выйдет за начало стены' };
     if (newDist + width > totalLen) return { changed:false, hint:'нельзя: проём выйдет за конец стены' };
     pushHistory();
-    obj.distance = obj.distance || m(0, 'estimated');
+    obj.distance = obj.distance || m(0);
     obj.distance.value = Math.round(newDist);
-    obj.distance.status = 'entered';
-    obj.distance.source = 'user';
     return { changed:true, hint:'проём '+obj.id+' сдвинут (общая длина стены не изменилась)' };
   }
 
@@ -388,10 +389,8 @@ function applyChainSegmentChange(wall, segment, newValueMm) {
       if (newDist < 0) return { changed:false, hint:'нельзя: проём выйдет за начало стены' };
       if (newDist + width > totalLen) return { changed:false, hint:'нельзя: проём выйдет за конец стены' };
       pushHistory();
-      obj.distance = obj.distance || m(0, 'estimated');
+      obj.distance = obj.distance || m(0);
       obj.distance.value = Math.round(newDist);
-      obj.distance.status = 'entered';
-      obj.distance.source = 'user';
       return { changed:true, hint:'проём '+obj.id+' сдвинут (общая длина стены не изменилась)' };
     }
     // from — wall_start, wall_junction или user_point. Двигать нечего, чтобы сохранить длину.
@@ -514,6 +513,7 @@ function loadLocal() {
     if (!raw) return false;
     const s = JSON.parse(raw);
     if (!s.floors) return false;
+    for (const key of Object.keys(s.floors)) { migrateRoomUse(s.floors[key]); stripMeasureMeta(s.floors[key]); }
     state.floors = s.floors;
     state.currentFloor = s.currentFloor || 'F1';
     state.plan = state.floors[state.currentFloor];
@@ -523,6 +523,30 @@ function loadLocal() {
     }
     return true;
   } catch(e) { console.warn('localStorage load failed', e); return false; }
+}
+
+// Миграция старой схемы: suggestedUse + verifiedUse → одно поле use.
+function migrateRoomUse(plan) {
+  if (!plan || !Array.isArray(plan.rooms)) return;
+  for (const r of plan.rooms) {
+    if (r.use !== undefined) continue;
+    r.use = r.verifiedUse || r.suggestedUse || '';
+    delete r.verifiedUse;
+    delete r.suggestedUse;
+  }
+}
+
+// Миграция: убрать поля status/source/note у объектов-измерений (оставить только value).
+// Также удаляем устаревшее поле wall.declaredLength (заменено размерной цепочкой).
+function stripMeasureMeta(plan) {
+  if (!plan) return;
+  const clean = (mo) => { if (mo && typeof mo === 'object') { delete mo.status; delete mo.source; delete mo.note; } };
+  const walk = (arr, keys) => (arr || []).forEach(o => keys.forEach(k => clean(o[k])));
+  walk(plan.walls, ['thickness','height']);
+  walk(plan.rooms, ['ceilingHeight']);
+  walk(plan.doors, ['distance','width','height']);
+  walk(plan.windows, ['distance','width','height','sillHeight']);
+  (plan.walls || []).forEach(w => { delete w.declaredLength; });
 }
 
 // ---- Валидация плана ----
@@ -598,9 +622,10 @@ function computeWarnings() {
     if (dist < 0 || dist + width > L) warns.push({ type:'window-out', id:o.id, text:`Окно ${o.id} выходит за пределы стены ${w.id} (${Math.round(L)} мм)` });
   }
   for (const w of state.plan.walls) {
-    if (w.declaredLength && w.declaredLength.value != null && ['entered','verified'].includes(w.declaredLength.status)) {
-      const diff = Math.abs(wallLen(w) - w.declaredLength.value);
-      if (diff > 5) warns.push({ type:'wall-len', id:w.id, text:`Стена ${w.id}: геометрия ${Math.round(wallLen(w))} мм ≠ заявленной ${w.declaredLength.value} мм` });
+    const declared = chainDeclaredLen(w);
+    if (declared != null) {
+      const diff = Math.abs(wallLen(w) - declared);
+      if (diff > 5) warns.push({ type:'wall-len', id:w.id, text:`Стена ${w.id}: геометрия ${Math.round(wallLen(w))} мм ≠ заявленной ${declared} мм` });
     }
   }
   // v3: невязка суммы участков размерной цепочки
@@ -941,9 +966,8 @@ function splitWallAtVertices(wall, insertVertexIds, plan, floor) {
         id: newId,
         v1: from.id, v2: to.id,
         type: wall.type,
-        thickness: JSON.parse(JSON.stringify(wall.thickness || m(DEFAULT_THICKNESS_INT,'estimated'))),
-        height: JSON.parse(JSON.stringify(wall.height || m(null,'unknown'))),
-        declaredLength: m(null,'unknown'),
+        thickness: JSON.parse(JSON.stringify(wall.thickness || m(DEFAULT_THICKNESS_INT))),
+        height: JSON.parse(JSON.stringify(wall.height || m(null))),
         note: wall.note ? wall.note + ' (split из ' + origId + ')' : 'split из ' + origId,
         anchors: []
       };
@@ -992,9 +1016,8 @@ function ensureWallBetween(aId, bId, plan, floor, opts = { create:true }) {
     const newId = nextId('W', plan.walls);
     plan.walls.push({
       id: newId, v1: aId, v2: bId, type: 'partition',
-      thickness: m(DEFAULT_THICKNESS_INT, 'estimated'),
-      height: m(null, 'unknown'),
-      declaredLength: m(null, 'unknown'),
+      thickness: m(DEFAULT_THICKNESS_INT),
+      height: m(null),
       note: 'создано при добавлении помещения', anchors: []
     });
     return newId;
@@ -1207,9 +1230,9 @@ function renderLabels() {
     const c = centroid(poly);
     const t1 = svgEl('text', { x:c.x, y:c.y - 220, class:'room-label' }); t1.textContent = r.id; g.appendChild(t1);
     const t2 = svgEl('text', { x:c.x, y:c.y + 160, class:'room-sublabel' });
-    t2.textContent = (r.name||'') + (r.verifiedUse ? ' • ' + r.verifiedUse : (r.suggestedUse ? ' • ' + r.suggestedUse + '?' : ''));
+    t2.textContent = (r.name||'') + (r.use ? ' • ' + r.use : '');
     g.appendChild(t2);
-    const t3 = svgEl('text', { x:c.x, y:c.y + 420, class:'room-sublabel' });
+    const t3 = svgEl('text', { x:c.x, y:c.y + 420, class:'room-area' });
     t3.textContent = (polyArea(poly)/1e6).toFixed(2) + ' м²'; g.appendChild(t3);
   }
   for (const w of state.plan.walls) {
@@ -1220,12 +1243,9 @@ function renderLabels() {
     const t1 = svgEl('text', { x: mid.x + n.x*off, y: mid.y + n.y*off, class:'wall-label wall-label-num' });
     t1.textContent = w.id; g.appendChild(t1);
     const L = wallLen(w);
-    const declared = w.declaredLength || {};
-    let dispLen = Math.round(L), statusCls = 'estimated';
-    if (declared.value != null && declared.status && declared.status !== 'unknown') {
-      dispLen = declared.value; statusCls = declared.status;
-    }
-    const t2 = svgEl('text', { x: mid.x - n.x*(off+220), y: mid.y - n.y*(off+220), class:'wall-length s-' + statusCls });
+    const declared = chainDeclaredLen(w);
+    const dispLen = declared != null ? declared : Math.round(L);
+    const t2 = svgEl('text', { x: mid.x - n.x*(off+220), y: mid.y - n.y*(off+220), class:'wall-length' });
     t2.textContent = dispLen + ' мм'; g.appendChild(t2);
   }
 }
@@ -1242,6 +1262,7 @@ function applyLayerToggles() {
   document.querySelectorAll('.window-item').forEach(el => el.style.display = L.windows ? '' : 'none');
   document.querySelectorAll('.room-label').forEach(el => el.style.display = L.roomNames ? '' : 'none');
   document.querySelectorAll('.room-sublabel').forEach(el => el.style.display = L.roomNames ? '' : 'none');
+  document.querySelectorAll('.room-area').forEach(el => el.style.display = L.roomAreas ? '' : 'none');
   // Метки проёмов (door-label / window-label) внутри своих групп — учитываем оба флага
   document.querySelectorAll('.wall-label').forEach(el => {
     const isDoorLbl = el.classList.contains('door-label');
@@ -1274,23 +1295,11 @@ function fieldMeasure(label, obj, onChange) {
   const row = document.createElement('div'); row.className = 'measure';
   const inp = document.createElement('input'); inp.type='number'; inp.step='any';
   inp.value = obj && obj.value != null ? obj.value : ''; inp.placeholder = '—';
-  const sel = document.createElement('select');
-  ['unknown','estimated','entered','verified','conflict'].forEach(s => {
-    const opt = document.createElement('option'); opt.value=s; opt.textContent=s;
-    if ((obj&&obj.status)===s) opt.selected = true;
-    sel.appendChild(opt);
-  });
   inp.addEventListener('change', () => {
     const v = inp.value === '' ? null : parseFloat(inp.value);
-    const newObj = { value: v, status: v == null ? 'unknown' : ((obj&&obj.status)==='unknown' ? 'entered' : (obj&&obj.status)||'entered'), source: 'user', note: (obj&&obj.note)||'' };
-    if (v != null && sel.value === 'unknown') { newObj.status = 'entered'; sel.value = 'entered'; }
-    onChange(newObj);
+    onChange({ value: v });
   });
-  sel.addEventListener('change', () => {
-    const v = inp.value === '' ? null : parseFloat(inp.value);
-    onChange({ value: v, status: sel.value, source: 'user', note: (obj&&obj.note)||'' });
-  });
-  row.appendChild(inp); row.appendChild(sel); wrap.appendChild(row);
+  row.appendChild(inp); wrap.appendChild(row);
   return wrap;
 }
 function fieldText(label, value, onChange, multiline=false) {
@@ -1328,8 +1337,10 @@ function renderWallInspector(el, w) {
   if (!w) return;
   const title = document.createElement('div'); title.className='inspector-title'; title.textContent='Стена ' + w.id; el.appendChild(title);
   el.appendChild(fieldSelect('Тип', w.type, [{value:'exterior',label:'наружная'},{value:'partition',label:'перегородка'}], v => { pushHistory(); w.type=v; render(); }));
-  el.appendChild(fieldMeasure('Длина (мм), заявленная', w.declaredLength, obj => { pushHistory(); w.declaredLength = obj; applyDeclaredLength(w); render(); }));
-  const info = document.createElement('div'); info.className='hint'; info.textContent='Геометрическая длина: ' + Math.round(wallLen(w)) + ' мм'; el.appendChild(info);
+  const declared = chainDeclaredLen(w);
+  const info = document.createElement('div'); info.className='hint';
+  info.textContent = 'Длина по цепочке: ' + (declared != null ? declared : '—') + ' мм · геометрия: ' + Math.round(wallLen(w)) + ' мм';
+  el.appendChild(info);
   el.appendChild(fieldMeasure('Толщина (мм)', w.thickness, obj => { pushHistory(); w.thickness=obj; render(); }));
   el.appendChild(fieldMeasure('Высота (мм)', w.height, obj => { pushHistory(); w.height=obj; render(); }));
   el.appendChild(fieldText('Примечание', w.note, v => { pushHistory(); w.note=v; render(); }, true));
@@ -1339,7 +1350,6 @@ function renderWallInspector(el, w) {
 
   actionsRow(el, [
     { label:'Разделить стену…', onClick: () => startSplitWallMode(w.id) },
-    { label:'Разделить: мм…', onClick: () => splitWallByMmPrompt(w.id) },
     { label:'Удалить', danger:true, onClick: () => { if (confirm('Удалить стену '+w.id+'?')) { pushHistory(); removeWall(w.id); } } }
   ]);
 }
@@ -1357,20 +1367,6 @@ function startSplitWallMode(wallId) {
   clearWallPreview(); updateSnapMarker(null); clearRoomPreview();
   setHint('Клик по стене '+wallId+' → сплит в этой точке. Наведение на вершину, лежащую на осевой — снап (жёлтый). Esc — отмена.');
   updateAddButtonStates();
-}
-
-function splitWallByMmPrompt(wallId) {
-  const w = findById(state.plan.walls, wallId);
-  if (!w) return;
-  const L = Math.round(wallLen(w));
-  const raw = prompt('Расстояние от начала стены '+wallId+' (мм, 100..' + (L - 100) + '):');
-  if (raw == null) return;
-  const dist = parseInt(raw, 10);
-  if (isNaN(dist) || dist < 100 || dist > L - 100) {
-    alert('Некорректное значение. Нужно от 100 до ' + (L - 100) + ' мм.');
-    return;
-  }
-  performWallSplitAtDistance(w, dist);
 }
 
 function performWallSplitAtDistance(wall, distMm, snapVertexId) {
@@ -1506,42 +1502,13 @@ function renderChainSection(el, wall) {
     wrap.appendChild(total);
   }
 
-  // Кнопка добавить пользовательскую точку
-  const addBtn = document.createElement('button');
-  addBtn.textContent = '+ Точка на стене';
-  addBtn.className = 'chain-add-btn';
-  addBtn.addEventListener('click', () => {
-    const L = Math.round(wallLen(wall));
-    const raw = prompt('Расстояние от начала стены (мм, 0..' + L + '):');
-    if (raw == null) return;
-    const offset = parseInt(raw, 10);
-    if (isNaN(offset) || offset < 0 || offset > L) { alert('Некорректное значение'); return; }
-    const label = prompt('Подпись точки (например «край колонны»):') || 'точка';
-    pushHistory();
-    const id = nextAnchorId(state.currentFloor, state.plan.walls);
-    wall.anchors = wall.anchors || [];
-    wall.anchors.push({ id, type:'user_point', offsetMm: offset, label });
-    wall.anchors.sort((a,b) => a.offsetMm - b.offsetMm);
-    render();
-  });
-  wrap.appendChild(addBtn);
-
   el.appendChild(wrap);
-}
-function applyDeclaredLength(w) {
-  if (!w.declaredLength || w.declaredLength.value == null) return;
-  if (!['entered','verified'].includes(w.declaredLength.status)) return;
-  const a = vById(w.v1), b = vById(w.v2);
-  const cur = Math.hypot(b.x-a.x, b.y-a.y); if (cur < 1) return;
-  const k = w.declaredLength.value / cur;
-  b.x = a.x + (b.x-a.x)*k; b.y = a.y + (b.y-a.y)*k;
 }
 function renderRoomInspector(el, r) {
   if (!r) return;
   const title = document.createElement('div'); title.className='inspector-title'; title.textContent='Помещение ' + r.id; el.appendChild(title);
   el.appendChild(fieldText('Название', r.name, v => { pushHistory(); r.name=v; render(); }));
-  el.appendChild(fieldText('Предполагаемое назначение', r.suggestedUse, v => { pushHistory(); r.suggestedUse=v; render(); }));
-  el.appendChild(fieldText('Подтверждённое назначение', r.verifiedUse, v => { pushHistory(); r.verifiedUse=v||null; render(); }));
+  el.appendChild(fieldText('Назначение', r.use, v => { pushHistory(); r.use=v; render(); }));
   el.appendChild(fieldMeasure('Высота потолка (мм)', r.ceilingHeight, obj => { pushHistory(); r.ceilingHeight=obj; render(); }));
   const poly = roomPolygon(r);
   const areaEl = document.createElement('div'); areaEl.className='hint';
@@ -1677,13 +1644,13 @@ function renderUnknowns() {
   const el = $('unknownsList'); el.innerHTML = '';
   const items = [];
   state.plan.walls.forEach(w => {
-    if (!w.declaredLength || w.declaredLength.status === 'unknown' || w.declaredLength.value == null)
+    if (chainDeclaredLen(w) == null)
       items.push({ type:'wall', id:w.id, text:`Длина стены ${w.id} не задана` });
-    if (!w.height || w.height.status === 'unknown' || w.height.value == null)
+    if (!w.height || w.height.value == null)
       items.push({ type:'wall', id:w.id, text:`Высота стены ${w.id} не задана` });
   });
   state.plan.rooms.forEach(r => {
-    if (!r.ceilingHeight || r.ceilingHeight.status === 'unknown' || r.ceilingHeight.value == null)
+    if (!r.ceilingHeight || r.ceilingHeight.value == null)
       items.push({ type:'room', id:r.id, text:`Высота потолка ${r.id} не задана` });
   });
   if (!items.length) { el.innerHTML = '<div class="empty" style="color:#666;padding:6px;">Нет неизвестных значений 🎉</div>'; return; }
@@ -1738,12 +1705,16 @@ function bindUI() {
           const errs = [...errs1.map(e => 'F1: '+e), ...errs2.map(e => 'F2: '+e)];
           if (errs.length && !confirm('В проекте обнаружены ошибки:\n' + errs.slice(0,10).join('\n') + '\n\nВсё равно импортировать?')) return;
           pushHistory();
+          migrateRoomUse(parsed.floors.F1); migrateRoomUse(parsed.floors.F2);
+          stripMeasureMeta(parsed.floors.F1); stripMeasureMeta(parsed.floors.F2);
           state.floors = { F1: parsed.floors.F1, F2: parsed.floors.F2 };
           state.plan = state.floors[state.currentFloor];
         } else {
           const errs = validatePlan(parsed);
           if (errs.length && !confirm('В JSON ошибки:\n' + errs.slice(0,10).join('\n') + '\n\nВсё равно импортировать?')) return;
           pushHistory();
+          migrateRoomUse(parsed);
+          stripMeasureMeta(parsed);
           state.floors[state.currentFloor] = parsed;
           state.plan = parsed;
         }
@@ -1753,7 +1724,7 @@ function bindUI() {
     r.readAsText(f); e.target.value = '';
   });
   // Слои
-  const layerMap = { tglRoomNames:'roomNames', tglWallNumbers:'wallNumbers', tglDimensions:'dimensions', tglDoors:'doors', tglWindows:'windows', tglFurniture:'furniture', tglStairs:'stairs' };
+  const layerMap = { tglRoomNames:'roomNames', tglRoomAreas:'roomAreas', tglWallNumbers:'wallNumbers', tglDimensions:'dimensions', tglDoors:'doors', tglWindows:'windows', tglFurniture:'furniture', tglStairs:'stairs' };
   Object.entries(layerMap).forEach(([id,key]) => {
     $(id).addEventListener('change', e => { state.ui.layers[key] = e.target.checked; saveLocal(); applyLayerToggles(); });
     $(id).checked = state.ui.layers[key];
@@ -2087,13 +2058,7 @@ function onDragMove(e) {
     // Центрируем проём на курсоре и зажимаем в пределы стены
     let dist = t01 * L - width / 2;
     dist = Math.max(0, Math.min(L - width, dist));
-    const prevStatus = item.distance && item.distance.status;
-    item.distance = {
-      value: Math.round(dist),
-      status: prevStatus === 'verified' ? 'verified' : 'entered',
-      source: 'user',
-      note: (item.distance && item.distance.note) || ''
-    };
+    item.distance = { value: Math.round(dist) };
     dragState.moved = true; render();
   }
 }
@@ -2316,7 +2281,7 @@ function finalizeRoomFromVertices() {
 
   const rid = nextId('R', plan.rooms);
   plan.rooms.push({
-    id: rid, name: rid, suggestedUse:'', verifiedUse: null,
+    id: rid, name: rid, use: '',
     ceilingHeight: m(null,'unknown'),
     vertices: vertexIds,
     walls,
@@ -2377,8 +2342,8 @@ function handleAddModeClick(e) {
       const wid = nextId('W', state.plan.walls);
       state.plan.walls.push({
         id: wid, v1, v2: vid, type:'partition',
-        thickness: m(DEFAULT_THICKNESS_INT,'estimated'),
-        height: m(null,'unknown'), declaredLength: m(null,'unknown'), note: ''
+        thickness: m(DEFAULT_THICKNESS_INT),
+        height: m(null), note: ''
       });
       state.ui.selected = { type:'wall', id: wid };
       exitAddMode('Стена '+wid+' добавлена.');
