@@ -107,22 +107,10 @@
       "v2": "v002",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -144,22 +132,10 @@
       "v2": "v003",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -193,22 +169,10 @@
       "v2": "v004",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -230,22 +194,10 @@
       "v2": "v004",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -279,22 +231,10 @@
       "v2": "v005",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -328,22 +268,10 @@
       "v2": "v006",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -365,22 +293,10 @@
       "v2": "v006",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -414,22 +330,10 @@
       "v2": "v007",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -463,22 +367,10 @@
       "v2": "v008",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -512,22 +404,10 @@
       "v2": "v009",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -561,22 +441,10 @@
       "v2": "v010",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -610,22 +478,10 @@
       "v2": "v010",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -647,22 +503,10 @@
       "v2": "v015",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -696,22 +540,10 @@
       "v2": "v016",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -733,22 +565,10 @@
       "v2": "v008",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -782,22 +602,10 @@
       "v2": "v008",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -831,22 +639,10 @@
       "v2": "v019",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -868,22 +664,10 @@
       "v2": "v020",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -917,22 +701,10 @@
       "v2": "v008",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -954,22 +726,10 @@
       "v2": "v012",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -991,22 +751,10 @@
       "v2": "v984728",
       "type": "partition",
       "thickness": {
-        "value": 100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 100
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "",
       "anchors": [
@@ -1040,22 +788,10 @@
       "v2": "v791670",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "split из F2-W12",
       "anchors": [
@@ -1077,22 +813,10 @@
       "v2": "v984728",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "split из F2-W09",
       "anchors": [
@@ -1114,22 +838,10 @@
       "v2": "v460156",
       "type": "exterior",
       "thickness": {
-        "value": 300,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 300
       },
       "height": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
-      },
-      "declaredLength": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "note": "split из F2-W09 (split из F2-W28)",
       "anchors": [
@@ -1162,13 +874,9 @@
     {
       "id": "F2-R01",
       "name": "F2-R01",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v001",
@@ -1187,13 +895,9 @@
     {
       "id": "F2-R02",
       "name": "F2-R02",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v003",
@@ -1212,13 +916,9 @@
     {
       "id": "F2-R03",
       "name": "F2-R03",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v005",
@@ -1239,13 +939,9 @@
     {
       "id": "F2-R04",
       "name": "F2-R04",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v460156",
@@ -1266,13 +962,9 @@
     {
       "id": "F2-R05",
       "name": "F2-R05",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v015",
@@ -1291,13 +983,9 @@
     {
       "id": "F2-R06",
       "name": "F2-R06",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v012",
@@ -1316,13 +1004,9 @@
     {
       "id": "F2-R07",
       "name": "F2-R07",
-      "suggestedUse": "",
-      "verifiedUse": null,
+      "use": "",
       "ceilingHeight": {
-        "value": null,
-        "status": "unknown",
-        "source": "image",
-        "note": ""
+        "value": null
       },
       "vertices": [
         "v984728",
@@ -1354,22 +1038,13 @@
       "id": "F2-D02",
       "wallId": "F2-W07",
       "distance": {
-        "value": 471,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 471
       },
       "width": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 2100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 2100
       },
       "hinge": "right",
       "swing": "in",
@@ -1379,22 +1054,13 @@
       "id": "F2-D05",
       "wallId": "F2-W20",
       "distance": {
-        "value": 600,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 600
       },
       "width": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 2100,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 2100
       },
       "hinge": "right",
       "swing": "out",
@@ -1404,22 +1070,13 @@
       "id": "F2-D07",
       "wallId": "F2-W17",
       "distance": {
-        "value": 698,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 698
       },
       "width": {
-        "value": 900,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 2100
       },
       "hinge": "left",
       "swing": "out",
@@ -1429,22 +1086,13 @@
       "id": "F2-D08",
       "wallId": "F2-W04",
       "distance": {
-        "value": 1936,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1936
       },
       "width": {
-        "value": 904,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 904
       },
       "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 2100
       },
       "hinge": "right",
       "swing": "in",
@@ -1454,22 +1102,13 @@
       "id": "F2-D09",
       "wallId": "F2-W26",
       "distance": {
-        "value": 405,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 405
       },
       "width": {
-        "value": 900,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 2100
       },
       "hinge": "right",
       "swing": "in",
@@ -1479,22 +1118,13 @@
       "id": "F2-D10",
       "wallId": "F2-W09",
       "distance": {
-        "value": 237,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 237
       },
       "width": {
-        "value": 900,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 2100,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 2100
       },
       "hinge": "right",
       "swing": "in",
@@ -1506,28 +1136,16 @@
       "id": "F2-O02",
       "wallId": "F2-W02",
       "distance": {
-        "value": 1346,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1346
       },
       "width": {
-        "value": 1199,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 1199
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: upper"
     },
@@ -1535,28 +1153,16 @@
       "id": "F2-O03",
       "wallId": "F2-W05",
       "distance": {
-        "value": 219,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 219
       },
       "width": {
-        "value": 1250,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 1250
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: middle"
     },
@@ -1564,28 +1170,16 @@
       "id": "F2-O04",
       "wallId": "F2-W08",
       "distance": {
-        "value": 306,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 306
       },
       "width": {
-        "value": 1250,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 1250
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: lower"
     },
@@ -1593,28 +1187,16 @@
       "id": "F2-O05",
       "wallId": "F2-W29",
       "distance": {
-        "value": 725,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 725
       },
       "width": {
-        "value": 950,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 950
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: bottom_left"
     },
@@ -1622,28 +1204,16 @@
       "id": "F2-O06",
       "wallId": "F2-W11",
       "distance": {
-        "value": 620,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 620
       },
       "width": {
-        "value": 900,
-        "status": "estimated",
-        "source": "image",
-        "note": ""
+        "value": 900
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: above_stairs"
     },
@@ -1651,28 +1221,16 @@
       "id": "F2-O07",
       "wallId": "F2-W12",
       "distance": {
-        "value": 589,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 589
       },
       "width": {
-        "value": 1250,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 1250
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: upper_right"
     },
@@ -1680,28 +1238,16 @@
       "id": "F2-O08",
       "wallId": "F2-W19",
       "distance": {
-        "value": 1056,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1056
       },
       "width": {
-        "value": 950,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 950
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: bottom_right"
     },
@@ -1709,28 +1255,16 @@
       "id": "F2-O09",
       "wallId": "F2-W22",
       "distance": {
-        "value": 982,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 982
       },
       "width": {
-        "value": 1250,
-        "status": "estimated",
-        "source": "user",
-        "note": ""
+        "value": 1250
       },
       "height": {
-        "value": 1500,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1500
       },
       "sillHeight": {
-        "value": 1000,
-        "status": "entered",
-        "source": "user",
-        "note": ""
+        "value": 1000
       },
       "note": "позиция по фото: center"
     }
