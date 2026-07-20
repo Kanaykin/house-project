@@ -11,93 +11,93 @@
   "vertices": [
     {
       "id": "v001",
-      "x": 600,
-      "y": 1250
+      "x": -318,
+      "y": -1347
     },
     {
       "id": "v002",
-      "x": 5000,
-      "y": 1250
+      "x": 4719,
+      "y": -1347
     },
     {
       "id": "v003",
-      "x": 600,
-      "y": 3826
+      "x": -318,
+      "y": 1654
     },
     {
       "id": "v004",
-      "x": 5000,
-      "y": 3826
+      "x": 4719,
+      "y": 1638
     },
     {
       "id": "v005",
-      "x": 600,
+      "x": -318,
       "y": 5500
     },
     {
       "id": "v006",
-      "x": 5000,
+      "x": 4719,
       "y": 5500
     },
     {
       "id": "v007",
-      "x": 600,
-      "y": 7500
+      "x": -318,
+      "y": 7350
     },
     {
       "id": "v008",
-      "x": 6578,
-      "y": 7500
+      "x": 6700,
+      "y": 7350
     },
     {
       "id": "v009",
-      "x": 9303,
-      "y": 1250
+      "x": 9400,
+      "y": -1347
     },
     {
       "id": "v010",
-      "x": 9303,
+      "x": 9400,
       "y": 5350
     },
     {
       "id": "v012",
-      "x": 6578,
+      "x": 6700,
       "y": 2996
     },
     {
       "id": "v015",
-      "x": 6578,
+      "x": 6700,
       "y": 5350
     },
     {
       "id": "v016",
-      "x": 9303,
-      "y": 7500
+      "x": 9400,
+      "y": 7350
     },
     {
       "id": "v019",
-      "x": 3576,
-      "y": 9700
+      "x": 3650,
+      "y": 10010
     },
     {
       "id": "v020",
-      "x": 6578,
-      "y": 9700
+      "x": 6700,
+      "y": 10010
     },
     {
       "id": "v791670",
-      "x": 9303,
+      "x": 9400,
       "y": 2996
     },
     {
       "id": "v984728",
-      "x": 5000,
-      "y": 7500
+      "x": 4719,
+      "y": 7350
     },
     {
       "id": "v460156",
-      "x": 3576,
-      "y": 7500
+      "x": 3650,
+      "y": 7350
     }
   ],
   "walls": [
@@ -134,7 +134,7 @@
         {
           "id": "F2-A01",
           "type": "wall_end",
-          "offsetMm": 4400
+          "offsetMm": 5037
         }
       ]
     },
@@ -172,18 +172,18 @@
           "id": "F2-A02",
           "type": "opening_start",
           "objectId": "F2-O02",
-          "offsetMm": 478
+          "offsetMm": 1346
         },
         {
           "id": "F2-A02",
           "type": "opening_end",
           "objectId": "F2-O02",
-          "offsetMm": 1728
+          "offsetMm": 2545
         },
         {
           "id": "F2-A02",
           "type": "wall_end",
-          "offsetMm": 2554
+          "offsetMm": 3001
         }
       ]
     },
@@ -220,7 +220,7 @@
         {
           "id": "F2-A03",
           "type": "wall_end",
-          "offsetMm": 4400
+          "offsetMm": 5037
         }
       ]
     },
@@ -258,18 +258,18 @@
           "id": "F2-A04",
           "type": "opening_start",
           "objectId": "F2-D08",
-          "offsetMm": 1446
+          "offsetMm": 1936
         },
         {
           "id": "F2-A04",
           "type": "opening_end",
           "objectId": "F2-D08",
-          "offsetMm": 2346
+          "offsetMm": 2840
         },
         {
           "id": "F2-A04",
           "type": "wall_end",
-          "offsetMm": 2576
+          "offsetMm": 2985
         }
       ]
     },
@@ -318,7 +318,7 @@
         {
           "id": "F2-A05",
           "type": "wall_end",
-          "offsetMm": 1681
+          "offsetMm": 3846
         }
       ]
     },
@@ -355,7 +355,7 @@
         {
           "id": "F2-A06",
           "type": "wall_end",
-          "offsetMm": 4415
+          "offsetMm": 5037
         }
       ]
     },
@@ -404,7 +404,7 @@
         {
           "id": "F2-A07",
           "type": "wall_end",
-          "offsetMm": 1674
+          "offsetMm": 3862
         }
       ]
     },
@@ -453,7 +453,7 @@
         {
           "id": "F2-A08",
           "type": "wall_end",
-          "offsetMm": 2015
+          "offsetMm": 1850
         }
       ]
     },
@@ -502,7 +502,7 @@
         {
           "id": "F2-A09",
           "type": "wall_end",
-          "offsetMm": 1581
+          "offsetMm": 1981
         }
       ]
     },
@@ -551,7 +551,7 @@
         {
           "id": "F2-A10",
           "type": "wall_end",
-          "offsetMm": 4306
+          "offsetMm": 4681
         }
       ]
     },
@@ -600,7 +600,7 @@
         {
           "id": "F2-A11",
           "type": "wall_end",
-          "offsetMm": 2375
+          "offsetMm": 2354
         }
       ]
     },
@@ -637,7 +637,7 @@
         {
           "id": "F2-A12",
           "type": "wall_end",
-          "offsetMm": 2750
+          "offsetMm": 2700
         }
       ]
     },
@@ -723,7 +723,7 @@
         {
           "id": "F2-A14",
           "type": "wall_end",
-          "offsetMm": 2162
+          "offsetMm": 2000
         }
       ]
     },
@@ -772,7 +772,7 @@
         {
           "id": "F2-A15",
           "type": "wall_end",
-          "offsetMm": 2704
+          "offsetMm": 2700
         }
       ]
     },
@@ -821,7 +821,7 @@
         {
           "id": "F2-A16",
           "type": "wall_end",
-          "offsetMm": 2139
+          "offsetMm": 2000
         }
       ]
     },
@@ -858,7 +858,7 @@
         {
           "id": "F2-A17",
           "type": "wall_end",
-          "offsetMm": 2200
+          "offsetMm": 2660
         }
       ]
     },
@@ -944,7 +944,7 @@
         {
           "id": "F2-A19",
           "type": "wall_end",
-          "offsetMm": 2211
+          "offsetMm": 2660
         }
       ]
     },
@@ -981,7 +981,7 @@
         {
           "id": "F2-A20",
           "type": "wall_end",
-          "offsetMm": 2753
+          "offsetMm": 2700
         }
       ]
     },
@@ -1030,7 +1030,7 @@
         {
           "id": "F2-A21",
           "type": "wall_end",
-          "offsetMm": 2000
+          "offsetMm": 1850
         }
       ]
     },
@@ -1067,7 +1067,7 @@
         {
           "id": "F2-A22",
           "type": "wall_end",
-          "offsetMm": 1730
+          "offsetMm": 4343
         }
       ]
     },
@@ -1104,7 +1104,7 @@
         {
           "id": "F2-A23",
           "type": "wall_end",
-          "offsetMm": 1421
+          "offsetMm": 1069
         }
       ]
     },
@@ -1153,7 +1153,7 @@
         {
           "id": "F2-A24",
           "type": "wall_end",
-          "offsetMm": 2990
+          "offsetMm": 3968
         }
       ]
     }
@@ -1429,13 +1429,13 @@
       "id": "F2-D08",
       "wallId": "F2-W04",
       "distance": {
-        "value": 1446,
+        "value": 1936,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 900,
+        "value": 904,
         "status": "entered",
         "source": "user",
         "note": ""
@@ -1506,13 +1506,13 @@
       "id": "F2-O02",
       "wallId": "F2-W02",
       "distance": {
-        "value": 478,
+        "value": 1346,
         "status": "entered",
         "source": "user",
         "note": ""
       },
       "width": {
-        "value": 1250,
+        "value": 1199,
         "status": "estimated",
         "source": "user",
         "note": ""
@@ -1739,10 +1739,10 @@
     {
       "id": "F2-S01",
       "roomId": "F2-R04",
-      "x": 6917,
-      "y": 1435,
-      "width": 2021,
-      "depth": 715,
+      "x": 5486,
+      "y": -1166,
+      "width": 3756,
+      "depth": 1050,
       "rotation": 0,
       "flights": 2,
       "direction": "up",
@@ -1751,10 +1751,10 @@
     {
       "id": "F2-S02",
       "roomId": null,
-      "x": 6719,
-      "y": 2214,
-      "width": 2380,
-      "depth": 703,
+      "x": 5488,
+      "y": -79,
+      "width": 3756,
+      "depth": 1050,
       "rotation": 0,
       "flights": 2,
       "direction": "down",
